@@ -61,7 +61,8 @@ void Vis2::renderLoop() {
 }
 
 void Vis2::loadAssets() {
-	m_vulkanHandler.createCube();
+	//m_vulkanHandler.createCube();
+	m_vulkanHandler.createQuad();
 }
 
 void Vis2::update(float dt) {

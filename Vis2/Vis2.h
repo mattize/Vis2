@@ -5,6 +5,10 @@
 
 #include "VulkanHandler.h"
 
+#include <fstream>
+#include <iterator>
+#include <vector>
+
 class Vis2 {
 public:
 	void run();

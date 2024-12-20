@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vulkan/vulkan.h>
-
 #define GLFW_INCLUDE_VULKAN
 #include <glfw3.h>
 
@@ -25,11 +23,12 @@ const bool enableValidationLayers = true;
 
 
 struct QueueFamilyIndices {
-    std::optional<uint32_t> graphicsFamily;
+    std::optional<uint32_t> graphicsAndComputeFamily;
     std::optional<uint32_t> presentFamily;
 
+
     bool isComplete() {
-        return graphicsFamily.has_value() && presentFamily.has_value();
+        return graphicsAndComputeFamily.has_value() && presentFamily.has_value();
     }
 };
 
@@ -44,7 +43,7 @@ const int MAX_FRAMES_IN_FLIGHT = 2;
 
 struct Vertex {
     glm::vec3 pos;
-    glm::vec3 color;
+    glm::vec2 tex;
 
     static VkVertexInputBindingDescription getBindingDescription() {
         VkVertexInputBindingDescription bindingDescription{};
@@ -65,21 +64,21 @@ struct Vertex {
 
         attributeDescriptions[1].binding = 0;
         attributeDescriptions[1].location = 1;
-        attributeDescriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
-        attributeDescriptions[1].offset = offsetof(Vertex, color);
+        attributeDescriptions[1].format = VK_FORMAT_R32G32_SFLOAT;
+        attributeDescriptions[1].offset = offsetof(Vertex, tex);
 
         return attributeDescriptions;
     }
 
     bool operator==(const Vertex& other) const {
-        return pos == other.pos && color == other.color;
+        return pos == other.pos && tex == other.tex;
     }
 };
 
 namespace std {
     template<> struct hash<Vertex> {
         size_t operator()(Vertex const& vertex) const {
-            return ((hash<glm::vec3>()(vertex.pos) ^ (hash<glm::vec3>()(vertex.color) << 1)) >> 1);
+            return ((hash<glm::vec3>()(vertex.pos) ^ (hash<glm::vec2>()(vertex.tex) << 1)) >> 1);
         }
     };
 }
@@ -99,6 +98,7 @@ public:
     void drawFrame();
     void cleanup();
     void createCube();
+    void createQuad();
     void update(float dt, Camera& camera);
 
 private:
@@ -111,6 +111,7 @@ private:
     VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
     VkDevice device;
 
+    VkQueue computeQueue;
     VkQueue graphicsQueue;
     VkQueue presentQueue;
 
@@ -137,8 +138,10 @@ private:
     uint32_t currentFrame = 0;
 
     VkDescriptorSetLayout descriptorSetLayout;
-    VkPipelineLayout pipelineLayout;
-    VkPipeline pipeline;
+    VkPipelineLayout renderPipelineLayout;
+    VkPipelineLayout computePipelineLayout;
+    VkPipeline computePipeline;
+    VkPipeline renderPipeline;
 
     VkBuffer vertexBuffer;
     VkDeviceMemory vertexBufferMemory;
@@ -154,16 +157,23 @@ private:
 
     bool framebufferResized = false;
 
-    std::vector<Vertex> cube_vertices = {
-    { {-1.0f, -1.0f, 1.0f}, {1.0f, 1.0f, 1.0f} },
-    { {1.0f, -1.0f, 1.0f }, {1.0f, 1.0f, 0.0f} },
-    { {1.0f, 1.0f, 1.0f }, {1.0f, 0.0f, 0.0f} },
-    { {-1.0f, 1.0f, 1.0f }, {0.0f, 1.0f, 0.0f} },
+    std::vector<std::string> bufferNames{ "vpb", "vdb", "lb", "ldb", "cb", "mb"};
+    std::vector<VkImage> buffers;
+    std::vector<VkDeviceMemory> bufferMemories;
+    std::vector<VkImageView> bufferViews;
 
-    { {-1.0f, -1.0f, -1.0f }, {0.0f, 0.0f, 1.0f} },
-    { {1.0f, -1.0f, -1.0f }, {1.0f, 0.0f, 1.0f} },
-    { {1.0f, 1.0f, -1.0f }, {0.0f, 1.0f, 1.0f} },
-    { {-1.0f, 1.0f, -1.0f }, {0.0f, 0.0f, 0.0f} } };
+    std::vector<Vertex> cube_vertices = {
+        // positions        // texture Coords
+        { {-1.0f, -1.0f, 1.0f}, {1.0f, 1.0f} },
+        { {1.0f, -1.0f, 1.0f }, {1.0f, 1.0f} },
+        { {1.0f, 1.0f, 1.0f }, {1.0f, 0.0f} },
+        { {-1.0f, 1.0f, 1.0f }, {0.0f, 1.0f} },
+
+        { {-1.0f, -1.0f, -1.0f }, {0.0f, 0.0f} },
+        { {1.0f, -1.0f, -1.0f }, {1.0f, 0.0f} },
+        { {1.0f, 1.0f, -1.0f }, {0.0f, 1.0f} },
+        { {-1.0f, 1.0f, -1.0f }, {0.0f, 0.0f} }
+    };
 
 
     std::vector<uint32_t> cube_indices = {
@@ -179,6 +189,19 @@ private:
         1, 0, 4,
         3, 2, 6,
         6, 7, 3
+    };
+
+    std::vector<Vertex> quad_vertices = {
+        // positions        // texture Coords
+        { {-1.0f,  1.0f, 0.0f}, {0.0f,1.0f} },
+        { {-1.0f, -1.0f, 0.0f}, {0.0f,0.0f} },
+        { {1.0f,  1.0f, 0.0f}, {1.0f,1.0f} },
+        { {1.0f, -1.0f, 0.0f}, {1.0f,0.0f} }
+    };
+
+    std::vector<uint32_t> quad_indices = {
+        0, 1, 2,
+        1, 3, 2
     };
     
 
@@ -213,6 +236,10 @@ private:
     void createRenderPass();
 
     void createFramebuffers();
+
+    void createComputeDescriptorSetLayout();
+
+    void createStorageImages(uint32_t width, uint32_t height, VkFormat format);
 
     void createCommandPool();
 
@@ -260,7 +287,9 @@ private:
 
     VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
 
-    void createPipeline();
+    void createRenderPipeline();
+
+    void createComputePipeline();
 
     void createDescriptorSetLayout();
 
@@ -268,9 +297,9 @@ private:
 
     VkShaderModule createShaderModule(const std::vector<char>& code);
 
-    void createVertexBuffer();
+    void createVertexBuffer(std::vector<Vertex> vertices);
 
-    void createIndexBuffer();
+    void createIndexBuffer(std::vector<uint32_t> indices);
 
     void createUniformBuffers();
 
