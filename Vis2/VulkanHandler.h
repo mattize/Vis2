@@ -100,6 +100,7 @@ public:
     void createCube();
     void createQuad();
     void update(float dt, Camera& camera);
+    void dispatchCompute(int width, int heigth, int depth);
 
 private:
     GLFWwindow* window;
@@ -131,9 +132,12 @@ private:
     VkImageView depthImageView;
 
     std::vector<VkCommandBuffer> commandBuffers;
+    std::vector<VkCommandBuffer> computeCommandBuffers;
 
     std::vector<VkSemaphore> imageAvailableSemaphores;
     std::vector<VkSemaphore> renderFinishedSemaphores;
+    std::vector<VkFence> computeInFlightFences;
+    std::vector<VkSemaphore> computeFinishedSemaphores;
     std::vector<VkFence> inFlightFences;
     uint32_t currentFrame = 0;
 
@@ -229,6 +233,8 @@ private:
 
     void createLogicalDevice();
 
+    void createComputeCommandBuffers();
+
     void createSwapChain();
 
     void createImageViews();
@@ -244,6 +250,10 @@ private:
     void createCommandPool();
 
     void createDepthResources();
+
+    void transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
+
+    void recordComputeCommandBuffer(VkCommandBuffer commandBuffer);
 
     uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
