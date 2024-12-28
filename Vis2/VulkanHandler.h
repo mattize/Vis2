@@ -163,9 +163,12 @@ private:
     VkBuffer indexBuffer;
     VkDeviceMemory indexBufferMemory;
 
-    std::vector<VkBuffer> uniformBuffers;
-    std::vector<VkDeviceMemory> uniformBuffersMemory;
-    std::vector<void*> uniformBuffersMapped;
+    std::vector<VkBuffer> camUniformBuffers;
+    std::vector<VkDeviceMemory> camUniformBuffersMemory;
+    std::vector<void*> camUniformBuffersMapped;
+    std::vector<VkBuffer> algoUniformBuffers;
+    std::vector<VkDeviceMemory> algoUniformBuffersMemory;
+    std::vector<void*> algoUniformBuffersMapped;
 
     VkDescriptorPool descriptorPool;
     std::vector<VkDescriptorSet> descriptorSets;

@@ -55,8 +55,10 @@ void VulkanHandler::cleanup() {
     vkFreeMemory(device, vertexBufferMemory, nullptr);
 
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
-        vkDestroyBuffer(device, uniformBuffers[i], nullptr);
-        vkFreeMemory(device, uniformBuffersMemory[i], nullptr);
+        vkDestroyBuffer(device, camUniformBuffers[i], nullptr);
+        vkFreeMemory(device, camUniformBuffersMemory[i], nullptr);
+        vkDestroyBuffer(device, algoUniformBuffers[i], nullptr);
+        vkFreeMemory(device, algoUniformBuffersMemory[i], nullptr);
     }
 
     for (size_t i = 0; i < bufferNames.size(); i++) {
@@ -935,7 +937,7 @@ void VulkanHandler::update(float dt, Camera& camera) {
     ubo.view = camera.getViewMat();
     ubo.proj = camera.getProjMat();
 
-    memcpy(uniformBuffersMapped[currentFrame], &ubo, sizeof(ubo));
+    memcpy(camUniformBuffersMapped[currentFrame], &ubo, sizeof(ubo));
 }
 
 VkShaderModule VulkanHandler::createShaderModule(const std::vector<char>& code) {
@@ -1159,9 +1161,9 @@ std::vector<char> VulkanHandler::readFile(const std::string& filename) {
 }
 
 void VulkanHandler::createDescriptorSetLayout() {
-    int nrBuffers = bufferNames.size();
+    size_t nrBuffers = bufferNames.size();
 
-    std::array<VkDescriptorSetLayoutBinding, 7> bindings{};
+    std::array<VkDescriptorSetLayoutBinding, 8> bindings{};
     
     bindings[0].binding = 0;
     bindings[0].descriptorCount = 1;
@@ -1177,6 +1179,12 @@ void VulkanHandler::createDescriptorSetLayout() {
         bindings[i].stageFlags = VK_SHADER_STAGE_COMPUTE_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
     }
 
+    bindings[7].binding = 7;
+    bindings[7].descriptorCount = 1;
+    bindings[7].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    bindings[7].pImmutableSamplers = nullptr;
+    bindings[7].stageFlags = VK_SHADER_STAGE_COMPUTE_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
+
     VkDescriptorSetLayoutCreateInfo layoutInfo{};
     layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
     layoutInfo.bindingCount = static_cast<uint32_t>(bindings.size());
@@ -1188,7 +1196,7 @@ void VulkanHandler::createDescriptorSetLayout() {
 }
 
 void VulkanHandler::createStorageImages(uint32_t width, uint32_t height, VkFormat format) {
-    int nrBuffers = bufferNames.size();
+    size_t nrBuffers = bufferNames.size();
     buffers.resize(nrBuffers);
     bufferMemories.resize(nrBuffers);
     bufferViews.resize(nrBuffers);
@@ -1399,28 +1407,43 @@ void VulkanHandler::createIndexBuffer(std::vector<uint32_t> indices) {
 void VulkanHandler::createUniformBuffers() {
     VkDeviceSize bufferSize = sizeof(CameraUniformBufferObject);
 
-    uniformBuffers.resize(MAX_FRAMES_IN_FLIGHT);
-    uniformBuffersMemory.resize(MAX_FRAMES_IN_FLIGHT);
-    uniformBuffersMapped.resize(MAX_FRAMES_IN_FLIGHT);
+    camUniformBuffers.resize(MAX_FRAMES_IN_FLIGHT);
+    camUniformBuffersMemory.resize(MAX_FRAMES_IN_FLIGHT);
+    camUniformBuffersMapped.resize(MAX_FRAMES_IN_FLIGHT);
 
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
-        createBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, uniformBuffers[i], uniformBuffersMemory[i]);
+        createBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, camUniformBuffers[i], camUniformBuffersMemory[i]);
 
-        vkMapMemory(device, uniformBuffersMemory[i], 0, bufferSize, 0, &uniformBuffersMapped[i]);
+        vkMapMemory(device, camUniformBuffersMemory[i], 0, bufferSize, 0, &camUniformBuffersMapped[i]);
+    }
+
+    bufferSize = sizeof(AlgoUniformBufferObject);
+
+    algoUniformBuffers.resize(MAX_FRAMES_IN_FLIGHT);
+    algoUniformBuffersMemory.resize(MAX_FRAMES_IN_FLIGHT);
+    algoUniformBuffersMapped.resize(MAX_FRAMES_IN_FLIGHT);
+
+    for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+        createBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, algoUniformBuffers[i], algoUniformBuffersMemory[i]);
+
+        vkMapMemory(device, algoUniformBuffersMemory[i], 0, bufferSize, 0, &algoUniformBuffersMapped[i]);
     }
 }
 
 void VulkanHandler::createDescriptorPool() {
-    std::array<VkDescriptorPoolSize, 7> poolSizes{};
+    std::array<VkDescriptorPoolSize, 8> poolSizes{};
     poolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
     poolSizes[0].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 
-    int nrBuffers = bufferNames.size();
+    size_t nrBuffers = bufferNames.size();
 
     for (int i = 1; i <= nrBuffers; i++) {
         poolSizes[i].type = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
         poolSizes[i].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
     }
+
+    poolSizes[7].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    poolSizes[7].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 
     VkDescriptorPoolCreateInfo poolInfo{};
     poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
@@ -1434,7 +1457,7 @@ void VulkanHandler::createDescriptorPool() {
 }
 
 void VulkanHandler::createDescriptorSets() {
-    int nrBuffers = bufferNames.size();
+    size_t nrBuffers = bufferNames.size();
 
     std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, descriptorSetLayout);
     VkDescriptorSetAllocateInfo allocInfo{};
@@ -1449,13 +1472,13 @@ void VulkanHandler::createDescriptorSets() {
     }
 
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
-        VkDescriptorBufferInfo bufferInfo{};
-        bufferInfo.buffer = uniformBuffers[i];
-        bufferInfo.offset = 0;
-        bufferInfo.range = sizeof(CameraUniformBufferObject);
+        VkDescriptorBufferInfo camBufferInfo{};
+        camBufferInfo.buffer = camUniformBuffers[i];
+        camBufferInfo.offset = 0;
+        camBufferInfo.range = sizeof(CameraUniformBufferObject);
 
         std::vector<VkDescriptorImageInfo> imageInfos(nrBuffers); 
-        std::vector<VkWriteDescriptorSet> descriptorWrites(1 + nrBuffers);
+        std::vector<VkWriteDescriptorSet> descriptorWrites(2 + nrBuffers);
 
         descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
         descriptorWrites[0].dstSet = descriptorSets[i];
@@ -1463,7 +1486,7 @@ void VulkanHandler::createDescriptorSets() {
         descriptorWrites[0].dstArrayElement = 0;
         descriptorWrites[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
         descriptorWrites[0].descriptorCount = 1;
-        descriptorWrites[0].pBufferInfo = &bufferInfo;
+        descriptorWrites[0].pBufferInfo = &camBufferInfo;
 
         for (int j = 0; j < nrBuffers; j++) {
             imageInfos[j].imageLayout = VK_IMAGE_LAYOUT_GENERAL;
@@ -1478,6 +1501,19 @@ void VulkanHandler::createDescriptorSets() {
             descriptorWrites[j + 1].descriptorCount = 1;
             descriptorWrites[j + 1].pImageInfo = &imageInfos[j];
         }
+
+        VkDescriptorBufferInfo algoBufferInfo{};
+        algoBufferInfo.buffer = algoUniformBuffers[i];
+        algoBufferInfo.offset = 0;
+        algoBufferInfo.range = sizeof(AlgoUniformBufferObject);
+
+        descriptorWrites[7].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        descriptorWrites[7].dstSet = descriptorSets[i];
+        descriptorWrites[7].dstBinding = 7;
+        descriptorWrites[7].dstArrayElement = 0;
+        descriptorWrites[7].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        descriptorWrites[7].descriptorCount = 1;
+        descriptorWrites[7].pBufferInfo = &algoBufferInfo;
 
         vkUpdateDescriptorSets(device, static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
     }
