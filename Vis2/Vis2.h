@@ -21,6 +21,7 @@ private:
     const float FOV = 60.0f;
     const float NEARZ = 0.1f;
     const float FARZ = 300.0f;
+    const int numPlanes = 400;
 
     GLFWwindow* m_window;
     bool m_framebufferResized = false;
@@ -40,7 +41,6 @@ private:
     void setWorkingDirectory();
     void renderLoop();
     void update(float dt);
-    void draw();
     void cleanup();
     void loadAssets();
     void updateCamera();

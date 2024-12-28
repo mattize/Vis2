@@ -278,6 +278,7 @@ void VulkanHandler::createLogicalDevice() {
 
     VkPhysicalDeviceFeatures deviceFeatures{};
     deviceFeatures.samplerAnisotropy = VK_TRUE;
+    deviceFeatures.fragmentStoresAndAtomics = VK_TRUE;
 
     VkDeviceCreateInfo createInfo{};
     createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
@@ -929,7 +930,7 @@ void VulkanHandler::DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUt
 }
 
 void VulkanHandler::update(float dt, Camera& camera) {
-    UniformBufferObject ubo{};
+    CameraUniformBufferObject ubo{};
     ubo.model = glm::rotate(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::radians(180.0f), glm::vec3(1.0f, 0.0f, 0.0f));
     ubo.view = camera.getViewMat();
     ubo.proj = camera.getProjMat();
@@ -1396,7 +1397,7 @@ void VulkanHandler::createIndexBuffer(std::vector<uint32_t> indices) {
 }
 
 void VulkanHandler::createUniformBuffers() {
-    VkDeviceSize bufferSize = sizeof(UniformBufferObject);
+    VkDeviceSize bufferSize = sizeof(CameraUniformBufferObject);
 
     uniformBuffers.resize(MAX_FRAMES_IN_FLIGHT);
     uniformBuffersMemory.resize(MAX_FRAMES_IN_FLIGHT);
@@ -1451,7 +1452,7 @@ void VulkanHandler::createDescriptorSets() {
         VkDescriptorBufferInfo bufferInfo{};
         bufferInfo.buffer = uniformBuffers[i];
         bufferInfo.offset = 0;
-        bufferInfo.range = sizeof(UniformBufferObject);
+        bufferInfo.range = sizeof(CameraUniformBufferObject);
 
         std::vector<VkDescriptorImageInfo> imageInfos(nrBuffers); 
         std::vector<VkWriteDescriptorSet> descriptorWrites(1 + nrBuffers);

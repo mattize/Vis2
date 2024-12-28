@@ -51,7 +51,23 @@ void Vis2::renderLoop() {
 	while (!glfwWindowShouldClose(m_window)) {
 
 		update(dt);
-		draw();
+
+		const glm::mat4& cameraView = m_camera.getViewMat();
+		const glm::mat4& inverseCameraView = glm::inverse(cameraView);
+
+		float sphereRadius = 0.5;
+
+		glm::mat3 viewMatrix3(glm::mat3(cameraView));
+		glm::vec3 originVS(cameraView * glm::vec4(0, 0, 0, 1));
+		glm::vec3 middleOfObjectOnPlaneVS = originVS + glm::vec3(0.0, 0.0, std::min(-originVS.z, sphereRadius));
+
+		glm::vec3 middleOfPlaneVS = middleOfObjectOnPlaneVS;
+		glm::vec3 middleOfPlaneVSOpp = middleOfPlaneVS - glm::vec3(0, 0, sphereRadius + (middleOfPlaneVS.z - originVS.z));
+		float planeDistance = glm::length(middleOfPlaneVS - middleOfPlaneVSOpp) / (float)numPlanes;
+
+		m_vulkanHandler.dispatchCompute(512, 512, 1);
+
+		m_vulkanHandler.drawFrame();
 
 		dt = t;
 		t = float(glfwGetTime());
@@ -70,11 +86,6 @@ void Vis2::update(float dt) {
 
 	updateCamera();
 	m_vulkanHandler.update(dt, m_camera);
-}
-
-void Vis2::draw() {
-	m_vulkanHandler.dispatchCompute(512,512,1);
-	m_vulkanHandler.drawFrame();
 }
 
 void Vis2::cleanup() {

@@ -83,10 +83,21 @@ namespace std {
     };
 }
 
-struct UniformBufferObject {
-    alignas(16) glm::mat4 model;
-    alignas(16) glm::mat4 view;
-    alignas(16) glm::mat4 proj;
+struct CameraUniformBufferObject {
+    glm::mat4 model;
+    glm::mat4 view;
+    glm::mat4 proj;
+};
+
+struct AlgoUniformBufferObject {
+    glm::vec4 viewPos;
+    glm::vec3 viewDir;
+    float sphereRadius;
+    glm::vec3 middleOfPlaneVS;
+    float planeDistance;
+    glm::vec2 planeSides;
+    float planeWidth;
+    float planeHeight;
 };
 
 class VulkanHandler {
