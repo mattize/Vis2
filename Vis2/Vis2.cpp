@@ -50,20 +50,27 @@ void Vis2::renderLoop() {
 
 	while (!glfwWindowShouldClose(m_window)) {
 
-		update(dt);
+		glfwPollEvents();
+
+		updateCamera();
+		
 
 		const glm::mat4& cameraView = m_camera.getViewMat();
 		const glm::mat4& inverseCameraView = glm::inverse(cameraView);
 
 		float sphereRadius = 0.5;
 
-		glm::mat3 viewMatrix3(glm::mat3(cameraView));
+		glm::mat3 viewMatrix3 = glm::mat3(cameraView);
 		glm::vec3 originVS(cameraView * glm::vec4(0, 0, 0, 1));
 		glm::vec3 middleOfObjectOnPlaneVS = originVS + glm::vec3(0.0, 0.0, std::min(-originVS.z, sphereRadius));
 
 		glm::vec3 middleOfPlaneVS = middleOfObjectOnPlaneVS;
 		glm::vec3 middleOfPlaneVSOpp = middleOfPlaneVS - glm::vec3(0, 0, sphereRadius + (middleOfPlaneVS.z - originVS.z));
 		float planeDistance = glm::length(middleOfPlaneVS - middleOfPlaneVSOpp) / (float)numPlanes;
+
+		m_vulkanHandler.updateMVP(dt, m_camera);
+		m_vulkanHandler.updateAlgo(inverseCameraView, cameraView, planeDistance, middleOfPlaneVS, sphereRadius, planeSides, glm::ivec2(volume_width, volume_height),
+			glm::vec3(1.0f), glm::vec4(1.0f), voxelDepth, (float)volume_width, (float)volume_height, m_light);
 
 		m_vulkanHandler.dispatchCompute(512, 512, 1);
 
@@ -77,15 +84,14 @@ void Vis2::renderLoop() {
 }
 
 void Vis2::loadAssets() {
+	m_light = Light(1.0f, glm::vec3(1.0, 1.0, 1.0) * 3.0f, glm::vec3(0, 0, 15));
+	
+	//load data and create 3D Texture here
+	volume_width = 512;
+	volume_height = 512;
+
 	//m_vulkanHandler.createCube();
 	m_vulkanHandler.createQuad();
-}
-
-void Vis2::update(float dt) {
-	glfwPollEvents();
-
-	updateCamera();
-	m_vulkanHandler.update(dt, m_camera);
 }
 
 void Vis2::cleanup() {
@@ -107,7 +113,7 @@ void Vis2::updateCamera() {
 			m_mouse_y = height / 2;
 		}
 
-		m_camera.update(width, height, (width / 2) - m_mouse_x , (height / 2) - m_mouse_y, m_deltaZoom);
+		m_camera.update(width, height, (width / 2) - (float)m_mouse_x , (height / 2) - (float)m_mouse_y, m_deltaZoom);
 
 		glfwSetCursorPos(m_window, (width / 2), (height / 2));
 	}

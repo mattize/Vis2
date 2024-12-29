@@ -53,5 +53,8 @@
     <ClInclude Include="VulkanDevice.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

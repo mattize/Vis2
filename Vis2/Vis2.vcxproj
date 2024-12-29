@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Vis2.h" />
     <ClInclude Include="VulkanDevice.h" />

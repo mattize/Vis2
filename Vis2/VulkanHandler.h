@@ -4,6 +4,7 @@
 #include <glfw3.h>
 
 #include "Camera.h"
+#include "Light.h"
 
 #include <fstream>
 
@@ -90,14 +91,25 @@ struct CameraUniformBufferObject {
 };
 
 struct AlgoUniformBufferObject {
-    glm::vec4 viewPos;
-    glm::vec3 viewDir;
-    float sphereRadius;
-    glm::vec3 middleOfPlaneVS;
-    float planeDistance;
-    glm::vec2 planeSides;
-    float planeWidth;
-    float planeHeight;
+    alignas(16) glm::mat4 inverseViewMatrix;   
+    alignas(16) glm::mat4 viewMatrix;          
+    alignas(16) glm::vec3 lightVSPos;          
+    alignas(16) glm::vec3 lightColor;          
+    alignas(4)  float planeDistance;           
+    alignas(16) glm::vec3 middleOfPlaneVS;     
+    alignas(4)  float sphereRadius;            
+    alignas(8)  glm::vec2 planeSides;          
+    alignas(8)  glm::ivec2 dims;               
+    alignas(16) glm::vec3 refractionPos;       
+    alignas(16) glm::vec4 refractionValue;     
+    alignas(4)  float voxelDepth;              
+    alignas(4)  float planeWidth;              
+    alignas(4)  float planeHeight;     
+};
+
+struct PerPlanePushConstant {
+    int layer;
+    float currentZVS;
 };
 
 class VulkanHandler {
@@ -110,7 +122,9 @@ public:
     void cleanup();
     void createCube();
     void createQuad();
-    void update(float dt, Camera& camera);
+    void updateMVP(float dt, Camera& camera);
+    void updateAlgo(glm::mat4 inverseViewMatrix, glm::mat4 viewMatrix, float planeDistance, glm::vec3 middleOfPlaneVS, float sphereRadius, glm::vec2 planeSides,
+        glm::ivec2 dims, glm::vec3 refractionPos, glm::vec4 refractionValue, float voxelDepth, float planeWidth, float planeHeight, Light light);
     void dispatchCompute(int width, int heigth, int depth);
 
 private:

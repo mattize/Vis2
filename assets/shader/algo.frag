@@ -9,6 +9,23 @@ layout(rgba32f, binding = 4) uniform image2DArray ldb;
 layout(rgba32f, binding = 5) uniform image2DArray cb;
 layout(rgba32f, binding = 6) uniform image2DArray mb;
 
+layout(binding = 7) uniform AlgoUniformBufferObject {
+    mat4 inverseViewMatrix;
+	mat4 viewMatrix;
+	float planeDistance;
+	vec3 middleOfPlaneVS;
+	float sphereRadius;
+	vec2 planeSides;
+	ivec2 dims;
+	vec3 refractionPos;
+	vec4 refractionValue;
+	float voxelDepth;
+	float planeWidth;
+	float planeHeight;
+	vec3 lightVSPos;
+	vec3 lightColor;
+} ubo;
+
 layout(push_constant) uniform PerPlanePush {
 	int layer;
 	float currentZVS;
@@ -20,7 +37,7 @@ void main() {
 
 	ivec3 pixel_coords = ivec3(1.0, 1.0, 1.0); 
 	
-	imageStore(cb, pixel_coords, vec4(push.layer / 5.0f, 0.5, 1.0, 1.0));
+	imageStore(cb, pixel_coords, vec4(1.0, 0.5, 1.0, 1.0));
 
-    outColor = vec4(texCoords, push.layer / 5.0f, 1.0f);
+    outColor = vec4(pixel_coords, 1.0f);
 }

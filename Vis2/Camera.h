@@ -16,6 +16,7 @@ public:
 
 	glm::mat4 getProjMat() const { return m_proj; };
 	glm::mat4 getViewMat() const { return m_view; };
+	glm::vec3 getPosition() const { return m_position; };
 
 private:
 

@@ -16,39 +16,37 @@ layout(rgba32f, binding = 6) uniform image2DArray mb;
 //uniform vec3 lightVSPos;
 //uniform vec3 lightColor;
 
-//uniform mat4 viewMatrix;
-//uniform vec4 viewPos;
-//uniform vec3 viewDir;
-//uniform float sphereRadius;
-//uniform vec3 middleOfPlaneVS;
-//uniform float planeDistance;
-//uniform vec2 planeSides;
-//uniform float planeWidth;
-//uniform float planeHeight;
-
-float rand(vec2 co){
-    return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
-}
+layout(binding = 7) uniform AlgoUniformBufferObject {
+    mat4 inverseViewMatrix;
+    mat4 viewMatrix;
+    vec3 lightVSPos;
+    vec3 lightColor;
+    float planeDistance;
+    vec3 middleOfPlaneVS;
+    float sphereRadius;
+    vec2 planeSides;
+    ivec2 dims;
+    vec3 refractionPos;
+    vec4 refractionValue;
+    float voxelDepth;
+    float planeWidth;
+    float planeHeight;
+} ubo;
 
 void main() {
   
   ivec3 pixel_coords = ivec3(gl_GlobalInvocationID.xyz); 
   
-  //vec3 size = vec3(planeSides/0.5, 1);
+  vec3 size = vec3(ubo.planeSides/0.5, 1);
   
-  //vec3 pixelPos = middleOfPlaneVS + vec3(-0.5 + pixel_coords.x/planeWidth, -0.5 + pixel_coords.y/planeHeight, 0) * size;
+  vec3 pixelPos = ubo.middleOfPlaneVS + vec3(-0.5 + pixel_coords.x/ubo.planeWidth, -0.5 + pixel_coords.y/ubo.planeHeight, 0) * size;
 
-  //imageStore(vpb, pixel_coords, vec4(pixelPos,1.0));
-  //imageStore(vdb, pixel_coords, vec4(0.0,0.0,-1.0, 0.0));
-  //imageStore(lb, pixel_coords, vec4(lightColor, 1.0));
-  //imageStore(ldb, pixel_coords, vec4(normalize(middleOfPlaneVS-lightVSPos), 0.0));
-  
-  imageStore(vpb, pixel_coords, vec4(3.0));
+  imageStore(vpb, pixel_coords, vec4(pixelPos,1.0));
   imageStore(vdb, pixel_coords, vec4(0.0,0.0,-1.0, 0.0));
-  imageStore(lb, pixel_coords, vec4(8.0));
-  imageStore(ldb, pixel_coords, vec4(4.0));
-  imageStore(mb, pixel_coords, vec4(8.0));
-  imageStore(cb, pixel_coords, vec4(0.5, pixel_coords.z, 0.4, 1.0));
+  imageStore(lb, pixel_coords, vec4(ubo.lightColor, 1.0));
+  imageStore(ldb, pixel_coords, vec4(normalize(ubo.middleOfPlaneVS-ubo.lightVSPos), 0.0));
+  imageStore(mb, pixel_coords, vec4(1.0));
+  imageStore(cb, pixel_coords, vec4(0.0));
 
   //imageStore(env, ivec3(pixel_coords.xy, pixel_coords.z * 3), vec4(0.0));
   //imageStore(env, ivec3(pixel_coords.xy, pixel_coords.z * 3 + 1), vec4(0.0));

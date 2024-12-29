@@ -650,7 +650,15 @@ void VulkanHandler::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t 
 
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, renderPipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
-    vkCmdDrawIndexed(commandBuffer, static_cast<uint32_t>(quad_indices.size()), 1, 0, 0, 0);
+    for (int i = 0; i < 5 /*numPlanes*/; i++) {
+        PerPlanePushConstant push{};
+        push.layer = i;
+        push.currentZVS = -2 * i;
+
+        vkCmdPushConstants(commandBuffer, renderPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(PerPlanePushConstant), &push);
+
+        vkCmdDrawIndexed(commandBuffer, static_cast<uint32_t>(quad_indices.size()), 1, 0, 0, 0);
+    }
 
     vkCmdEndRenderPass(commandBuffer);
 
@@ -931,13 +939,34 @@ void VulkanHandler::DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUt
     }
 }
 
-void VulkanHandler::update(float dt, Camera& camera) {
+void VulkanHandler::updateMVP(float dt, Camera& camera) {
     CameraUniformBufferObject ubo{};
     ubo.model = glm::rotate(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::radians(180.0f), glm::vec3(1.0f, 0.0f, 0.0f));
     ubo.view = camera.getViewMat();
     ubo.proj = camera.getProjMat();
 
     memcpy(camUniformBuffersMapped[currentFrame], &ubo, sizeof(ubo));
+}
+
+void VulkanHandler::updateAlgo(glm::mat4 inverseViewMatrix, glm::mat4 viewMatrix, float planeDistance, glm::vec3 middleOfPlaneVS, float sphereRadius, glm::vec2 planeSides,
+    glm::ivec2 dims, glm::vec3 refractionPos, glm::vec4 refractionValue, float voxelDepth, float planeWidth, float planeHeight, Light light) {
+    AlgoUniformBufferObject ubo{};
+    ubo.viewMatrix = viewMatrix;
+    ubo.inverseViewMatrix = inverseViewMatrix;
+    ubo.dims = dims;
+    ubo.refractionPos = refractionPos;
+    ubo.refractionValue = refractionValue;
+    ubo.voxelDepth = voxelDepth;
+    ubo.sphereRadius = sphereRadius;
+    ubo.middleOfPlaneVS = middleOfPlaneVS;
+    ubo.planeDistance = planeDistance;
+    ubo.planeSides = planeSides;
+    ubo.planeWidth = planeWidth;
+    ubo.planeHeight = planeHeight;
+    ubo.lightVSPos = light.getPosition();
+    ubo.lightColor = light.getColor();
+
+    memcpy(algoUniformBuffersMapped[currentFrame], &ubo, sizeof(ubo));
 }
 
 VkShaderModule VulkanHandler::createShaderModule(const std::vector<char>& code) {
@@ -1108,10 +1137,17 @@ void VulkanHandler::createRenderPipeline() {
     dynamicState.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
     dynamicState.pDynamicStates = dynamicStates.data();
 
+    VkPushConstantRange pushConstantRange{};
+    pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
+    pushConstantRange.offset = 0;
+    pushConstantRange.size = sizeof(PerPlanePushConstant);
+
     VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
     pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
     pipelineLayoutInfo.setLayoutCount = 1;
     pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout;
+    pipelineLayoutInfo.pushConstantRangeCount = 1;
+    pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
 
     if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &renderPipelineLayout) != VK_SUCCESS) {
         throw std::runtime_error("failed to create pipeline layout!");

@@ -21,7 +21,15 @@ private:
     const float FOV = 60.0f;
     const float NEARZ = 0.1f;
     const float FARZ = 300.0f;
-    const int numPlanes = 400;
+    
+    glm::vec2 planeSides = glm::vec2(0.6, 0.6);
+    int numPlanes = 400;
+    float voxelDepth = 1.0;
+
+    uint32_t volume_width;
+    uint32_t volume_height;
+
+    Light m_light;
 
     GLFWwindow* m_window;
     bool m_framebufferResized = false;
@@ -40,7 +48,6 @@ private:
     void init();
     void setWorkingDirectory();
     void renderLoop();
-    void update(float dt);
     void cleanup();
     void loadAssets();
     void updateCamera();
