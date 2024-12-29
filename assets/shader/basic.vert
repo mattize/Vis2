@@ -17,6 +17,6 @@ layout(push_constant) uniform PerPlanePush {
 layout(location = 0) out vec2 texCoords;
 
 void main() {
-    gl_Position = ubo.proj * ubo.view * ubo.model * vec4(inPosition, 1.0) + vec4(push.currentZVS, 1.0f, 1.0f, 1.0f);
+    gl_Position = ubo.proj * ubo.view * ubo.model * vec4(inPosition, 1.0);
     texCoords = inTex;
 }

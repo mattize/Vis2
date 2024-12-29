@@ -413,6 +413,16 @@ void VulkanHandler::createRenderPass() {
     dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
     dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
 
+    VkSubpassDependency planesDependency{};
+    planesDependency.srcSubpass = 0;
+    planesDependency.dstSubpass = 0;
+    planesDependency.srcStageMask = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+    planesDependency.dstStageMask = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+    planesDependency.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+    planesDependency.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+    planesDependency.dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT;
+
+    std::array<VkSubpassDependency, 2> dependencies = { dependency, planesDependency };
     std::array<VkAttachmentDescription, 2> attachments = { colorAttachment, depthAttachment };
     VkRenderPassCreateInfo renderPassInfo{};
     renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
@@ -420,8 +430,8 @@ void VulkanHandler::createRenderPass() {
     renderPassInfo.pAttachments = attachments.data();
     renderPassInfo.subpassCount = 1;
     renderPassInfo.pSubpasses = &subpass;
-    renderPassInfo.dependencyCount = 1;
-    renderPassInfo.pDependencies = &dependency;
+    renderPassInfo.dependencyCount = 2;
+    renderPassInfo.pDependencies = dependencies.data();
 
     if (vkCreateRenderPass(device, &renderPassInfo, nullptr, &renderPass) != VK_SUCCESS) {
         throw std::runtime_error("failed to create render pass!");
@@ -602,7 +612,7 @@ void VulkanHandler::recordComputeCommandBuffer(VkCommandBuffer commandBuffer) {
 
 }
 
-void VulkanHandler::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex) {
+void VulkanHandler::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance) {
     VkCommandBufferBeginInfo beginInfo{};
     beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 
@@ -650,12 +660,17 @@ void VulkanHandler::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t 
 
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, renderPipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
-    for (int i = 0; i < 5 /*numPlanes*/; i++) {
+    for (int i = 0; i < numPlanes; i++) {
+        float currentZ = middleOfPlaneVS.z - planeDistance * i;
+
         PerPlanePushConstant push{};
-        push.layer = i;
-        push.currentZVS = -2 * i;
+        push.layer = i % 2;    
+        push.currentZVS = currentZ;
 
         vkCmdPushConstants(commandBuffer, renderPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(PerPlanePushConstant), &push);
+
+        vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, VK_DEPENDENCY_BY_REGION_BIT, 0, nullptr, 0, nullptr, 0, nullptr);
+        //TODO: check if necessary glClear(GL_DEPTH_BUFFER_BIT);        
 
         vkCmdDrawIndexed(commandBuffer, static_cast<uint32_t>(quad_indices.size()), 1, 0, 0, 0);
     }
@@ -689,7 +704,7 @@ void VulkanHandler::dispatchCompute(int width, int heigth, int depth) {
     };
 };
 
-void VulkanHandler::drawFrame() {
+void VulkanHandler::drawFrame(int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance) {
     vkWaitForFences(device, 1, &inFlightFences[currentFrame], VK_TRUE, UINT64_MAX);
 
     uint32_t imageIndex;
@@ -706,7 +721,7 @@ void VulkanHandler::drawFrame() {
     vkResetFences(device, 1, &inFlightFences[currentFrame]);
 
     vkResetCommandBuffer(commandBuffers[currentFrame], /*VkCommandBufferResetFlagBits*/ 0);
-    recordCommandBuffer(commandBuffers[currentFrame], imageIndex);
+    recordCommandBuffer(commandBuffers[currentFrame], imageIndex, numPlanes, middleOfPlaneVS, planeDistance);
 
     VkSubmitInfo submitInfo{};
     submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;

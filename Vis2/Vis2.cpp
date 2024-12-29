@@ -74,7 +74,7 @@ void Vis2::renderLoop() {
 
 		m_vulkanHandler.dispatchCompute(512, 512, 1);
 
-		m_vulkanHandler.drawFrame();
+		m_vulkanHandler.drawFrame(numPlanes, middleOfPlaneVS, planeDistance);
 
 		dt = t;
 		t = float(glfwGetTime());

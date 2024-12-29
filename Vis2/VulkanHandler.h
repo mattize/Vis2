@@ -118,7 +118,7 @@ public:
     VulkanHandler(GLFWwindow* window) : window(window) {};
 
     void initVulkan();
-    void drawFrame();
+    void drawFrame(int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance);
     void cleanup();
     void createCube();
     void createQuad();
@@ -299,7 +299,7 @@ private:
 
     uint32_t getCurrentFrame();
 
-    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance);
 
     void createSyncObjects();
 
@@ -352,4 +352,6 @@ private:
     void endSingleTimeCommands(VkCommandBuffer commandBuffer);
 
     void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
+
+    void textureBarrier(VkCommandBuffer commandBuffer, VkImage image);
 };
