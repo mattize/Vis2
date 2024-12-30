@@ -26,6 +26,7 @@ private:
     int numPlanes = 400;
     float voxelDepth = 1.0;
 
+    Texture m_volume;
     uint32_t volume_width;
     uint32_t volume_height;
 
@@ -44,6 +45,7 @@ private:
 
     Camera m_camera;
     VulkanHandler m_vulkanHandler;
+    VulkanDevice m_vulkanDevice;
 
     void init();
     void setWorkingDirectory();

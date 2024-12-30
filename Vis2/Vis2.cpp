@@ -31,6 +31,11 @@ void Vis2::init() {
 	glfwSetFramebufferSizeCallback(m_window, framebufferResizeCallback);
 	m_vulkanHandler = VulkanHandler(m_window);
 	m_vulkanHandler.initVulkan();
+
+	m_vulkanDevice = VulkanDevice(m_vulkanHandler.getDevice(), m_vulkanHandler.getPhysicalDevice(), m_vulkanHandler.getCommandPool(),
+		m_vulkanHandler.getGraphicsQueue());
+	
+	m_volume = Texture(m_vulkanDevice);
 	//glfwSetKeyCallback(m_window, key_callback);
 	glfwSetMouseButtonCallback(m_window, mouse_button_callback);
 	glfwSetScrollCallback(m_window, scroll_callback);
@@ -90,11 +95,16 @@ void Vis2::loadAssets() {
 	volume_width = 512;
 	volume_height = 512;
 
+	m_volume.load3DTexture("C:\\Users\\zezul\\Downloads\\CAT\\pngs\\", 1, 463, ".png");
+
 	//m_vulkanHandler.createCube();
-	m_vulkanHandler.createQuad();
+	m_vulkanHandler.createQuad(m_volume);
 }
 
-void Vis2::cleanup() {
+void Vis2::cleanup() {	
+	m_vulkanHandler.setDeviceWaitIdle();
+
+	m_volume.cleanup();
 	m_vulkanHandler.cleanup();
 }
 

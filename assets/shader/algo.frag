@@ -26,6 +26,8 @@ layout(binding = 7) uniform AlgoUniformBufferObject {
 	vec3 lightColor;
 } ubo;
 
+layout(binding = 8) uniform sampler3D volume;
+
 layout(push_constant) uniform PerPlanePush {
 	int layer;
 	float currentZVS;
@@ -38,6 +40,8 @@ void main() {
 	ivec3 pixel_coords = ivec3(1.0, 1.0, 1.0); 
 	
 	imageStore(cb, pixel_coords, vec4(1.0, 0.5, 1.0, 1.0));
+	
+	vec4 position = imageLoad(vpb, ivec3(texCoords, 0));
 
-    outColor = vec4(pixel_coords, 1.0f);
+    outColor = vec4(texture(volume, position.xyz));
 }

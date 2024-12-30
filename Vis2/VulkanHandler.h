@@ -5,6 +5,7 @@
 
 #include "Camera.h"
 #include "Light.h"
+#include "Texture.h"
 
 #include <fstream>
 
@@ -120,12 +121,20 @@ public:
     void initVulkan();
     void drawFrame(int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance);
     void cleanup();
+    void setDeviceWaitIdle();
     void createCube();
-    void createQuad();
+    void createQuad(Texture texture);
     void updateMVP(float dt, Camera& camera);
     void updateAlgo(glm::mat4 inverseViewMatrix, glm::mat4 viewMatrix, float planeDistance, glm::vec3 middleOfPlaneVS, float sphereRadius, glm::vec2 planeSides,
         glm::ivec2 dims, glm::vec3 refractionPos, glm::vec4 refractionValue, float voxelDepth, float planeWidth, float planeHeight, Light light);
     void dispatchCompute(int width, int heigth, int depth);
+
+    VkDevice& getDevice();
+    VkPhysicalDevice& getPhysicalDevice();
+    VkRenderPass& getRenderPass();
+    uint32_t getCurrentFrame();
+    VkCommandPool& getCommandPool();
+    VkQueue& getGraphicsQueue();
 
 private:
     GLFWwindow* window;
@@ -251,10 +260,6 @@ private:
 
     void setupDebugMessenger();
 
-    void setDeviceWaitIdle();
-
-    VkCommandPool& getCommandPool();
-
     void createSurface();
 
     void pickPhysicalDevice();
@@ -296,8 +301,6 @@ private:
     bool hasStencilComponent(VkFormat format);
 
     void createCommandBuffers();
-
-    uint32_t getCurrentFrame();
 
     void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance);
 
@@ -343,7 +346,7 @@ private:
 
     void createDescriptorPool();
 
-    void createDescriptorSets();
+    void createDescriptorSets(Texture texture);
 
     void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
 

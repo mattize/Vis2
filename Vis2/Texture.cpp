@@ -4,10 +4,12 @@
 #include <stb_image.h>
 
 void Texture::load3DTexture(std::string path, int startIndex, int endIndex, std::string fileType) {
+    std::cout << "loading volume..." << std::endl;
+
     m_nrImages = endIndex;
 
-    std::string path_img = path + "001" + fileType;
-    stbi_load(path_img.c_str(), &m_width, &m_height, &m_nrChannels, 0);
+    std::string path_img = path + "1" + fileType;
+    stbi_load(path_img.c_str(), &m_width, &m_height, &m_nrChannels, 4);
 
     VkDeviceSize layerSize = m_width * m_height * 4;
     m_imageSize = layerSize * m_nrImages;
@@ -21,16 +23,17 @@ void Texture::load3DTexture(std::string path, int startIndex, int endIndex, std:
     void* data;
     vkMapMemory(m_device, stagingBufferMemory, 0, m_imageSize, 0, &data);
 
-    for (int i = 0; i < m_nrImages; i++) {
-        uint64_t memAddress = reinterpret_cast<uint64_t>(data) + (layerSize * i);
+    for (int i = 1; i <= m_nrImages; i++) {
+        uint64_t memAddress = reinterpret_cast<uint64_t>(data) + (layerSize * (i-1));
 
         std::string indexS = std::to_string(i);
-        while (indexS.length() < 3) {
+        /*while (indexS.length() < 3) {
             indexS = "0" + indexS;
-        }
+        }*/
         path_img = path + indexS + fileType;
 
-        stbi_uc* data_img = stbi_load(path_img.c_str(), &m_width, &m_height, &m_nrChannels, 0);
+        stbi_uc* data_img = stbi_load(path_img.c_str(), &m_width, &m_height, &m_nrChannels, 4);
+
         memcpy(reinterpret_cast<void*>(memAddress), static_cast<void*>(data_img), static_cast<size_t>(layerSize));
     }
 
@@ -38,7 +41,6 @@ void Texture::load3DTexture(std::string path, int startIndex, int endIndex, std:
 
     VkFormat format = VK_FORMAT_R8G8B8A8_SRGB;
 
-    // Image
 
     createImage(m_width, m_height, format,
         VK_IMAGE_TILING_OPTIMAL,
@@ -61,8 +63,6 @@ void Texture::load3DTexture(std::string path, int startIndex, int endIndex, std:
     vkFreeMemory(m_device, stagingBufferMemory, nullptr);
 
 
-    // Sampler
-
     VkSamplerCreateInfo samplerCreateInfo{};
     samplerCreateInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
     samplerCreateInfo.magFilter = VK_FILTER_LINEAR;
@@ -84,22 +84,15 @@ void Texture::load3DTexture(std::string path, int startIndex, int endIndex, std:
         throw std::runtime_error("failed to create texture sampler!");
     }
 
-    // Image view
-
     VkImageViewCreateInfo view{};
     view.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
     view.viewType = VK_IMAGE_VIEW_TYPE_3D;
     view.format = format;
     view.components = { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A };
-    // A subresource range describes the set of mip levels (and array layers) that can be accessed through this image
-    // view It's possible to create multiple image views for a single image referring to different (and/or overlapping)
-    // ranges of the image
     view.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
     view.subresourceRange.baseMipLevel = 0;
     view.subresourceRange.baseArrayLayer = 0;
     view.subresourceRange.layerCount = 1;
-    // Linear tiling usually won't support mip maps
-    // Only set mip map count if optimal tiling is used
     view.subresourceRange.levelCount = 1;
     view.image = m_textureImage;
 
@@ -107,6 +100,8 @@ void Texture::load3DTexture(std::string path, int startIndex, int endIndex, std:
     {
         throw std::runtime_error("failed to create image view!");
     }
+
+    std::cout << "finished." << std::endl;
 }
 
 void Texture::transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout) {
@@ -123,7 +118,7 @@ void Texture::transitionImageLayout(VkImage image, VkFormat format, VkImageLayou
     barrier.subresourceRange.baseMipLevel = 0;
     barrier.subresourceRange.levelCount = 1;
     barrier.subresourceRange.baseArrayLayer = 0;
-    barrier.subresourceRange.layerCount = m_nrImages;
+    barrier.subresourceRange.layerCount = 1;
 
     VkPipelineStageFlags sourceStage;
     VkPipelineStageFlags destinationStage;
@@ -156,6 +151,8 @@ void Texture::transitionImageLayout(VkImage image, VkFormat format, VkImageLayou
     );
 
     m_vulkanDevice.endSingleTimeCommands(commandBuffer);
+
+    m_textureLayout = newLayout;
 }
 
 void Texture::createImage(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory) {
@@ -192,4 +189,12 @@ void Texture::createImage(uint32_t width, uint32_t height, VkFormat format, VkIm
     }
 
     vkBindImageMemory(m_device, image, imageMemory, 0);
+}
+
+void Texture::cleanup() {   
+    vkDestroySampler(m_device, m_textureSampler, nullptr);
+    vkDestroyImageView(m_device, m_textureImageView, nullptr);
+
+    vkDestroyImage(m_device, m_textureImage, nullptr);
+    vkFreeMemory(m_device, m_textureImageMemory, nullptr);    
 }

@@ -233,6 +233,8 @@ void VulkanHandler::setDeviceWaitIdle() {
 
 VkCommandPool& VulkanHandler::getCommandPool() { return commandPool; };
 
+VkQueue& VulkanHandler::getGraphicsQueue() { return graphicsQueue; };
+
 void VulkanHandler::createSurface() {
     if (glfwCreateWindowSurface(instance, window, nullptr, &surface) != VK_SUCCESS) {
         throw std::runtime_error("failed to create window surface!");
@@ -769,6 +771,18 @@ void VulkanHandler::drawFrame(int numPlanes, glm::vec3 middleOfPlaneVS, float pl
     currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 }
 
+VkDevice& VulkanHandler::getDevice() {
+    return device;
+}
+
+VkPhysicalDevice& VulkanHandler::getPhysicalDevice() {
+    return physicalDevice;
+}
+
+VkRenderPass& VulkanHandler::getRenderPass() {
+    return renderPass;
+};
+
 VkSurfaceFormatKHR VulkanHandler::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats) {
     for (const auto& availableFormat : availableFormats) {
         if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR) {
@@ -1060,7 +1074,7 @@ void VulkanHandler::createComputePipeline() {
 void VulkanHandler::createRenderPipeline() {
 
     std::string vertShader_path = "./assets/shader/vert.spv";
-    std::string fragShader_path = "./assets/shader/frag.spv";
+    std::string fragShader_path = "./assets/shader/algo.spv";
 
     createDescriptorSetLayout();
 
@@ -1122,7 +1136,7 @@ void VulkanHandler::createRenderPipeline() {
 
     VkPipelineDepthStencilStateCreateInfo depthStencil{};
     depthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
-    depthStencil.depthTestEnable = VK_TRUE;
+    depthStencil.depthTestEnable = VK_FALSE;
     depthStencil.depthWriteEnable = VK_TRUE;
     depthStencil.depthCompareOp = VK_COMPARE_OP_LESS;
     depthStencil.depthBoundsTestEnable = VK_FALSE;
@@ -1214,7 +1228,7 @@ std::vector<char> VulkanHandler::readFile(const std::string& filename) {
 void VulkanHandler::createDescriptorSetLayout() {
     size_t nrBuffers = bufferNames.size();
 
-    std::array<VkDescriptorSetLayoutBinding, 8> bindings{};
+    std::array<VkDescriptorSetLayoutBinding, 9> bindings{};
     
     bindings[0].binding = 0;
     bindings[0].descriptorCount = 1;
@@ -1235,6 +1249,12 @@ void VulkanHandler::createDescriptorSetLayout() {
     bindings[7].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
     bindings[7].pImmutableSamplers = nullptr;
     bindings[7].stageFlags = VK_SHADER_STAGE_COMPUTE_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
+
+    bindings[8].binding = 8;
+    bindings[8].descriptorCount = 1;
+    bindings[8].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    bindings[8].pImmutableSamplers = nullptr;
+    bindings[8].stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
 
     VkDescriptorSetLayoutCreateInfo layoutInfo{};
     layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
@@ -1335,15 +1355,15 @@ void VulkanHandler::createCube() {
     createIndexBuffer(cube_indices);
     createUniformBuffers();
     createDescriptorPool();
-    createDescriptorSets();
+    //createDescriptorSets(texture);
 }
 
-void VulkanHandler::createQuad() {
+void VulkanHandler::createQuad(Texture texture) {
     createVertexBuffer(quad_vertices);
     createIndexBuffer(quad_indices);
     createUniformBuffers();
     createDescriptorPool();
-    createDescriptorSets();
+    createDescriptorSets(texture);
 }
 
 void VulkanHandler::createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory) {
@@ -1482,7 +1502,7 @@ void VulkanHandler::createUniformBuffers() {
 }
 
 void VulkanHandler::createDescriptorPool() {
-    std::array<VkDescriptorPoolSize, 8> poolSizes{};
+    std::array<VkDescriptorPoolSize, 9> poolSizes{};
     poolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
     poolSizes[0].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 
@@ -1496,6 +1516,9 @@ void VulkanHandler::createDescriptorPool() {
     poolSizes[7].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
     poolSizes[7].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 
+    poolSizes[8].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    poolSizes[8].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+
     VkDescriptorPoolCreateInfo poolInfo{};
     poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
     poolInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
@@ -1507,7 +1530,7 @@ void VulkanHandler::createDescriptorPool() {
     }
 }
 
-void VulkanHandler::createDescriptorSets() {
+void VulkanHandler::createDescriptorSets(Texture texture) {
     size_t nrBuffers = bufferNames.size();
 
     std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, descriptorSetLayout);
@@ -1529,7 +1552,7 @@ void VulkanHandler::createDescriptorSets() {
         camBufferInfo.range = sizeof(CameraUniformBufferObject);
 
         std::vector<VkDescriptorImageInfo> imageInfos(nrBuffers); 
-        std::vector<VkWriteDescriptorSet> descriptorWrites(2 + nrBuffers);
+        std::vector<VkWriteDescriptorSet> descriptorWrites(3 + nrBuffers);
 
         descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
         descriptorWrites[0].dstSet = descriptorSets[i];
@@ -1565,6 +1588,19 @@ void VulkanHandler::createDescriptorSets() {
         descriptorWrites[7].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
         descriptorWrites[7].descriptorCount = 1;
         descriptorWrites[7].pBufferInfo = &algoBufferInfo;
+
+        VkDescriptorImageInfo volumeInfo{};
+        volumeInfo.imageLayout = texture.getTextureLayout();
+        volumeInfo.imageView = texture.getTextureView();
+        volumeInfo.sampler = texture.getSampler();
+
+        descriptorWrites[8].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        descriptorWrites[8].dstSet = descriptorSets[i];
+        descriptorWrites[8].dstBinding = 8;
+        descriptorWrites[8].dstArrayElement = 0;
+        descriptorWrites[8].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        descriptorWrites[8].descriptorCount = 1;
+        descriptorWrites[8].pImageInfo = &volumeInfo;
 
         vkUpdateDescriptorSets(device, static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
     }

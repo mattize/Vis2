@@ -1,6 +1,6 @@
 #include "VulkanDevice.h"
 
-void VulkanDevice::copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height, int layerCount) {
+void VulkanDevice::copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height, uint32_t depth) {
     VkCommandBuffer commandBuffer = beginSingleTimeCommands();
 
     VkBufferImageCopy region{};
@@ -10,12 +10,12 @@ void VulkanDevice::copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t wi
     region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
     region.imageSubresource.mipLevel = 0;
     region.imageSubresource.baseArrayLayer = 0;
-    region.imageSubresource.layerCount = layerCount;
+    region.imageSubresource.layerCount = 1;
     region.imageOffset = { 0, 0, 0 };
     region.imageExtent = {
         width,
         height,
-        1
+        depth
     };
 
     vkCmdCopyBufferToImage(commandBuffer, buffer, image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region);
