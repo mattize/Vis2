@@ -31,6 +31,11 @@ void Vis2::init() {
 	glfwSetFramebufferSizeCallback(m_window, framebufferResizeCallback);
 	m_vulkanHandler = VulkanHandler(m_window);
 	m_vulkanHandler.initVulkan();
+
+	m_vulkanDevice = VulkanDevice(m_vulkanHandler.getDevice(), m_vulkanHandler.getPhysicalDevice(), m_vulkanHandler.getCommandPool(),
+		m_vulkanHandler.getGraphicsQueue());
+	
+	m_volume = Texture(m_vulkanDevice);
 	//glfwSetKeyCallback(m_window, key_callback);
 	glfwSetMouseButtonCallback(m_window, mouse_button_callback);
 	glfwSetScrollCallback(m_window, scroll_callback);
@@ -50,8 +55,31 @@ void Vis2::renderLoop() {
 
 	while (!glfwWindowShouldClose(m_window)) {
 
-		update(dt);
-		draw();
+		glfwPollEvents();
+
+		updateCamera();
+		
+
+		const glm::mat4& cameraView = m_camera.getViewMat();
+		const glm::mat4& inverseCameraView = glm::inverse(cameraView);
+
+		float sphereRadius = 0.5;
+
+		glm::mat3 viewMatrix3 = glm::mat3(cameraView);
+		glm::vec3 originVS(cameraView * glm::vec4(0, 0, 0, 1));
+		glm::vec3 middleOfObjectOnPlaneVS = originVS + glm::vec3(0.0, 0.0, std::min(-originVS.z, sphereRadius));
+
+		glm::vec3 middleOfPlaneVS = middleOfObjectOnPlaneVS;
+		glm::vec3 middleOfPlaneVSOpp = middleOfPlaneVS - glm::vec3(0, 0, sphereRadius + (middleOfPlaneVS.z - originVS.z));
+		float planeDistance = glm::length(middleOfPlaneVS - middleOfPlaneVSOpp) / (float)numPlanes;
+
+		m_vulkanHandler.updateMVP(dt, m_camera);
+		m_vulkanHandler.updateAlgo(inverseCameraView, cameraView, planeDistance, middleOfPlaneVS, sphereRadius, planeSides, glm::ivec2(volume_width, volume_height),
+			glm::vec3(1.0f), glm::vec4(1.0f), voxelDepth, (float)volume_width, (float)volume_height, m_light);
+
+		m_vulkanHandler.dispatchCompute(512, 512, 1);
+		m_vulkanHandler.runAlgo(numPlanes, middleOfPlaneVS, planeDistance);
+		m_vulkanHandler.drawFrame(numPlanes, middleOfPlaneVS, planeDistance);
 
 		dt = t;
 		t = float(glfwGetTime());
@@ -61,21 +89,22 @@ void Vis2::renderLoop() {
 }
 
 void Vis2::loadAssets() {
-	m_vulkanHandler.createCube();
+	m_light = Light(1.0f, glm::vec3(1.0, 1.0, 1.0) * 3.0f, glm::vec3(0, 0, 15));
+	
+	//load data and create 3D Texture here
+	volume_width = 512;
+	volume_height = 512;
+
+	m_volume.load3DTexture("C:\\Users\\zezul\\Downloads\\CAT\\pngs\\", 1, 463, ".png");
+
+	//m_vulkanHandler.createCube();
+	m_vulkanHandler.createQuad(m_volume);
 }
 
-void Vis2::update(float dt) {
-	glfwPollEvents();
+void Vis2::cleanup() {	
+	m_vulkanHandler.setDeviceWaitIdle();
 
-	updateCamera();
-	m_vulkanHandler.update(dt, m_camera);
-}
-
-void Vis2::draw() {
-	m_vulkanHandler.drawFrame();
-}
-
-void Vis2::cleanup() {
+	m_volume.cleanup();
 	m_vulkanHandler.cleanup();
 }
 
@@ -94,7 +123,7 @@ void Vis2::updateCamera() {
 			m_mouse_y = height / 2;
 		}
 
-		m_camera.update(width, height, (width / 2) - m_mouse_x , (height / 2) - m_mouse_y, m_deltaZoom);
+		m_camera.update(width, height, (width / 2) - (float)m_mouse_x , (height / 2) - (float)m_mouse_y, m_deltaZoom);
 
 		glfwSetCursorPos(m_window, (width / 2), (height / 2));
 	}
