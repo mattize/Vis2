@@ -33,15 +33,18 @@ layout(push_constant) uniform PerPlanePush {
 	float currentZVS;
 } push;
 
-layout(location = 0) out vec4 outColor;
 
 void main() {
-
-	ivec3 pixel_coords = ivec3(1.0, 1.0, 1.0); 
+	ivec2 imageDimensions = ivec2(512, 512);
 	
-	imageStore(cb, pixel_coords, vec4(1.0, 0.5, 1.0, 1.0));
+	vec2 scaledCoords = texCoords * vec2(imageDimensions);
 	
-	vec4 position = imageLoad(vpb, ivec3(texCoords, 0));
-
-    outColor = vec4(texture(volume, position.xyz));
+	ivec2 texelCoords = ivec2(clamp(texCoords, vec2(0), vec2(imageDimensions - 1)));
+	ivec3 texelArrayCoords = ivec3(texelCoords, 0);
+	
+	vec4 texelValue = imageLoad(vpb, texelArrayCoords);
+	
+	imageStore(cb, texelArrayCoords, texelValue); 
+	
+	//outColor = vec4(texCoords, push.layer / 5.0f, 1.0f);
 }

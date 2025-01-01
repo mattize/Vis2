@@ -18,5 +18,5 @@ layout(location = 0) out vec2 texCoords;
 
 void main() {
     gl_Position = ubo.proj * ubo.view * ubo.model * vec4(inPosition, 1.0);
-    texCoords = inTex;
+    texCoords = inTex * 512;
 }

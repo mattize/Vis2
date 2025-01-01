@@ -78,7 +78,7 @@ void Vis2::renderLoop() {
 			glm::vec3(1.0f), glm::vec4(1.0f), voxelDepth, (float)volume_width, (float)volume_height, m_light);
 
 		m_vulkanHandler.dispatchCompute(512, 512, 1);
-
+		m_vulkanHandler.runAlgo(numPlanes, middleOfPlaneVS, planeDistance);
 		m_vulkanHandler.drawFrame(numPlanes, middleOfPlaneVS, planeDistance);
 
 		dt = t;

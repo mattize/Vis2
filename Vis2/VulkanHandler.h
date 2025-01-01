@@ -128,6 +128,7 @@ public:
     void updateAlgo(glm::mat4 inverseViewMatrix, glm::mat4 viewMatrix, float planeDistance, glm::vec3 middleOfPlaneVS, float sphereRadius, glm::vec2 planeSides,
         glm::ivec2 dims, glm::vec3 refractionPos, glm::vec4 refractionValue, float voxelDepth, float planeWidth, float planeHeight, Light light);
     void dispatchCompute(int width, int heigth, int depth);
+    void runAlgo(int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance);
 
     VkDevice& getDevice();
     VkPhysicalDevice& getPhysicalDevice();
@@ -157,29 +158,42 @@ private:
     std::vector<VkImageView> swapChainImageViews;
     std::vector<VkFramebuffer> swapChainFramebuffers;
 
+    std::vector<VkFramebuffer> algoFramebuffers;
+
     VkRenderPass renderPass;
+    VkRenderPass algoRenderPass;
 
     VkCommandPool commandPool;
 
+    uint32_t imageIndex;
+        
     VkImage depthImage;
     VkDeviceMemory depthImageMemory;
     VkImageView depthImageView;
 
     std::vector<VkCommandBuffer> commandBuffers;
     std::vector<VkCommandBuffer> computeCommandBuffers;
+    std::vector<VkCommandBuffer> algoCommandBuffers;
 
     std::vector<VkSemaphore> imageAvailableSemaphores;
     std::vector<VkSemaphore> renderFinishedSemaphores;
     std::vector<VkFence> computeInFlightFences;
     std::vector<VkSemaphore> computeFinishedSemaphores;
+    std::vector<VkFence> algoInFlightFences;
+    std::vector<VkSemaphore> algoFinishedSemaphores;
     std::vector<VkFence> inFlightFences;
     uint32_t currentFrame = 0;
 
     VkDescriptorSetLayout descriptorSetLayout;
+    VkDescriptorSetLayout computeDescriptorSetLayout;
+    VkDescriptorSetLayout algoDescriptorSetLayout;
+
     VkPipelineLayout renderPipelineLayout;
+    VkPipelineLayout algoPipelineLayout;
     VkPipelineLayout computePipelineLayout;
     VkPipeline computePipeline;
     VkPipeline renderPipeline;
+    VkPipeline algoPipeline;
 
     VkBuffer vertexBuffer;
     VkDeviceMemory vertexBufferMemory;
@@ -193,6 +207,10 @@ private:
     std::vector<VkDeviceMemory> algoUniformBuffersMemory;
     std::vector<void*> algoUniformBuffersMapped;
 
+    VkDescriptorPool computeDescriptorPool;
+    std::vector<VkDescriptorSet> computeDescriptorSets;
+    VkDescriptorPool algoDescriptorPool;
+    std::vector<VkDescriptorSet> algoDescriptorSets;
     VkDescriptorPool descriptorPool;
     std::vector<VkDescriptorSet> descriptorSets;
 
@@ -202,6 +220,7 @@ private:
     std::vector<VkImage> buffers;
     std::vector<VkDeviceMemory> bufferMemories;
     std::vector<VkImageView> bufferViews;
+    VkSampler bufferSampler;
 
     std::vector<Vertex> cube_vertices = {
         // positions        // texture Coords
@@ -270,19 +289,27 @@ private:
 
     void createSwapChain();
 
+    void transitionImageForWrite(VkCommandBuffer commandBuffer, VkImage image, VkImageLayout newLayout);
+
+    void transitionImageForSampling(VkCommandBuffer commandBuffer, VkImage image, VkImageLayout newLayout);
+
     void createImageViews();
 
     void createRenderPass();
 
     void createFramebuffers();
 
-    void createComputeDescriptorSetLayout();
+    void createAlgoDescriptorSetLayout();
+
+    void createDescriptorSetLayout();
 
     void createStorageImages(uint32_t width, uint32_t height, VkFormat format);
 
     void createCommandPool();
 
     void createDepthResources();
+
+    void recordAlgoCommandBuffer(VkCommandBuffer commandBuffer, int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance);
 
     void transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
 
@@ -301,6 +328,8 @@ private:
     bool hasStencilComponent(VkFormat format);
 
     void createCommandBuffers();
+
+    void createAlgoCommandBuffers();
 
     void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance);
 
@@ -330,9 +359,11 @@ private:
 
     void createRenderPipeline();
 
+    void createAlgoPipeline();
+
     void createComputePipeline();
 
-    void createDescriptorSetLayout();
+    void createComputeDescriptorSetLayout();
 
     std::vector<char> readFile(const std::string& filename);
 
@@ -342,9 +373,21 @@ private:
 
     void createIndexBuffer(std::vector<uint32_t> indices);
 
+    void createAlgoFramebuffers();
+
     void createUniformBuffers();
 
+    void createAlgoDescriptorPool();
+
+    void createComputeDescriptorPool();
+
     void createDescriptorPool();
+
+    void createAlgoRenderPass();
+
+    void createComputeDescriptorSets(Texture texture);
+
+    void createAlgoDescriptorSets(Texture texture);
 
     void createDescriptorSets(Texture texture);
 
