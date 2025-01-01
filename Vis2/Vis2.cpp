@@ -36,6 +36,7 @@ void Vis2::init() {
 	glfwSetScrollCallback(m_window, scroll_callback);
 
 	m_camera = Camera(WIDTH, HEIGHT, FOV, NEARZ, FARZ);
+	m_vulkanHandler.initUI();
 }
 
 void Vis2::framebufferResizeCallback(GLFWwindow* window, int width, int height) {
@@ -76,6 +77,7 @@ void Vis2::draw() {
 }
 
 void Vis2::cleanup() {
+	ImGui_ImplVulkan_Shutdown();
 	m_vulkanHandler.cleanup();
 }
 
@@ -130,3 +132,4 @@ void Vis2::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 void Vis2::setDeltaZoom(float deltaZoom) {
 	m_deltaZoom = deltaZoom;
 }
+

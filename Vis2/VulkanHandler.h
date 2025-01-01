@@ -9,6 +9,10 @@
 
 #include <fstream>
 
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_vulkan.h"
+
 const std::vector<const char*> validationLayers = {
     "VK_LAYER_KHRONOS_validation"
 };
@@ -101,6 +105,23 @@ public:
     void createCube();
     void update(float dt, Camera& camera);
 
+    void initUI();
+    void renderUI();
+
+	VkInstance getInstance() { return instance; }
+	VkDevice getDevice() { return device; }
+	VkPhysicalDevice getPhysicalDevice() { return physicalDevice; }
+	VkQueue getGraphicsQueue() { return graphicsQueue; }
+	uint32_t getGraphicsQueueFamily() { return findQueueFamilies(physicalDevice).graphicsFamily.value(); }
+    VkDescriptorPool getDescriptorPool() { createDescriptorPool(); return descriptorPool; }
+	uint32_t getSwapChainImageCount() { return swapChainImages.size(); }
+	VkRenderPass getRenderPass() { return renderPass; }
+	VkCommandBuffer getCurrentCommandBuffer() { return commandBuffers[currentFrame]; }
+
+
+    VkCommandBuffer beginSingleTimeCommands();
+    void endSingleTimeCommands(VkCommandBuffer commandBuffer);
+
 private:
     GLFWwindow* window;
 
@@ -151,6 +172,16 @@ private:
 
     VkDescriptorPool descriptorPool;
     std::vector<VkDescriptorSet> descriptorSets;
+
+    VkDescriptorPool imguiDescriptorPool;
+    std::vector<VkDescriptorSet> imguiDescriptorSets;
+
+	VkRenderPass uiRenderPass;
+
+	VkCommandPool uiCommandPool;
+    std::vector<VkCommandBuffer> uiCommandBuffers;
+
+    std::vector<VkFramebuffer> uiFramebuffers;
 
     bool framebufferResized = false;
 
@@ -280,9 +311,13 @@ private:
 
     void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
 
-    VkCommandBuffer beginSingleTimeCommands();
-
-    void endSingleTimeCommands(VkCommandBuffer commandBuffer);
 
     void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
+
+	void createUIDescriptorPool();
+	void createUIRenderPass();
+	void createUICommandPool();
+	void createUICommandBuffers();
+	void createUIFramebuffers();
+    void recordUICommands(uint32_t bufferIdx);
 };
