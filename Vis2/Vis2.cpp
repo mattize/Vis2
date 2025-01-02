@@ -77,7 +77,7 @@ void Vis2::renderLoop() {
 		m_vulkanHandler.updateAlgo(inverseCameraView, cameraView, planeDistance, middleOfPlaneVS, sphereRadius, planeSides, glm::ivec2(volume_width, volume_height),
 			glm::vec3(1.0f), glm::vec4(1.0f), voxelDepth, (float)volume_width, (float)volume_height, m_light);
 
-		m_vulkanHandler.dispatchCompute(512, 512, 1);
+		m_vulkanHandler.dispatchCompute(512, 512, 2);
 		m_vulkanHandler.runAlgo(numPlanes, middleOfPlaneVS, planeDistance);
 		m_vulkanHandler.drawFrame(numPlanes, middleOfPlaneVS, planeDistance);
 

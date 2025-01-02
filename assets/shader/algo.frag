@@ -2,12 +2,12 @@
 
 layout(location = 0) in vec2 texCoords;
 
-layout(rgba32f, binding = 1) uniform image2DArray vpb;
-layout(rgba32f, binding = 2) uniform image2DArray vdb;
-layout(rgba32f, binding = 3) uniform image2DArray lb;
-layout(rgba32f, binding = 4) uniform image2DArray ldb;
-layout(rgba32f, binding = 5) uniform image2DArray cb;
-layout(rgba32f, binding = 6) uniform image2DArray mb;
+layout(binding = 1) uniform sampler2D vpb;
+layout(binding = 2) uniform sampler2D vdb;
+layout(binding = 3) uniform sampler2D lb;
+layout(binding = 4) uniform sampler2D ldb;
+layout(binding = 5) uniform sampler2D cb;
+layout(binding = 6) uniform sampler2D mb;
 
 layout(binding = 7) uniform AlgoUniformBufferObject {
     mat4 inverseViewMatrix;
@@ -33,18 +33,18 @@ layout(push_constant) uniform PerPlanePush {
 	float currentZVS;
 } push;
 
+layout(location = 0) out vec4 vpbOut;
+layout(location = 1) out vec4 vdbOut;
+layout(location = 2) out vec4 lbOut;
+layout(location = 3) out vec4 ldbOut;
+layout(location = 4) out vec4 cbOut;
+layout(location = 5) out vec4 mbOut;
 
-void main() {
-	ivec2 imageDimensions = ivec2(512, 512);
-	
-	vec2 scaledCoords = texCoords * vec2(imageDimensions);
-	
-	ivec2 texelCoords = ivec2(clamp(texCoords, vec2(0), vec2(imageDimensions - 1)));
-	ivec3 texelArrayCoords = ivec3(texelCoords, 0);
-	
-	vec4 texelValue = imageLoad(vpb, texelArrayCoords);
-	
-	imageStore(cb, texelArrayCoords, texelValue); 
-	
-	//outColor = vec4(texCoords, push.layer / 5.0f, 1.0f);
+void main() {	
+	vpbOut = vec4(1.0, 0.0, 0.0, 1.0); // Red
+    vdbOut = vec4(0.0, 1.0, 0.0, 1.0); // Green
+    lbOut = vec4(0.0, 0.0, 1.0, 1.0); // Blue
+    ldbOut = vec4(1.0, 1.0, 0.0, 1.0); // Yellow
+    cbOut = vec4(0.0, 1.0, 1.0, 1.0); // Cyan
+    mbOut = vec4(1.0, 0.0, 1.0, 1.0); // Magenta
 }
