@@ -2,12 +2,12 @@
 
 layout(location = 0) in vec2 texCoords;
 
-layout(binding = 1) uniform sampler2DArray vpb;
-layout(binding = 2) uniform sampler2DArray vdb;
-layout(binding = 3) uniform sampler2DArray lb;
-layout(binding = 4) uniform sampler2DArray ldb;
-layout(binding = 5) uniform sampler2DArray cb;
-layout(binding = 6) uniform sampler2DArray mb;
+layout(binding = 1) uniform sampler2D vpb;
+layout(binding = 2) uniform sampler2D vdb;
+layout(binding = 3) uniform sampler2D lb;
+layout(binding = 4) uniform sampler2D ldb;
+layout(binding = 5) uniform sampler2D cb;
+layout(binding = 6) uniform sampler2D mb;
 
 layout(binding = 7) uniform AlgoUniformBufferObject {
     mat4 inverseViewMatrix;
@@ -28,17 +28,10 @@ layout(binding = 7) uniform AlgoUniformBufferObject {
 
 layout(binding = 8) uniform sampler3D volume;
 
-
-layout(push_constant) uniform PerPlanePush {
-	int layer;
-	float currentZVS;
-} push;
-
 layout(location = 0) out vec4 outColor;
 
 void main() {
 
-	vec4 teste = texture(cb, vec3(texCoords, 0.0f));
 
-    outColor = teste;
+    outColor = texture(mb, texCoords);
 }

@@ -217,9 +217,12 @@ private:
     bool framebufferResized = false;
 
     std::vector<std::string> bufferNames{ "vpb", "vdb", "lb", "ldb", "cb", "mb"};
-    std::vector<VkImage> buffers;
-    std::vector<VkDeviceMemory> bufferMemories;
-    std::vector<VkImageView> bufferViews;
+    std::vector<VkImage> firstBuffers;
+    std::vector<VkImage> secondBuffers;
+    std::vector<VkDeviceMemory> firstBufferMemories;
+    std::vector<VkDeviceMemory> secondBufferMemories;
+    std::vector<VkImageView> firstBufferViews;
+    std::vector<VkImageView> secondBufferViews;
     VkSampler bufferSampler;
 
     std::vector<Vertex> cube_vertices = {
