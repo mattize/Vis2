@@ -111,6 +111,9 @@ void Vis2::cleanup() {
 
 void Vis2::updateCamera() {
 	glfwGetCursorPos(m_window, &m_mouse_x, &m_mouse_y);
+
+	if (m_mouse_x > 200 || m_mouse_y > 200) {
+
 	int width, height;
 	glfwGetWindowSize(m_window, &width, &height);
 
@@ -131,6 +134,8 @@ void Vis2::updateCamera() {
 	else {
 		m_camera.update(width, height, 0, 0, m_deltaZoom);
 		m_firstClick = true;
+	}
+
 	}
 
 	m_deltaZoom = 0.0f;

@@ -8,8 +8,8 @@ void Camera::update(int width, int height, float deltaMouseX, float deltaMouseY,
     glm::vec4 pivot(m_lookAt, 1.0f);
 
     double PI = std::numbers::pi;
-    float deltaAngleX = (2 * PI / width); 
-    float deltaAngleY = (PI / height); 
+    float deltaAngleX = (float)(2 * PI / width); 
+    float deltaAngleY = (float)(PI / height); 
     float xAngle = deltaMouseX * deltaAngleX;
     float yAngle = deltaMouseY * deltaAngleY;
 

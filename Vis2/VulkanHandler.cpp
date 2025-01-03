@@ -29,8 +29,7 @@ void VulkanHandler::initVulkan() {
     createComputeCommandBuffers();
     createCommandBuffers();
 
-    createSyncObjects();
-    
+    createSyncObjects();   
     
     createAlgoPipeline();
     createRenderPipeline();
@@ -2469,7 +2468,8 @@ void VulkanHandler::initUI() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  
+    io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
@@ -2488,7 +2488,7 @@ void VulkanHandler::initUI() {
     init_info.DescriptorPool = imguiDescriptorPool;
     init_info.Allocator = nullptr;
     init_info.MinImageCount = 2;
-    init_info.ImageCount = swapChainImages.size();
+    init_info.ImageCount = static_cast<uint32_t>(swapChainImages.size());
     init_info.CheckVkResultFn = nullptr;
     init_info.RenderPass = renderPass;
     ImGui_ImplVulkan_Init(&init_info);
