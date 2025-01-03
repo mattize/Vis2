@@ -9,9 +9,9 @@
 
 #include <fstream>
 
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_vulkan.h"
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_vulkan.h>
 
 const std::vector<const char*> validationLayers = {
     "VK_LAYER_KHRONOS_validation"
@@ -106,7 +106,7 @@ public:
     void update(float dt, Camera& camera);
 
     void initUI();
-    void renderUI();
+    void defineUI();
 
 	VkInstance getInstance() { return instance; }
 	VkDevice getDevice() { return device; }
@@ -171,17 +171,9 @@ private:
     std::vector<void*> uniformBuffersMapped;
 
     VkDescriptorPool descriptorPool;
-    std::vector<VkDescriptorSet> descriptorSets;
-
     VkDescriptorPool imguiDescriptorPool;
+    std::vector<VkDescriptorSet> descriptorSets;
     std::vector<VkDescriptorSet> imguiDescriptorSets;
-
-	VkRenderPass uiRenderPass;
-
-	VkCommandPool uiCommandPool;
-    std::vector<VkCommandBuffer> uiCommandBuffers;
-
-    std::vector<VkFramebuffer> uiFramebuffers;
 
     bool framebufferResized = false;
 
@@ -315,9 +307,4 @@ private:
     void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 
 	void createUIDescriptorPool();
-	void createUIRenderPass();
-	void createUICommandPool();
-	void createUICommandBuffers();
-	void createUIFramebuffers();
-    void recordUICommands(uint32_t bufferIdx);
 };

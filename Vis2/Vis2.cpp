@@ -77,7 +77,6 @@ void Vis2::draw() {
 }
 
 void Vis2::cleanup() {
-	ImGui_ImplVulkan_Shutdown();
 	m_vulkanHandler.cleanup();
 }
 
