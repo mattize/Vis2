@@ -9,6 +9,10 @@
 
 #include <fstream>
 
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_vulkan.h>
+
 const std::vector<const char*> validationLayers = {
     "VK_LAYER_KHRONOS_validation"
 };
@@ -129,7 +133,8 @@ public:
         glm::ivec2 dims, glm::vec3 refractionPos, glm::vec4 refractionValue, float voxelDepth, float planeWidth, float planeHeight, Light light);
     void dispatchCompute(int width, int heigth, int depth);
     void runAlgo(int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance);
-
+    void initUI();
+    void defineUI();
     VkDevice& getDevice();
     VkPhysicalDevice& getPhysicalDevice();
     VkRenderPass& getRenderPass();
@@ -212,7 +217,9 @@ private:
     VkDescriptorPool algoDescriptorPool;
     std::vector<VkDescriptorSet> algoDescriptorSets;
     VkDescriptorPool descriptorPool;
+    VkDescriptorPool imguiDescriptorPool;
     std::vector<VkDescriptorSet> descriptorSets;
+    std::vector<VkDescriptorSet> imguiDescriptorSets;
 
     bool framebufferResized = false;
 
@@ -396,11 +403,10 @@ private:
 
     void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
 
-    VkCommandBuffer beginSingleTimeCommands();
-
-    void endSingleTimeCommands(VkCommandBuffer commandBuffer);
 
     void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 
     void textureBarrier(VkCommandBuffer commandBuffer, VkImage image);
+
+	void createUIDescriptorPool();
 };

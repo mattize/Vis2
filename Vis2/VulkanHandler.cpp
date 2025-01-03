@@ -55,6 +55,9 @@ void VulkanHandler::cleanupSwapChain() {
 
 void VulkanHandler::cleanup() {
     vkDeviceWaitIdle(device);
+
+    ImGui_ImplVulkan_Shutdown();
+
     vkDestroyBuffer(device, indexBuffer, nullptr);
     vkFreeMemory(device, indexBufferMemory, nullptr);
 
@@ -67,6 +70,11 @@ void VulkanHandler::cleanup() {
         vkDestroyBuffer(device, algoUniformBuffers[i], nullptr);
         vkFreeMemory(device, algoUniformBuffersMemory[i], nullptr);
     }
+    vkDestroyDescriptorPool(device, descriptorPool, nullptr);
+    vkDestroyDescriptorPool(device, imguiDescriptorPool, nullptr);
+
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
     vkDestroySampler(device, bufferSampler, nullptr);
 
@@ -749,6 +757,8 @@ void VulkanHandler::recordComputeCommandBuffer(VkCommandBuffer commandBuffer) {
 }
 
 void VulkanHandler::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance) {
+    defineUI();
+
     VkCommandBufferBeginInfo beginInfo{};
     beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 
@@ -803,6 +813,7 @@ void VulkanHandler::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t 
 
     vkCmdDrawIndexed(commandBuffer, static_cast<uint32_t>(quad_indices.size()), 1, 0, 0, 0);
     
+    ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), commandBuffer);
 
     vkCmdEndRenderPass(commandBuffer);
 
@@ -2451,4 +2462,108 @@ void VulkanHandler::transitionImageLayout(VkImage image, VkFormat format, VkImag
     );
 
     endSingleTimeCommands(commandBuffer);
+}
+
+void VulkanHandler::initUI() {
+    // Setup Dear ImGui context
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
+
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
+
+	createUIDescriptorPool();
+
+    // Setup Platform/Renderer bindings
+    ImGui_ImplGlfw_InitForVulkan(window, true);
+    ImGui_ImplVulkan_InitInfo init_info = {};
+    init_info.Instance = instance;
+    init_info.PhysicalDevice = physicalDevice;
+    init_info.Device = device;
+    init_info.QueueFamily = findQueueFamilies(physicalDevice).graphicsFamily.value();
+    init_info.Queue = graphicsQueue;
+    init_info.PipelineCache = VK_NULL_HANDLE;
+    init_info.DescriptorPool = imguiDescriptorPool;
+    init_info.Allocator = nullptr;
+    init_info.MinImageCount = 2;
+    init_info.ImageCount = swapChainImages.size();
+    init_info.CheckVkResultFn = nullptr;
+    init_info.RenderPass = renderPass;
+    ImGui_ImplVulkan_Init(&init_info);
+
+    // Use any command queue    
+    VkCommandBuffer commandBuffer = commandBuffers[0];
+
+    vkResetCommandPool(device, commandPool, 0);
+    VkCommandBufferBeginInfo begin_info = {};
+    begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+    begin_info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+    vkBeginCommandBuffer(commandBuffer, &begin_info);
+
+    ImGui_ImplVulkan_CreateFontsTexture();
+
+    vkEndCommandBuffer(commandBuffer);
+
+    VkSubmitInfo submitInfo = {};
+    submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+    submitInfo.commandBufferCount = 1;
+    submitInfo.pCommandBuffers = &commandBuffer;
+    vkQueueSubmit(graphicsQueue, 1, &submitInfo, VK_NULL_HANDLE);
+
+    vkDeviceWaitIdle(device);
+}
+
+
+void VulkanHandler::defineUI() {
+    ImGui_ImplVulkan_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
+
+    static float f = 0.0f;
+    static int counter = 0;
+
+    ImGui::SetNextWindowSize(ImVec2(200, 100));
+    ImGui::SetNextWindowPos(ImVec2(0, 0));
+    ImGui::Begin("Renderer Options", NULL, ImGuiWindowFlags_NoResize || ImGuiWindowFlags_NoMove);
+    ImGui::Text("This is some useful text.");
+    ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+    if (ImGui::Button("Button")) {
+        counter++;
+		std::cout << "Button clicked!"<< std::endl;
+    }
+    ImGui::SameLine();
+    ImGui::Text("counter = %d", counter);
+
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::End();
+
+    ImGui::Render();
+}
+
+void VulkanHandler::createUIDescriptorPool() {
+    VkDescriptorPoolSize pool_sizes[] = {
+       { VK_DESCRIPTOR_TYPE_SAMPLER, 1000 },
+       { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000 },
+       { VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1000 },
+       { VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1000 },
+       { VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1000 },
+       { VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1000 },
+       { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1000 },
+       { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1000 },
+       { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1000 },
+       { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 1000 },
+       { VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000 }
+    };
+
+    VkDescriptorPoolCreateInfo pool_info = {};
+    pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+    pool_info.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+    pool_info.maxSets = 1000 * IM_ARRAYSIZE(pool_sizes);
+    pool_info.poolSizeCount = static_cast<uint32_t>(IM_ARRAYSIZE(pool_sizes));
+    pool_info.pPoolSizes = pool_sizes;
+    if (vkCreateDescriptorPool(device, &pool_info, nullptr, &imguiDescriptorPool) != VK_SUCCESS) {
+        throw std::runtime_error("Cannot allocate UI descriptor pool!");
+    }
 }
