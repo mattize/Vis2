@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\VulkanSDK\1.3.296.0\Include;$(SolutionDir)external\include\imgui;$(SolutionDir)external\include\imgui\backends;$(SolutionDir)\external\include\glm;$(SolutionDir)\external\include\GLFW;%(AdditionalIncludeDirectories);$(SolutionDir)/external/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\VulkanSDK\1.3.296.0\Include;$(SolutionDir)external\include\imgui;$(SolutionDir)external\include\imgui\backends;$(SolutionDir)\external\include\glm;$(SolutionDir)\external\include\GLFW;%(AdditionalIncludeDirectories);$(SolutionDir)\external\include\stb;$(SolutionDir)\external\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>

@@ -135,6 +135,7 @@ public:
     void runAlgo(int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance);
     void initUI();
     void defineUI();
+
     VkDevice& getDevice();
     VkPhysicalDevice& getPhysicalDevice();
     VkRenderPass& getRenderPass();
@@ -289,6 +290,10 @@ private:
 
     void setupDebugMessenger();
 
+    VkCommandBuffer beginSingleTimeCommands();
+
+    void endSingleTimeCommands(VkCommandBuffer commandBuffer);
+
     void createSurface();
 
     void pickPhysicalDevice();
@@ -403,10 +408,7 @@ private:
 
     void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
 
-
     void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
-
-    void textureBarrier(VkCommandBuffer commandBuffer, VkImage image);
 
 	void createUIDescriptorPool();
 };

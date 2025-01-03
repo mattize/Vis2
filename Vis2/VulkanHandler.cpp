@@ -70,7 +70,7 @@ void VulkanHandler::cleanup() {
         vkDestroyBuffer(device, algoUniformBuffers[i], nullptr);
         vkFreeMemory(device, algoUniformBuffersMemory[i], nullptr);
     }
-    vkDestroyDescriptorPool(device, descriptorPool, nullptr);
+
     vkDestroyDescriptorPool(device, imguiDescriptorPool, nullptr);
 
     ImGui_ImplGlfw_Shutdown();
@@ -2482,7 +2482,7 @@ void VulkanHandler::initUI() {
     init_info.Instance = instance;
     init_info.PhysicalDevice = physicalDevice;
     init_info.Device = device;
-    init_info.QueueFamily = findQueueFamilies(physicalDevice).graphicsFamily.value();
+    init_info.QueueFamily = findQueueFamilies(physicalDevice).graphicsAndComputeFamily.value();
     init_info.Queue = graphicsQueue;
     init_info.PipelineCache = VK_NULL_HANDLE;
     init_info.DescriptorPool = imguiDescriptorPool;
@@ -2524,9 +2524,9 @@ void VulkanHandler::defineUI() {
     static float f = 0.0f;
     static int counter = 0;
 
-    ImGui::SetNextWindowSize(ImVec2(200, 100));
+    ImGui::SetNextWindowSize(ImVec2(200, 200));
     ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::Begin("Renderer Options", NULL, ImGuiWindowFlags_NoResize || ImGuiWindowFlags_NoMove);
+    ImGui::Begin("Renderer Options", NULL, ImGuiWindowFlags_NoResize);
     ImGui::Text("This is some useful text.");
     ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
     if (ImGui::Button("Button")) {
@@ -2536,7 +2536,7 @@ void VulkanHandler::defineUI() {
     ImGui::SameLine();
     ImGui::Text("counter = %d", counter);
 
-    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
     ImGui::End();
 
     ImGui::Render();
