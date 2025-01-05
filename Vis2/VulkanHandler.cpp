@@ -2333,7 +2333,7 @@ void VulkanHandler::createAlgoDescriptorSets(Texture texture, PreIntegrationTabl
         descriptorWrites[8].pImageInfo = &volumeInfo;
 
         VkDescriptorImageInfo volumeTFInfo;
-        volumeTFInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
+        volumeTFInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
         volumeTFInfo.imageView = integrationTable.getVolumeTableView();
         volumeTFInfo.sampler = integrationTable.getTableSampler();
 
@@ -2346,7 +2346,7 @@ void VulkanHandler::createAlgoDescriptorSets(Texture texture, PreIntegrationTabl
         descriptorWrites[9].pImageInfo = &volumeTFInfo;
 
         VkDescriptorImageInfo mediumTFInfo;
-        mediumTFInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
+        mediumTFInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
         mediumTFInfo.imageView = integrationTable.getMediumTableView();
         mediumTFInfo.sampler = integrationTable.getTableSampler();
 

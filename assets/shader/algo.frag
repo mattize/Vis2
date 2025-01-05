@@ -28,6 +28,9 @@ layout(binding = 7) uniform AlgoUniformBufferObject {
 
 layout(binding = 8) uniform sampler3D volume;
 
+layout(binding = 9) uniform sampler2D volumeTF;
+layout(binding = 10) uniform sampler2D mediumTF;
+
 layout(push_constant) uniform PerPlanePush {
 	int layer;
 	float currentZVS;
@@ -41,6 +44,9 @@ layout(location = 4) out vec4 cbOut;
 layout(location = 5) out vec4 mbOut;
 
 void main() {	
+	vec4 test = texture(volumeTF, texCoords);
+
+	/*
 	float currentZVS = push.currentZVS;
 	int gl_Layer = push.layer;
 
@@ -156,4 +162,12 @@ void main() {
 	vdbOut = vdi_P1;
 	cbOut = vec4(Ci, Ai);
 	mbOut = vec4(Mi, 1.0);
+	*/
+	
+	vpbOut = vec4(1.0f);
+	vdbOut = vec4(1.0f);
+	lbOut = vec4(1.0f);
+	ldbOut = vec4(1.0f);
+	cbOut = vec4(1.0f);
+	mbOut = vec4(1.0f);
 }

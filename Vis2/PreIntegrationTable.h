@@ -63,6 +63,8 @@ private:
     VkSampler tableSampler;
 
     void applyTransportFunctions();
+    uint32_t vec4ToRGBA8(const glm::vec4& color);
     void resetTransportFunctions();
     void transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
+    void writeSplinesToTexture(VkImage image, std::array<tk::spline, 4> splines);
 };

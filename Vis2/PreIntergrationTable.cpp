@@ -148,88 +148,108 @@ void PreIntegrationTable::defineUI() {
 }
 
 void PreIntegrationTable::applyTransportFunctions() {
-    /*
-    uint32_t width = 512;
-    uint32_t height = 512;
-    VkFormat imageFormat = VK_FORMAT_R8G8B8A8_UNORM;
+    for (int i = 0; i < 4; i++) {
+        std::vector<double> vol_pos;
+        std::vector<double> vol_val;
 
-    // Create a staging buffer for the data transfer
+        std::vector<double> med_pos;
+        std::vector<double> med_val;
+
+        std::vector<double> ref_pos;
+        std::vector<double> ref_val;
+
+        for (int j = 0; j < 4; j++) {
+            vol_pos.push_back(PreIntegrationTable::volume_positions[i][j] * 255.0f);
+            vol_val.push_back(PreIntegrationTable::volume_values[i][j]);
+
+            med_pos.push_back(PreIntegrationTable::medium_positions[i][j] * 255.0f);
+            med_val.push_back(PreIntegrationTable::medium_values[i][j]);
+
+            ref_pos.push_back(PreIntegrationTable::refraction_positions[i][j] * 255.0f);
+            ref_val.push_back(PreIntegrationTable::refraction_values[i][j]);
+        }
+
+        volume_curves[i].set_points(vol_pos, vol_val);
+        medium_curves[i].set_points(med_pos, med_val);
+        refraction_curves[i].set_points(ref_pos, ref_val);
+    }
+
+    writeSplinesToTexture(preIntegrationTables[0], volume_curves);
+    writeSplinesToTexture(preIntegrationTables[1], medium_curves);
+    writeSplinesToTexture(preIntegrationTables[2], refraction_curves);
+}
+
+uint32_t PreIntegrationTable::vec4ToRGBA8(const glm::vec4& color) {
+    uint8_t r = static_cast<uint8_t>(glm::clamp(color.r, 0.0f, 1.0f) * 255.0f);
+    uint8_t g = static_cast<uint8_t>(glm::clamp(color.g, 0.0f, 1.0f) * 255.0f);
+    uint8_t b = static_cast<uint8_t>(glm::clamp(color.b, 0.0f, 1.0f) * 255.0f);
+    uint8_t a = static_cast<uint8_t>(glm::clamp(color.a, 0.0f, 1.0f) * 255.0f);
+
+    return (a << 24) | (b << 16) | (g << 8) | r;
+}
+
+void PreIntegrationTable::writeSplinesToTexture(VkImage image, std::array<tk::spline, 4> splines) {
     VkBuffer stagingBuffer;
     VkDeviceMemory stagingBufferMemory;
 
     VkBufferCreateInfo bufferCreateInfo = {};
     bufferCreateInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-    bufferCreateInfo.size = width * height * 4; // 4 bytes per pixel (RGBA)
+    bufferCreateInfo.size = 256 * 256 * 4;
     bufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
     bufferCreateInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
     vkCreateBuffer(device, &bufferCreateInfo, nullptr, &stagingBuffer);
 
-    // Allocate memory for the staging buffer
     VkMemoryRequirements memRequirements;
     vkGetBufferMemoryRequirements(device, stagingBuffer, &memRequirements);
 
     VkMemoryAllocateInfo allocInfo = {};
     allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
     allocInfo.allocationSize = memRequirements.size;
-    allocInfo.memoryTypeIndex = FindMemoryType(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+    allocInfo.memoryTypeIndex = vulkanDevice.findMemoryType(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 
     vkAllocateMemory(device, &allocInfo, nullptr, &stagingBufferMemory);
-
-    // Bind the staging buffer memory
     vkBindBufferMemory(device, stagingBuffer, stagingBufferMemory, 0);
 
-    // Map the staging buffer to CPU memory to write data
     void* data;
     vkMapMemory(device, stagingBufferMemory, 0, VK_WHOLE_SIZE, 0, &data);
 
-    // Write pixel data (let's set a few pixels in the top-left corner)
-    uint32_t* pixels = reinterpret_cast<uint32_t*>(data); // Pointer to write pixels
 
-    // Example: Set a few pixels
-    pixels[0] = 0xFFFF0000; // Red (R8G8B8A8_UNORM format)
-    pixels[1] = 0xFF00FF00; // Green
-    pixels[width] = 0xFF0000FF; // Blue (next row)
-    pixels[width + 1] = 0xFFFFFFFF; // White (next row)
+    uint32_t* pixels = reinterpret_cast<uint32_t*>(data);
+    pixels[0] = vec4ToRGBA8(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+    pixels[1] = vec4ToRGBA8(glm::vec4(1.0f, 0.0f, 0.3f, 1.0f));
+    pixels[256] = vec4ToRGBA8(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+    pixels[256 + 1] = vec4ToRGBA8(glm::vec4(0.5f, 1.0f, 0.0f, 1.0f));
 
-    // Unmap the staging buffer after writing the data
+
     vkUnmapMemory(device, stagingBufferMemory);
 
-    // Create an image
-    VkImage image;
-    VkDeviceMemory imageMemory;
+    VkCommandBuffer commandBuffer = vulkanDevice.beginSingleTimeCommands();
 
-    VkImageCreateInfo imageCreateInfo = {};
-    imageCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
-    imageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
-    imageCreateInfo.extent.width = width;
-    imageCreateInfo.extent.height = height;
-    imageCreateInfo.extent.depth = 1;
-    imageCreateInfo.mipLevels = 1;
-    imageCreateInfo.arrayLayers = 1;
-    imageCreateInfo.format = imageFormat;
-    imageCreateInfo.tiling = VK_IMAGE_TILING_LINEAR;
-    imageCreateInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-    imageCreateInfo.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+    VkImageMemoryBarrier barrier{};
+    barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+    barrier.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    barrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+    barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+    barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+    barrier.image = preIntegrationTables[0];
+    barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+    barrier.subresourceRange.baseMipLevel = 0;
+    barrier.subresourceRange.levelCount = 1;
+    barrier.subresourceRange.baseArrayLayer = 0;
+    barrier.subresourceRange.layerCount = 1;
+    barrier.srcAccessMask = 0;
+    barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
 
-    vkCreateImage(device, &imageCreateInfo, nullptr, &image);
+    vkCmdPipelineBarrier(
+        commandBuffer,
+        VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT,
+        0,
+        0, nullptr,
+        0, nullptr,
+        1, &barrier
+    );
 
-    // Allocate memory for the image
-    vkGetImageMemoryRequirements(device, image, &memRequirements);
-    allocInfo.allocationSize = memRequirements.size;
-    allocInfo.memoryTypeIndex = FindMemoryType(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-    vkAllocateMemory(device, &allocInfo, nullptr, &imageMemory);
-
-    // Bind image memory
-    vkBindImageMemory(device, image, imageMemory, 0);
-
-    // Start a command buffer to perform the copy operation
-    VkCommandBuffer commandBuffer = BeginSingleTimeCommands(device, commandPool);
-
-    // Transition the image to the correct layout for writing
-    TransitionImageLayout(commandBuffer, image, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
-
-    // Copy data from the staging buffer to the image
     VkBufferImageCopy copyRegion = {};
     copyRegion.bufferOffset = 0;
     copyRegion.bufferRowLength = 0;
@@ -239,20 +259,39 @@ void PreIntegrationTable::applyTransportFunctions() {
     copyRegion.imageSubresource.baseArrayLayer = 0;
     copyRegion.imageSubresource.layerCount = 1;
     copyRegion.imageOffset = { 0, 0, 0 };
-    copyRegion.imageExtent = { width, height, 1 };
+    copyRegion.imageExtent = { 256, 256, 1 };
 
-    vkCmdCopyBufferToImage(commandBuffer, stagingBuffer, image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &copyRegion);
+    vkCmdCopyBufferToImage(commandBuffer, stagingBuffer, preIntegrationTables[0], VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &copyRegion);
 
-    // Transition the image to be used as a texture (if needed)
-    TransitionImageLayout(commandBuffer, image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+    VkImageMemoryBarrier returnBarrier{};
+    returnBarrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+    returnBarrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+    returnBarrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+    returnBarrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+    returnBarrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+    returnBarrier.image = preIntegrationTables[0];
+    returnBarrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+    returnBarrier.subresourceRange.baseMipLevel = 0;
+    returnBarrier.subresourceRange.levelCount = 1;
+    returnBarrier.subresourceRange.baseArrayLayer = 0;
+    returnBarrier.subresourceRange.layerCount = 1;
+    returnBarrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+    returnBarrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
 
-    // End the command buffer and submit it
-    EndSingleTimeCommands(device, commandPool, commandBuffer, queue);
+    vkCmdPipelineBarrier(
+        commandBuffer,
+        VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT,
+        0,
+        0, nullptr,
+        0, nullptr,
+        1, &returnBarrier
+    );
 
-    // Clean up the staging buffer
+    vulkanDevice.endSingleTimeCommands(commandBuffer);
+
+
     vkDestroyBuffer(device, stagingBuffer, nullptr);
     vkFreeMemory(device, stagingBufferMemory, nullptr);
-    */
 }
 
 void PreIntegrationTable::resetTransportFunctions() {
@@ -411,10 +450,10 @@ void PreIntegrationTable::transitionImageLayout(VkImage image, VkFormat format, 
     }
     else if (oldLayout == VK_IMAGE_LAYOUT_UNDEFINED && newLayout == VK_IMAGE_LAYOUT_GENERAL) {
         barrier.srcAccessMask = 0;
-        barrier.dstAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+        barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
 
         sourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
-        destinationStage = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+        destinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
     }
     else {
         throw std::invalid_argument("unsupported layout transition!");
