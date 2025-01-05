@@ -755,8 +755,8 @@ void VulkanHandler::recordComputeCommandBuffer(VkCommandBuffer commandBuffer) {
 
 }
 
-void VulkanHandler::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance) {
-    defineUI();
+void VulkanHandler::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance, PreIntegrationTable integrationTable) {
+    defineUI(integrationTable);
 
     VkCommandBufferBeginInfo beginInfo{};
     beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -805,10 +805,7 @@ void VulkanHandler::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t 
 
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, renderPipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
-    
-
-    //vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, VK_DEPENDENCY_BY_REGION_BIT, 0, nullptr, 0, nullptr, 0, nullptr);
-    //TODO: check if necessary glClear(GL_DEPTH_BUFFER_BIT);        
+    //vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, VK_DEPENDENCY_BY_REGION_BIT, 0, nullptr, 0, nullptr, 0, nullptr);   
 
     vkCmdDrawIndexed(commandBuffer, static_cast<uint32_t>(quad_indices.size()), 1, 0, 0, 0);
     
@@ -883,9 +880,6 @@ void VulkanHandler::recordAlgoCommandBuffer(VkCommandBuffer commandBuffer, int n
         push.currentZVS = currentZ;
 
         vkCmdPushConstants(commandBuffer, algoPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(PerPlanePushConstant), &push);
-
-        //vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, VK_DEPENDENCY_BY_REGION_BIT, 0, nullptr, 0, nullptr, 0, nullptr);
-        //TODO: check if necessary glClear(GL_DEPTH_BUFFER_BIT);
         
         VkPipelineStageFlags srcStage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
         VkPipelineStageFlags dstStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
@@ -893,17 +887,17 @@ void VulkanHandler::recordAlgoCommandBuffer(VkCommandBuffer commandBuffer, int n
         VkMemoryBarrier memoryBarrier = {};
         memoryBarrier.sType = VK_STRUCTURE_TYPE_MEMORY_BARRIER;
         memoryBarrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT; 
-        memoryBarrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT; // Ensure subsequent reads are safe.
+        memoryBarrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT; 
 
         vkCmdPipelineBarrier(
             commandBuffer,
-            srcStage,               // Source pipeline stage
-            dstStage,               // Destination pipeline stage
-            VK_DEPENDENCY_BY_REGION_BIT,                      // Dependency flags
-            1,                      // Memory barrier count
-            &memoryBarrier,         // Memory barrier
-            0, nullptr,             // Buffer memory barriers
-            0, nullptr              // Image memory barriers
+            srcStage,               
+            dstStage,               
+            VK_DEPENDENCY_BY_REGION_BIT,                      
+            1,                      
+            &memoryBarrier,         
+            0, nullptr,             
+            0, nullptr              
         );
 
         vkCmdDrawIndexed(commandBuffer, static_cast<uint32_t>(quad_indices.size()), 1, 0, 0, 0);     
@@ -940,13 +934,13 @@ void VulkanHandler::dispatchCompute(int width, int heigth, int depth) {
     };
 };
 
-void VulkanHandler::drawFrame(int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance) {
+void VulkanHandler::drawFrame(int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance, PreIntegrationTable integrationTable) {
     vkWaitForFences(device, 1, &inFlightFences[currentFrame], VK_TRUE, UINT64_MAX);
 
     vkResetFences(device, 1, &inFlightFences[currentFrame]);
 
     vkResetCommandBuffer(commandBuffers[currentFrame], /*VkCommandBufferResetFlagBits*/ 0);
-    recordCommandBuffer(commandBuffers[currentFrame], imageIndex, numPlanes, middleOfPlaneVS, planeDistance);
+    recordCommandBuffer(commandBuffers[currentFrame], imageIndex, numPlanes, middleOfPlaneVS, planeDistance, integrationTable);
 
     VkSemaphore waitSemaphores[] = { algoFinishedSemaphores[currentFrame] };
     VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_VERTEX_INPUT_BIT };
@@ -1955,10 +1949,10 @@ void VulkanHandler::transitionImageForWrite(VkCommandBuffer commandBuffer, VkIma
     VkImageMemoryBarrier barrier{};
     barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
     barrier.image = image;
-    barrier.oldLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;  // previous layout
-    barrier.newLayout = newLayout;  // new layout for writing
-    barrier.srcAccessMask = VK_ACCESS_SHADER_READ_BIT;  // from read
-    barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;  // to write
+    barrier.oldLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;  
+    barrier.newLayout = newLayout;  
+    barrier.srcAccessMask = VK_ACCESS_SHADER_READ_BIT;  
+    barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;  
     barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
     barrier.subresourceRange.baseMipLevel = 0;
     barrier.subresourceRange.levelCount = 1;
@@ -1974,10 +1968,10 @@ void VulkanHandler::transitionImageForSampling(VkCommandBuffer commandBuffer, Vk
     VkImageMemoryBarrier barrier{};
     barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
     barrier.image = image;
-    barrier.oldLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;  // previous layout
-    barrier.newLayout = newLayout;  // new layout for sampling
-    barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;  // from write
-    barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;  // to read
+    barrier.oldLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;  
+    barrier.newLayout = newLayout;  
+    barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;  
+    barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT; 
     barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
     barrier.subresourceRange.baseMipLevel = 0;
     barrier.subresourceRange.levelCount = 1;
@@ -2463,20 +2457,16 @@ void VulkanHandler::transitionImageLayout(VkImage image, VkFormat format, VkImag
     endSingleTimeCommands(commandBuffer);
 }
 
-void VulkanHandler::initUI() {
-    // Setup Dear ImGui context
+void VulkanHandler::initUI() {    
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  
     io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
-
-    // Setup Dear ImGui style
     ImGui::StyleColorsDark();
 
 	createUIDescriptorPool();
 
-    // Setup Platform/Renderer bindings
     ImGui_ImplGlfw_InitForVulkan(window, true);
     ImGui_ImplVulkan_InitInfo init_info = {};
     init_info.Instance = instance;
@@ -2492,8 +2482,7 @@ void VulkanHandler::initUI() {
     init_info.CheckVkResultFn = nullptr;
     init_info.RenderPass = renderPass;
     ImGui_ImplVulkan_Init(&init_info);
-
-    // Use any command queue    
+ 
     VkCommandBuffer commandBuffer = commandBuffers[0];
 
     vkResetCommandPool(device, commandPool, 0);
@@ -2515,29 +2504,17 @@ void VulkanHandler::initUI() {
     vkDeviceWaitIdle(device);
 }
 
+bool VulkanHandler::checkUIWindowHovered() {
+    ImGuiIO& io = ImGui::GetIO();
+    return io.WantCaptureMouse;
+};
 
-void VulkanHandler::defineUI() {
+void VulkanHandler::defineUI(PreIntegrationTable integrationTable) {
     ImGui_ImplVulkan_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    static float f = 0.0f;
-    static int counter = 0;
-
-    ImGui::SetNextWindowSize(ImVec2(200, 200));
-    ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::Begin("Renderer Options", NULL, ImGuiWindowFlags_NoResize);
-    ImGui::Text("This is some useful text.");
-    ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
-    if (ImGui::Button("Button")) {
-        counter++;
-		std::cout << "Button clicked!"<< std::endl;
-    }
-    ImGui::SameLine();
-    ImGui::Text("counter = %d", counter);
-
-    ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
-    ImGui::End();
+    integrationTable.defineUI();
 
     ImGui::Render();
 }

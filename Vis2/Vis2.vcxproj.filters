@@ -57,6 +57,9 @@
     <ClCompile Include="VulkanDevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PreIntergrationTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vis2.h">
@@ -97,6 +100,9 @@
     </ClInclude>
     <ClInclude Include="VulkanDevice.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PreIntegrationTable.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

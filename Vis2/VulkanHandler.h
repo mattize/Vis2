@@ -6,12 +6,9 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Texture.h"
+#include "PreIntegrationTable.h"
 
 #include <fstream>
-
-#include <imgui.h>
-#include <imgui_impl_glfw.h>
-#include <imgui_impl_vulkan.h>
 
 const std::vector<const char*> validationLayers = {
     "VK_LAYER_KHRONOS_validation"
@@ -123,7 +120,7 @@ public:
     VulkanHandler(GLFWwindow* window) : window(window) {};
 
     void initVulkan();
-    void drawFrame(int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance);
+    void drawFrame(int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance, PreIntegrationTable integrationTable);
     void cleanup();
     void setDeviceWaitIdle();
     void createCube();
@@ -134,7 +131,8 @@ public:
     void dispatchCompute(int width, int heigth, int depth);
     void runAlgo(int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance);
     void initUI();
-    void defineUI();
+    void defineUI(PreIntegrationTable integrationTable);
+    bool checkUIWindowHovered();
 
     VkDevice& getDevice();
     VkPhysicalDevice& getPhysicalDevice();
@@ -346,7 +344,7 @@ private:
 
     void createAlgoCommandBuffers();
 
-    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance);
+    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance, PreIntegrationTable integrationTable);
 
     void createSyncObjects();
 

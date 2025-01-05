@@ -76,11 +76,11 @@ void Vis2::renderLoop() {
 
 		m_vulkanHandler.updateMVP(dt, m_camera);
 		m_vulkanHandler.updateAlgo(inverseCameraView, cameraView, planeDistance, middleOfPlaneVS, sphereRadius, planeSides, glm::ivec2(volume_width, volume_height),
-			glm::vec3(1.0f), glm::vec4(1.0f), voxelDepth, (float)volume_width, (float)volume_height, m_light);
+			glm::vec3(0.25, 0.5, 0.75), glm::vec4(1.0, 1.34, 1.45, 1.8), voxelDepth, (float)volume_width, (float)volume_height, m_light);
 
 		m_vulkanHandler.dispatchCompute(512, 512, 2);
 		m_vulkanHandler.runAlgo(numPlanes, middleOfPlaneVS, planeDistance);
-		m_vulkanHandler.drawFrame(numPlanes, middleOfPlaneVS, planeDistance);
+		m_vulkanHandler.drawFrame(numPlanes, middleOfPlaneVS, planeDistance, m_integrationTable);	
 
 		dt = t;
 		t = float(glfwGetTime());
@@ -112,7 +112,7 @@ void Vis2::cleanup() {
 void Vis2::updateCamera() {
 	glfwGetCursorPos(m_window, &m_mouse_x, &m_mouse_y);
 
-	if (m_mouse_x > 200 || m_mouse_y > 200) {
+	if (!m_vulkanHandler.checkUIWindowHovered()) {
 
 	int width, height;
 	glfwGetWindowSize(m_window, &width, &height);

@@ -144,6 +144,7 @@
     <ClCompile Include="..\external\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="PreIntergrationTable.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Vis2.cpp" />
     <ClCompile Include="VulkanDevice.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="PreIntegrationTable.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Vis2.h" />
     <ClInclude Include="VulkanDevice.h" />

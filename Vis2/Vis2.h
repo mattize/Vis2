@@ -46,6 +46,7 @@ private:
     Camera m_camera;
     VulkanHandler m_vulkanHandler;
     VulkanDevice m_vulkanDevice;
+    PreIntegrationTable m_integrationTable;
 
     void init();
     void setWorkingDirectory();
