@@ -3,7 +3,10 @@
 	url = https://github.com/g-truc/glm.git
 [submodule "external/include/stb"]
 	path = external/include/stb
-	url = https://github.com/nothings/stb
+	url = https://github.com/nothings/stb.git
 [submodule "external/include/imgui"]
 	path = external/include/imgui
-	url = https://github.com/ocornut/imgui
+	url = https://github.com/ocornut/imgui.git
+[submodule "external/include/spline"]
+	path = external/include/spline
+	url = https://github.com/ttk592/spline.git
