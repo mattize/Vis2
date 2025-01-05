@@ -34,6 +34,9 @@ void Vis2::init() {
 
 	m_vulkanDevice = VulkanDevice(m_vulkanHandler.getDevice(), m_vulkanHandler.getPhysicalDevice(), m_vulkanHandler.getCommandPool(),
 		m_vulkanHandler.getGraphicsQueue());
+
+	m_integrationTable.setVulkanDevice(m_vulkanDevice);
+	m_integrationTable.init();
 	
 	m_volume = Texture(m_vulkanDevice);
 	//glfwSetKeyCallback(m_window, key_callback);
@@ -99,12 +102,13 @@ void Vis2::loadAssets() {
 	m_volume.load3DTexture("C:\\Users\\zezul\\Downloads\\CAT\\pngs\\", 1, 463, ".png");
 
 	//m_vulkanHandler.createCube();
-	m_vulkanHandler.createQuad(m_volume);
+	m_vulkanHandler.createQuad(m_volume, m_integrationTable);
 }
 
 void Vis2::cleanup() {	
 	m_vulkanHandler.setDeviceWaitIdle();
 
+	m_integrationTable.cleanup();
 	m_volume.cleanup();
 	m_vulkanHandler.cleanup();
 }

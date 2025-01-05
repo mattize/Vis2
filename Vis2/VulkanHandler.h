@@ -124,7 +124,7 @@ public:
     void cleanup();
     void setDeviceWaitIdle();
     void createCube();
-    void createQuad(Texture texture);
+    void createQuad(Texture texture, PreIntegrationTable integrationTable);
     void updateMVP(float dt, Camera& camera);
     void updateAlgo(glm::mat4 inverseViewMatrix, glm::mat4 viewMatrix, float planeDistance, glm::vec3 middleOfPlaneVS, float sphereRadius, glm::vec2 planeSides,
         glm::ivec2 dims, glm::vec3 refractionPos, glm::vec4 refractionValue, float voxelDepth, float planeWidth, float planeHeight, Light light);
@@ -400,7 +400,7 @@ private:
 
     void createComputeDescriptorSets(Texture texture);
 
-    void createAlgoDescriptorSets(Texture texture);
+    void createAlgoDescriptorSets(Texture texture, PreIntegrationTable integrationTable);
 
     void createDescriptorSets(Texture texture);
 

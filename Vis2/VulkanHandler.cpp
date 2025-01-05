@@ -1701,7 +1701,7 @@ void VulkanHandler::createDescriptorSetLayout() {
 void VulkanHandler::createAlgoDescriptorSetLayout() {
     size_t nrBuffers = bufferNames.size();
 
-    std::array<VkDescriptorSetLayoutBinding, 9> bindings{};
+    std::array<VkDescriptorSetLayoutBinding, 11> bindings{};
 
     bindings[0].binding = 0;
     bindings[0].descriptorCount = 1;
@@ -1728,6 +1728,18 @@ void VulkanHandler::createAlgoDescriptorSetLayout() {
     bindings[8].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
     bindings[8].pImmutableSamplers = nullptr;
     bindings[8].stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+
+    bindings[9].binding = 9;
+    bindings[9].descriptorCount = 1;
+    bindings[9].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    bindings[9].pImmutableSamplers = nullptr;
+    bindings[9].stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+
+    bindings[10].binding = 10;
+    bindings[10].descriptorCount = 1;
+    bindings[10].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    bindings[10].pImmutableSamplers = nullptr;
+    bindings[10].stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
 
     VkDescriptorSetLayoutCreateInfo layoutInfo{};
     layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
@@ -1888,7 +1900,7 @@ void VulkanHandler::createCube() {
     //createDescriptorSets(texture);
 }
 
-void VulkanHandler::createQuad(Texture texture) {
+void VulkanHandler::createQuad(Texture texture, PreIntegrationTable integrationTable) {
     createVertexBuffer(quad_vertices);
     createIndexBuffer(quad_indices);
     createUniformBuffers();
@@ -1897,7 +1909,7 @@ void VulkanHandler::createQuad(Texture texture) {
     createAlgoDescriptorPool();
     createDescriptorSets(texture);
     createComputeDescriptorSets(texture);
-    createAlgoDescriptorSets(texture);
+    createAlgoDescriptorSets(texture, integrationTable);
 }
 
 void VulkanHandler::createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory) {
@@ -2100,7 +2112,7 @@ void VulkanHandler::createComputeDescriptorPool() {
 }
 
 void VulkanHandler::createAlgoDescriptorPool() {
-    std::array<VkDescriptorPoolSize, 9> poolSizes{};
+    std::array<VkDescriptorPoolSize, 11> poolSizes{};
     poolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
     poolSizes[0].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 
@@ -2116,6 +2128,12 @@ void VulkanHandler::createAlgoDescriptorPool() {
 
     poolSizes[8].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
     poolSizes[8].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+
+    poolSizes[9].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    poolSizes[9].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+
+    poolSizes[10].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    poolSizes[10].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 
     VkDescriptorPoolCreateInfo poolInfo{};
     poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
@@ -2235,7 +2253,7 @@ void VulkanHandler::createComputeDescriptorSets(Texture texture) {
     }
 }
 
-void VulkanHandler::createAlgoDescriptorSets(Texture texture) {
+void VulkanHandler::createAlgoDescriptorSets(Texture texture, PreIntegrationTable integrationTable) {
     size_t nrBuffers = bufferNames.size();
 
     std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, algoDescriptorSetLayout);
@@ -2257,7 +2275,7 @@ void VulkanHandler::createAlgoDescriptorSets(Texture texture) {
         camBufferInfo.range = sizeof(CameraUniformBufferObject);
 
         std::vector<VkDescriptorImageInfo> imageInfos(nrBuffers);
-        std::vector<VkWriteDescriptorSet> descriptorWrites(3 + nrBuffers);
+        std::vector<VkWriteDescriptorSet> descriptorWrites(5 + nrBuffers);
 
         descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
         descriptorWrites[0].dstSet = algoDescriptorSets[i];
@@ -2313,6 +2331,32 @@ void VulkanHandler::createAlgoDescriptorSets(Texture texture) {
         descriptorWrites[8].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
         descriptorWrites[8].descriptorCount = 1;
         descriptorWrites[8].pImageInfo = &volumeInfo;
+
+        VkDescriptorImageInfo volumeTFInfo;
+        volumeTFInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
+        volumeTFInfo.imageView = integrationTable.getVolumeTableView();
+        volumeTFInfo.sampler = integrationTable.getTableSampler();
+
+        descriptorWrites[9].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        descriptorWrites[9].dstSet = algoDescriptorSets[i];
+        descriptorWrites[9].dstBinding = 9;
+        descriptorWrites[9].dstArrayElement = 0;
+        descriptorWrites[9].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        descriptorWrites[9].descriptorCount = 1;
+        descriptorWrites[9].pImageInfo = &volumeTFInfo;
+
+        VkDescriptorImageInfo mediumTFInfo;
+        mediumTFInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
+        mediumTFInfo.imageView = integrationTable.getMediumTableView();
+        mediumTFInfo.sampler = integrationTable.getTableSampler();
+
+        descriptorWrites[10].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        descriptorWrites[10].dstSet = algoDescriptorSets[i];
+        descriptorWrites[10].dstBinding = 10;
+        descriptorWrites[10].dstArrayElement = 0;
+        descriptorWrites[10].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        descriptorWrites[10].descriptorCount = 1;
+        descriptorWrites[10].pImageInfo = &mediumTFInfo;
 
         vkUpdateDescriptorSets(device, static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
     }
