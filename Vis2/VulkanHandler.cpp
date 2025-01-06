@@ -755,6 +755,25 @@ void VulkanHandler::recordComputeCommandBuffer(VkCommandBuffer commandBuffer) {
 
 }
 
+void VulkanHandler::recordEnvCommandBuffer(VkCommandBuffer commandBuffer) {
+    VkCommandBufferBeginInfo beginInfo{};
+    beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+
+    if (vkBeginCommandBuffer(commandBuffer, &beginInfo) != VK_SUCCESS) {
+        throw std::runtime_error("failed to begin recording compute command buffer!");
+    }
+
+    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, computePipeline);
+
+    vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, computePipelineLayout, 0, 1, &computeDescriptorSets[currentFrame], 0, nullptr);
+
+    vkCmdDispatch(commandBuffer, /*WIDTH*/ 512, /*HEIGHT*/ 512, 1);
+
+    if (vkEndCommandBuffer(commandBuffer) != VK_SUCCESS) {
+        throw std::runtime_error("failed to record compute command buffer!");
+    }
+}
+
 void VulkanHandler::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance, PreIntegrationTable integrationTable) {
     defineUI(integrationTable);
 
@@ -828,51 +847,50 @@ void VulkanHandler::recordAlgoCommandBuffer(VkCommandBuffer commandBuffer, int n
 
     for (int i = 0; i < numPlanes; i++) {
 
-    VkRenderPassBeginInfo renderPassInfo{};
-    renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-    renderPassInfo.renderPass = algoRenderPass;
-    renderPassInfo.framebuffer = algoFramebuffers[i % 2];
-    renderPassInfo.renderArea.offset = { 0, 0 };
-    renderPassInfo.renderArea.extent = { 512, 512 };
+        VkRenderPassBeginInfo renderPassInfo{};
+        renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+        renderPassInfo.renderPass = algoRenderPass;
+        renderPassInfo.framebuffer = algoFramebuffers[i % 2];
+        renderPassInfo.renderArea.offset = { 0, 0 };
+        renderPassInfo.renderArea.extent = { 512, 512 };
 
-    std::array<VkClearValue, 6> clearValues{};
-    clearValues[0].color = { {0.0f, 0.0f, 0.0f, 1.0f} };
-    clearValues[1].color = { {0.0f, 0.0f, 0.0f, 1.0f} };
-    clearValues[2].color = { {0.0f, 0.0f, 0.0f, 1.0f} };
-    clearValues[3].color = { {0.0f, 0.0f, 0.0f, 1.0f} };
-    clearValues[4].color = { {0.0f, 0.0f, 0.0f, 1.0f} };
-    clearValues[5].color = { {0.0f, 0.0f, 0.0f, 1.0f} };
+        std::array<VkClearValue, 6> clearValues{};
+        clearValues[0].color = { {0.0f, 0.0f, 0.0f, 1.0f} };
+        clearValues[1].color = { {0.0f, 0.0f, 0.0f, 1.0f} };
+        clearValues[2].color = { {0.0f, 0.0f, 0.0f, 1.0f} };
+        clearValues[3].color = { {0.0f, 0.0f, 0.0f, 1.0f} };
+        clearValues[4].color = { {0.0f, 0.0f, 0.0f, 1.0f} };
+        clearValues[5].color = { {0.0f, 0.0f, 0.0f, 1.0f} };
 
-    renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
-    renderPassInfo.pClearValues = clearValues.data();
+        renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
+        renderPassInfo.pClearValues = clearValues.data();
 
-    vkCmdBeginRenderPass(commandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+        vkCmdBeginRenderPass(commandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, algoPipeline);
+        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, algoPipeline);
 
-    VkViewport viewport{};
-    viewport.x = 0.0f;
-    viewport.y = 0.0f;
-    viewport.width = 512;
-    viewport.height = 512;
-    viewport.minDepth = 0.0f;
-    viewport.maxDepth = 1.0f;
-    vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
+        VkViewport viewport{};
+        viewport.x = 0.0f;
+        viewport.y = 0.0f;
+        viewport.width = 512;
+        viewport.height = 512;
+        viewport.minDepth = 0.0f;
+        viewport.maxDepth = 1.0f;
+        vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
 
-    VkRect2D scissor{};
-    scissor.offset = { 0, 0 };
-    scissor.extent = { 512, 512 };
-    vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
+        VkRect2D scissor{};
+        scissor.offset = { 0, 0 };
+        scissor.extent = { 512, 512 };
+        vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
-    VkBuffer vertexBuffers[] = { vertexBuffer };
-    VkDeviceSize offsets[] = { 0 };
-    vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
+        VkBuffer vertexBuffers[] = { vertexBuffer };
+        VkDeviceSize offsets[] = { 0 };
+        vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
 
-    vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT32);
+        vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT32);
 
-    vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, algoPipelineLayout, 0, 1, &algoDescriptorSets[i % 2], 0, nullptr);
+        vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, algoPipelineLayout, 0, 1, &algoDescriptorSets[i % 2], 0, nullptr);
 
-    for (int i = 0; i < 1; i++) {
         float currentZ = middleOfPlaneVS.z - planeDistance * i;
 
         PerPlanePushConstant push{};
@@ -901,10 +919,9 @@ void VulkanHandler::recordAlgoCommandBuffer(VkCommandBuffer commandBuffer, int n
         );
 
         vkCmdDrawIndexed(commandBuffer, static_cast<uint32_t>(quad_indices.size()), 1, 0, 0, 0);     
-    }
+    
 
-    vkCmdEndRenderPass(commandBuffer);
-
+        vkCmdEndRenderPass(commandBuffer);
     }
 
     if (vkEndCommandBuffer(commandBuffer) != VK_SUCCESS) {
@@ -1324,6 +1341,43 @@ void VulkanHandler::createComputePipeline() {
     }
 
     vkDestroyShaderModule(device, compShaderModule, nullptr);
+}
+
+void VulkanHandler::createEnvDescriptorSetLayout() {
+    std::array<VkDescriptorSetLayoutBinding, 4> bindings{};
+
+    bindings[0].binding = 0;
+    bindings[0].descriptorCount = 1;
+    bindings[0].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    bindings[0].pImmutableSamplers = nullptr;
+    bindings[0].stageFlags = VK_SHADER_STAGE_COMPUTE_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
+
+    bindings[1].binding = 1;
+    bindings[1].descriptorCount = 1;
+    bindings[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    bindings[1].pImmutableSamplers = nullptr;
+    bindings[1].stageFlags = VK_SHADER_STAGE_COMPUTE_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
+
+    bindings[2].binding = 2;
+    bindings[2].descriptorCount = 1;
+    bindings[2].descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+    bindings[2].pImmutableSamplers = nullptr;
+    bindings[2].stageFlags = VK_SHADER_STAGE_COMPUTE_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
+
+    bindings[3].binding = 3;
+    bindings[3].descriptorCount = 1;
+    bindings[3].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    bindings[3].pImmutableSamplers = nullptr;
+    bindings[3].stageFlags = VK_SHADER_STAGE_COMPUTE_BIT;
+
+    VkDescriptorSetLayoutCreateInfo layoutInfo{};
+    layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+    layoutInfo.bindingCount = static_cast<uint32_t>(bindings.size());
+    layoutInfo.pBindings = bindings.data();
+
+    if (vkCreateDescriptorSetLayout(device, &layoutInfo, nullptr, &envDescriptorSetLayout) != VK_SUCCESS) {
+        throw std::runtime_error("failed to create descriptor set layout!");
+    }
 }
 
 void VulkanHandler::createRenderPipeline() {
@@ -2561,6 +2615,65 @@ void VulkanHandler::defineUI(PreIntegrationTable integrationTable) {
     integrationTable.defineUI();
 
     ImGui::Render();
+}
+
+void VulkanHandler::createEnvironmentPipeline() {
+    QueueFamilyIndices indices;
+
+    uint32_t queueFamilyCount = 0;
+    vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, nullptr);
+
+    std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+    vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, queueFamilies.data());
+
+    int i = 0;
+    for (const auto& queueFamily : queueFamilies) {
+        if ((queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) && (queueFamily.queueFlags & VK_QUEUE_COMPUTE_BIT)) {
+            indices.graphicsAndComputeFamily = i;
+        }
+
+        i++;
+    }
+
+    vkGetDeviceQueue(device, indices.graphicsAndComputeFamily.value(), 0, &computeQueue);
+
+
+    std::string compShader_path = "./assets/shader/environment.spv";
+
+    auto compShaderCode = readFile(compShader_path);
+
+    createEnvDescriptorSetLayout();
+
+    VkShaderModule compShaderModule = createShaderModule(compShaderCode);
+
+    VkPipelineShaderStageCreateInfo compShaderStageInfo{};
+    compShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+    compShaderStageInfo.stage = VK_SHADER_STAGE_COMPUTE_BIT;
+    compShaderStageInfo.module = compShaderModule;
+    compShaderStageInfo.pName = "main";
+
+    VkPipelineShaderStageCreateInfo shaderStages[] = { compShaderStageInfo };
+
+
+    VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
+    pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+    pipelineLayoutInfo.setLayoutCount = 1;
+    pipelineLayoutInfo.pSetLayouts = &envDescriptorSetLayout;
+
+    if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &envPipelineLayout) != VK_SUCCESS) {
+        throw std::runtime_error("failed to create environment pipeline layout!");
+    }
+
+    VkComputePipelineCreateInfo pipelineInfo{};
+    pipelineInfo.sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;
+    pipelineInfo.layout = envPipelineLayout;
+    pipelineInfo.stage = compShaderStageInfo;
+
+    if (vkCreateComputePipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &envPipeline) != VK_SUCCESS) {
+        throw std::runtime_error("failed to create environment pipeline!");
+    }
+
+    vkDestroyShaderModule(device, compShaderModule, nullptr);
 }
 
 void VulkanHandler::createUIDescriptorPool() {

@@ -114,6 +114,21 @@ struct PerPlanePushConstant {
     float currentZVS;
 };
 
+struct EnvUniformBufferObject {
+    glm::mat4 inverseViewMatrix;
+    glm::vec3 middleOfPlaneVSOpp;
+    float planeWidth;
+    float planeHeight;
+    glm::vec2 planeSides;
+    glm::mat4 fl0;
+    glm::mat4 fl1;
+    glm::mat4 fl2;
+    glm::mat4 fl3;
+    glm::mat4 fl4;
+    glm::mat4 fl5;
+    float boxSize;
+};
+
 class VulkanHandler {
 public:
     VulkanHandler() {};
@@ -191,13 +206,16 @@ private:
     VkDescriptorSetLayout descriptorSetLayout;
     VkDescriptorSetLayout computeDescriptorSetLayout;
     VkDescriptorSetLayout algoDescriptorSetLayout;
+    VkDescriptorSetLayout envDescriptorSetLayout;
 
     VkPipelineLayout renderPipelineLayout;
     VkPipelineLayout algoPipelineLayout;
     VkPipelineLayout computePipelineLayout;
+    VkPipelineLayout envPipelineLayout;
     VkPipeline computePipeline;
     VkPipeline renderPipeline;
     VkPipeline algoPipeline;
+    VkPipeline envPipeline;
 
     VkBuffer vertexBuffer;
     VkDeviceMemory vertexBufferMemory;
@@ -213,6 +231,8 @@ private:
 
     VkDescriptorPool computeDescriptorPool;
     std::vector<VkDescriptorSet> computeDescriptorSets;
+    VkDescriptorPool envDescriptorPool;
+    std::vector<VkDescriptorSet> envDescriptorSets;
     VkDescriptorPool algoDescriptorPool;
     std::vector<VkDescriptorSet> algoDescriptorSets;
     VkDescriptorPool descriptorPool;
@@ -308,11 +328,17 @@ private:
 
     void createImageViews();
 
+    void createEnvDescriptorSetLayout();
+
+    void createEnvironmentPipeline();
+
     void createRenderPass();
 
     void createFramebuffers();
 
     void createAlgoDescriptorSetLayout();
+
+    void createEnvPipeline();
 
     void createDescriptorSetLayout();
 
@@ -347,6 +373,8 @@ private:
     void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance, PreIntegrationTable integrationTable);
 
     void createSyncObjects();
+
+    void recordEnvCommandBuffer(VkCommandBuffer commandBuffer);
 
     VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
 
