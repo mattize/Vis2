@@ -47,8 +47,8 @@ private:
     static float medium_positions[4][4];
     static int medium_values[4][4];
 
-    static float refraction_positions[4][4];
-    static int refraction_values[4][4];
+    static float refraction_positions[4];
+    static float refraction_values[4];
 
     std::array<tk::spline, 4> volume_curves;
     std::array<tk::spline, 4> medium_curves;
@@ -64,6 +64,8 @@ private:
 
     void applyTransportFunctions();
     uint32_t vec4ToRGBA8(const glm::vec4& color);
+    void setPixel(uint32_t* pixels, glm::vec4 color, int x, int y);
+    void sortDataPoints(std::vector<double>& positions, std::vector<double>& values);
     void resetTransportFunctions();
     void transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
     void writeSplinesToTexture(VkImage image, std::array<tk::spline, 4> splines);

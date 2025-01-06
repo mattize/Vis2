@@ -33,5 +33,5 @@ layout(location = 0) out vec4 outColor;
 void main() {
 
 
-    outColor = texture(mb, texCoords);
+    outColor = texture(cb, texCoords);
 }

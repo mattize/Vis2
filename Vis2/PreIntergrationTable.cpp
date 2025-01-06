@@ -1,46 +1,36 @@
 #include "PreIntegrationTable.h"
 
 float PreIntegrationTable::volume_positions[4][4] = {
-    {0.0f, 0.25f, 0.75f, 1.0f},
-    {0.0f, 0.25f, 0.75f, 1.0f},
+    {0.0f, 0.5f, 0.8f, 1.0f},
+    {0.0f, 0.2f, 0.6f, 1.0f},
     {0.0f, 0.25f, 0.75f, 1.0f},
     {0.0f, 0.25f, 0.75f, 1.0f}
 };
 
 int PreIntegrationTable::volume_values[4][4] = {
-    {255, 128, 0, 128},
-    {255, 128, 0, 128},
-    {255, 128, 0, 128},
-    {255, 128, 0, 128}
+    {0, 35, 100, 255},
+    {0, 100, 35, 0},
+    {0, 128, 0, 128},
+    {0, 12, 40, 128}
 };
 
 float PreIntegrationTable::medium_positions[4][4] = {
-    {0.0f, 0.25f, 0.75f, 1.0f},
-    {0.0f, 0.25f, 0.75f, 1.0f},
+    {0.0f, 0.5f, 0.8f, 1.0f},
+    {0.0f, 0.2f, 0.6f, 1.0f},
     {0.0f, 0.25f, 0.75f, 1.0f},
     {0.0f, 0.25f, 0.75f, 1.0f}
 };
 
 int PreIntegrationTable::medium_values[4][4] = {
-    {255, 128, 0, 128},
-    {255, 128, 0, 128},
-    {255, 128, 0, 128},
-    {255, 128, 0, 128}
+    {0, 0, 100, 255},
+    {0, 100, 35, 120},
+    {0, 100, 0, 0},
+    {0, 0, 0, 0}
 };
 
-float PreIntegrationTable::refraction_positions[4][4] = {
-    {0.0f, 0.25f, 0.75f, 1.0f},
-    {0.0f, 0.25f, 0.75f, 1.0f},
-    {0.0f, 0.25f, 0.75f, 1.0f},
-    {0.0f, 0.25f, 0.75f, 1.0f}
-};
+float PreIntegrationTable::refraction_positions[4] = {0.0f, 0.25f, 0.75f, 1.0f};
 
-int PreIntegrationTable::refraction_values[4][4] = {
-    {255, 128, 0, 128},
-    {255, 128, 0, 128},
-    {255, 128, 0, 128},
-    {255, 128, 0, 128}
-};
+float PreIntegrationTable::refraction_values[4] = {1, 1.34, 1.45, 1.8};
 
 void PreIntegrationTable::defineUI() {
 
@@ -107,28 +97,22 @@ void PreIntegrationTable::defineUI() {
         ImGui::Separator(); 
 
         if (ImGui::CollapsingHeader("Refraction TF")) {
-            for (int i = 0; i < channels.size(); i++) {
-                ImGui::Indent();
-                ImGui::PushID(("Refraction " + channels[i] + " Channel").c_str());
+            
+            ImGui::Indent();
+            std::string headerLabel = "Refraction Channel";
 
-                std::string headerLabel = channels[i] + " Channel";
+            if (ImGui::CollapsingHeader(headerLabel.c_str())) {
+                for (int point = 0; point < CONTROL_POINTS_COUNT; ++point) {
 
-                if (ImGui::CollapsingHeader(headerLabel.c_str())) {
-                    for (int point = 0; point < CONTROL_POINTS_COUNT; ++point) {
-                        ImGui::PushID(("RefractionTF_" + std::to_string(i) + "_" + std::to_string(point)).c_str());
+                    ImGui::PushItemWidth(100.0f);
+                    ImGui::SliderFloat(("Position##" + std::to_string(point)).c_str(), &refraction_positions[point], 0.0f, 1.0f, "%.2f");
+                    ImGui::SliderFloat(("Value##" + std::to_string(point)).c_str(), &refraction_values[point], 0.0f, 3.0f, "%.2f");
 
-                        ImGui::PushItemWidth(100.0f);
-                        ImGui::SliderFloat(("Position##" + std::to_string(point)).c_str(), &refraction_positions[i][point], 0.0f, 1.0f, "%.2f");
-                        ImGui::SliderInt(("Value##" + std::to_string(point)).c_str(), &refraction_values[i][point], 0, 255);
-
-                        ImGui::PopItemWidth();
-                        ImGui::PopID();
-                    }
+                    ImGui::PopItemWidth();
                 }
-
-                ImGui::PopID();
-                ImGui::Unindent();
             }
+            ImGui::Unindent();
+            
         }
 
         ImGui::Separator();
@@ -165,18 +149,43 @@ void PreIntegrationTable::applyTransportFunctions() {
             med_pos.push_back(PreIntegrationTable::medium_positions[i][j] * 255.0f);
             med_val.push_back(PreIntegrationTable::medium_values[i][j]);
 
-            ref_pos.push_back(PreIntegrationTable::refraction_positions[i][j] * 255.0f);
-            ref_val.push_back(PreIntegrationTable::refraction_values[i][j]);
+            //ref_pos.push_back(PreIntegrationTable::refraction_positions[i][j] * 255.0f);
+            //ref_val.push_back(PreIntegrationTable::refraction_values[i][j]);
         }
 
-        volume_curves[i].set_points(vol_pos, vol_val);
-        medium_curves[i].set_points(med_pos, med_val);
-        refraction_curves[i].set_points(ref_pos, ref_val);
+        sortDataPoints(vol_pos, vol_val);
+        sortDataPoints(med_pos, med_val);
+       // sortDataPoints(ref_pos, ref_val);
+        
+        volume_curves[i] = tk::spline(vol_pos, vol_val);
+        medium_curves[i] = tk::spline(med_pos, med_val);
+        //refraction_curves[i] = tk::spline(ref_pos, ref_val);
     }
 
     writeSplinesToTexture(preIntegrationTables[0], volume_curves);
-    writeSplinesToTexture(preIntegrationTables[1], medium_curves);
-    writeSplinesToTexture(preIntegrationTables[2], refraction_curves);
+    //writeSplinesToTexture(preIntegrationTables[1], medium_curves);
+    //writeSplinesToTexture(preIntegrationTables[2], refraction_curves);
+}
+
+void PreIntegrationTable::sortDataPoints(std::vector<double>& positions, std::vector<double>& values) {
+    std::vector<std::pair<int, int>> combined;
+    for (size_t i = 0; i < positions.size(); ++i) {
+        combined.emplace_back(positions[i], values[i]);
+    }
+
+    std::sort(combined.begin(), combined.end(), [](const auto& a, const auto& b) {
+        return a.first < b.first;
+    });
+
+    for (size_t i = 0; i < combined.size(); ++i) {
+        positions[i] = combined[i].first;
+        values[i] = combined[i].second;
+    }
+}
+
+void PreIntegrationTable::setPixel(uint32_t* pixels, glm::vec4 color, int x, int y) {
+    int index = 256 * x + y;
+    pixels[index] = vec4ToRGBA8(color);
 }
 
 uint32_t PreIntegrationTable::vec4ToRGBA8(const glm::vec4& color) {
@@ -191,10 +200,11 @@ uint32_t PreIntegrationTable::vec4ToRGBA8(const glm::vec4& color) {
 void PreIntegrationTable::writeSplinesToTexture(VkImage image, std::array<tk::spline, 4> splines) {
     VkBuffer stagingBuffer;
     VkDeviceMemory stagingBufferMemory;
+    VkDeviceSize imageSize = 256 * 256 * 4;
 
     VkBufferCreateInfo bufferCreateInfo = {};
     bufferCreateInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-    bufferCreateInfo.size = 256 * 256 * 4;
+    bufferCreateInfo.size = imageSize;
     bufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
     bufferCreateInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
@@ -211,16 +221,40 @@ void PreIntegrationTable::writeSplinesToTexture(VkImage image, std::array<tk::sp
     vkAllocateMemory(device, &allocInfo, nullptr, &stagingBufferMemory);
     vkBindBufferMemory(device, stagingBuffer, stagingBufferMemory, 0);
 
+    std::cout << "here" << std::endl;
+
+    double x = 1.0;
+    unsigned __int8 imageData[256 * 256 * 4];
+    unsigned int nextInd = 0;
+    for (int i = 0; i < 256; i++)
+    {
+        for (int j = 0; j < 256; j++)
+        {
+            unsigned int ri = splines[0]((double)i);
+            unsigned int rj = splines[0]((double)j);
+            unsigned int gi = splines[1]((double)i);
+            unsigned int gj = splines[1]((double)j);
+            unsigned int bi = splines[2]((double)i);
+            unsigned int bj = splines[2]((double)j);
+            unsigned int ai = splines[3]((double)i);
+            unsigned int aj = splines[3]((double)j);
+            glm::ivec4 colorResults = (glm::ivec4(ri, gi, bi, 255) + glm::ivec4(rj, gj, bj, 255)) / 2;
+
+            imageData[nextInd++] = (ri + rj) / 2;
+            imageData[nextInd++] = (gi + gj) / 2;
+            imageData[nextInd++] = (bi + bj) / 2;
+            imageData[nextInd++] = (ai + aj) / 2;
+        }
+    }
+
     void* data;
-    vkMapMemory(device, stagingBufferMemory, 0, VK_WHOLE_SIZE, 0, &data);
+    vkMapMemory(device, stagingBufferMemory, 0, imageSize, 0, &data);
 
+    memcpy(data, imageData, static_cast<size_t>(imageSize));
 
-    uint32_t* pixels = reinterpret_cast<uint32_t*>(data);
-    pixels[0] = vec4ToRGBA8(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-    pixels[1] = vec4ToRGBA8(glm::vec4(1.0f, 0.0f, 0.3f, 1.0f));
-    pixels[256] = vec4ToRGBA8(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-    pixels[256 + 1] = vec4ToRGBA8(glm::vec4(0.5f, 1.0f, 0.0f, 1.0f));
+    //uint32_t* pixels = reinterpret_cast<uint32_t*>(data);
 
+    
 
     vkUnmapMemory(device, stagingBufferMemory);
 
@@ -321,18 +355,14 @@ void PreIntegrationTable::resetTransportFunctions() {
         }
     }
 
-    for (int i = 0; i < 4; ++i) {
-        for (int j = 0; j < 4; ++j) {
-            refraction_positions[i][0] = 0.0f;
-            refraction_positions[i][1] = 0.25f;
-            refraction_positions[i][2] = 0.75f;
-            refraction_positions[i][3] = 1.0f;
-            refraction_values[i][0] = 255;
-            refraction_values[i][1] = 128;
-            refraction_values[i][2] = 0;
-            refraction_values[i][3] = 128;
-        }
-    }
+    refraction_positions[0] = 0.0f;
+    refraction_positions[1] = 0.25f;
+    refraction_positions[2] = 0.75f;
+    refraction_positions[3] = 1.0f;
+    refraction_values[0] = 1;
+    refraction_values[1] = 1.34;
+    refraction_values[2] = 1.45;
+    refraction_values[3] = 1.8;
 }
 
 void PreIntegrationTable::init() {
