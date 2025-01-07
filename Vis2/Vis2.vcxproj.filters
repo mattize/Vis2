@@ -95,19 +95,19 @@
     <ClInclude Include="..\external\include\imgui\imstb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VulkanDevice.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PreIntegrationTable.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="EnvironmentMap.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VulkanDevice.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
