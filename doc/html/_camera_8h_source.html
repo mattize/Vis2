@@ -121,47 +121,47 @@ $(function(){initNavTree('_camera_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">public</span>:</div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="class_camera.html#a01f94c3543f56ede7af49dc778f19331">   12</a></span>    <a class="code hl_function" href="class_camera.html#a01f94c3543f56ede7af49dc778f19331">Camera</a>() {};</div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="class_camera.html#a51109bcee8114e65529d8a721a910738">   13</a></span>    <a class="code hl_function" href="class_camera.html#a51109bcee8114e65529d8a721a910738">Camera</a>(uint32_t width, uint32_t height, <span class="keywordtype">float</span> fov, <span class="keywordtype">float</span> nearPlane, <span class="keywordtype">float</span> farPlane) : WIDTH(width), HEIGHT(height), m_fov(fov), m_nearPlane(nearPlane), m_farPlane(farPlane) {};</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_camera.html#a481e6e39d038ac8c9c21a2d817e7241a">update</a>(<span class="keywordtype">int</span> width, <span class="keywordtype">int</span> height, <span class="keywordtype">float</span> deltaMouseX, <span class="keywordtype">float</span> deltaMouseY, <span class="keywordtype">float</span> zoom);</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="class_camera.html#a2415fdca6aea84bad415367a11fa469e">   17</a></span>    glm::mat4 <a class="code hl_function" href="class_camera.html#a2415fdca6aea84bad415367a11fa469e">getProjMat</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_proj; };</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="class_camera.html#ad6744de351a376ffba05b23a06580860">   18</a></span>    glm::mat4 <a class="code hl_function" href="class_camera.html#ad6744de351a376ffba05b23a06580860">getViewMat</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_view; };</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="class_camera.html#aa9dc951f8d6e7082233786438139c51d">   19</a></span>    glm::vec3 <a class="code hl_function" href="class_camera.html#aa9dc951f8d6e7082233786438139c51d">getPosition</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_position; };</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    glm::vec3 getViewDir()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> -glm::transpose(m_view)[2]; }</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    glm::vec3 getRightVector()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> glm::transpose(m_view)[0]; }</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    glm::mat4 m_proj = glm::mat4(1.0f);</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    glm::mat4 m_view = glm::mat4(1.0f);</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordtype">bool</span> m_debug = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    uint32_t WIDTH;</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    uint32_t HEIGHT;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordtype">float</span> m_fov;</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordtype">float</span> m_aspect = (float)WIDTH / (<span class="keywordtype">float</span>)HEIGHT;</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordtype">float</span> m_nearPlane;</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordtype">float</span> m_farPlane;</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordtype">bool</span> m_firstClick = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordtype">float</span> m_sensitivity = 160.0f;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordtype">float</span> m_radius = 6.0f;</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    glm::vec3 m_position = glm::vec3(0.0f, 0.0f, 10.0f);</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    glm::vec3 m_lookAt = glm::vec3(0.0f, 0.0f, 0.0f);</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    glm::vec3 m_up = glm::vec3(0.0f, 1.0f, 0.0f);</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">float</span> m_speed = 0.05f;</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>};</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_camera.html#a481e6e39d038ac8c9c21a2d817e7241a">update</a>(<span class="keywordtype">int</span> width, <span class="keywordtype">int</span> height, <span class="keywordtype">float</span> deltaMouseX, <span class="keywordtype">float</span> deltaMouseY, <span class="keywordtype">float</span> zoom);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="class_camera.html#a2415fdca6aea84bad415367a11fa469e">   28</a></span>    glm::mat4 <a class="code hl_function" href="class_camera.html#a2415fdca6aea84bad415367a11fa469e">getProjMat</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_proj; };</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="class_camera.html#ad6744de351a376ffba05b23a06580860">   29</a></span>    glm::mat4 <a class="code hl_function" href="class_camera.html#ad6744de351a376ffba05b23a06580860">getViewMat</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_view; };</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="class_camera.html#aa9dc951f8d6e7082233786438139c51d">   30</a></span>    glm::vec3 <a class="code hl_function" href="class_camera.html#aa9dc951f8d6e7082233786438139c51d">getPosition</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_position; };</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    glm::vec3 getViewDir()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> -glm::transpose(m_view)[2]; }</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    glm::vec3 getRightVector()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> glm::transpose(m_view)[0]; }</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    glm::mat4 m_proj = glm::mat4(1.0f);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    glm::mat4 m_view = glm::mat4(1.0f);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordtype">bool</span> m_debug = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    uint32_t WIDTH;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    uint32_t HEIGHT;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordtype">float</span> m_fov;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">float</span> m_aspect = (float)WIDTH / (<span class="keywordtype">float</span>)HEIGHT;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordtype">float</span> m_nearPlane;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordtype">float</span> m_farPlane;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">bool</span> m_firstClick = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">float</span> m_sensitivity = 160.0f;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordtype">float</span> m_radius = 6.0f;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    glm::vec3 m_position = glm::vec3(0.0f, 0.0f, 10.0f);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    glm::vec3 m_lookAt = glm::vec3(0.0f, 0.0f, 0.0f);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    glm::vec3 m_up = glm::vec3(0.0f, 1.0f, 0.0f);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordtype">float</span> m_speed = 0.05f;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>};</div>
 </div>
 <div class="ttc" id="a_common_8h_html"><div class="ttname"><a href="_common_8h.html">Common.h</a></div></div>
 <div class="ttc" id="aclass_camera_html_a01f94c3543f56ede7af49dc778f19331"><div class="ttname"><a href="class_camera.html#a01f94c3543f56ede7af49dc778f19331">Camera::Camera</a></div><div class="ttdeci">Camera()</div><div class="ttdef"><b>Definition</b> Camera.h:12</div></div>
-<div class="ttc" id="aclass_camera_html_a2415fdca6aea84bad415367a11fa469e"><div class="ttname"><a href="class_camera.html#a2415fdca6aea84bad415367a11fa469e">Camera::getProjMat</a></div><div class="ttdeci">glm::mat4 getProjMat() const</div><div class="ttdef"><b>Definition</b> Camera.h:17</div></div>
-<div class="ttc" id="aclass_camera_html_a481e6e39d038ac8c9c21a2d817e7241a"><div class="ttname"><a href="class_camera.html#a481e6e39d038ac8c9c21a2d817e7241a">Camera::update</a></div><div class="ttdeci">void update(int width, int height, float deltaMouseX, float deltaMouseY, float zoom)</div><div class="ttdef"><b>Definition</b> Camera.cpp:3</div></div>
+<div class="ttc" id="aclass_camera_html_a2415fdca6aea84bad415367a11fa469e"><div class="ttname"><a href="class_camera.html#a2415fdca6aea84bad415367a11fa469e">Camera::getProjMat</a></div><div class="ttdeci">glm::mat4 getProjMat() const</div><div class="ttdef"><b>Definition</b> Camera.h:28</div></div>
+<div class="ttc" id="aclass_camera_html_a481e6e39d038ac8c9c21a2d817e7241a"><div class="ttname"><a href="class_camera.html#a481e6e39d038ac8c9c21a2d817e7241a">Camera::update</a></div><div class="ttdeci">void update(int width, int height, float deltaMouseX, float deltaMouseY, float zoom)</div><div class="ttdoc">Updates arcball camera.</div><div class="ttdef"><b>Definition</b> Camera.cpp:3</div></div>
 <div class="ttc" id="aclass_camera_html_a51109bcee8114e65529d8a721a910738"><div class="ttname"><a href="class_camera.html#a51109bcee8114e65529d8a721a910738">Camera::Camera</a></div><div class="ttdeci">Camera(uint32_t width, uint32_t height, float fov, float nearPlane, float farPlane)</div><div class="ttdef"><b>Definition</b> Camera.h:13</div></div>
-<div class="ttc" id="aclass_camera_html_aa9dc951f8d6e7082233786438139c51d"><div class="ttname"><a href="class_camera.html#aa9dc951f8d6e7082233786438139c51d">Camera::getPosition</a></div><div class="ttdeci">glm::vec3 getPosition() const</div><div class="ttdef"><b>Definition</b> Camera.h:19</div></div>
-<div class="ttc" id="aclass_camera_html_ad6744de351a376ffba05b23a06580860"><div class="ttname"><a href="class_camera.html#ad6744de351a376ffba05b23a06580860">Camera::getViewMat</a></div><div class="ttdeci">glm::mat4 getViewMat() const</div><div class="ttdef"><b>Definition</b> Camera.h:18</div></div>
+<div class="ttc" id="aclass_camera_html_aa9dc951f8d6e7082233786438139c51d"><div class="ttname"><a href="class_camera.html#aa9dc951f8d6e7082233786438139c51d">Camera::getPosition</a></div><div class="ttdeci">glm::vec3 getPosition() const</div><div class="ttdef"><b>Definition</b> Camera.h:30</div></div>
+<div class="ttc" id="aclass_camera_html_ad6744de351a376ffba05b23a06580860"><div class="ttname"><a href="class_camera.html#ad6744de351a376ffba05b23a06580860">Camera::getViewMat</a></div><div class="ttdeci">glm::mat4 getViewMat() const</div><div class="ttdef"><b>Definition</b> Camera.h:29</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

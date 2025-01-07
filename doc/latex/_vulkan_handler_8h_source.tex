@@ -123,12 +123,12 @@
 \DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{alignas}(4)\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_env_uniform_buffer_object_aae5d5b3e01ebadcb87228322402665ae}{planeWidth}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{00121\ \ \ \ \ \textcolor{keyword}{alignas}(4)\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_env_uniform_buffer_object_a3ce92b4fcbc46cc0a7ff6e0308bb2e33}{planeHeight}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{00122\ \ \ \ \ \textcolor{keyword}{alignas}(8)\ glm::vec2\ \mbox{\hyperlink{struct_env_uniform_buffer_object_adba28b0862c238b5d8ded33cfa3a8751}{planeSides}};\ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_a9b777f2299a5eaf576ff451eeb11e6c4}{fl0}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_af4576caff6917d4681035a5acede3b16}{fl1}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_ad09d2ea1b179dc3522efc717ab2a4d9a}{fl2}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_a749ef7b1294b09711cc706644977b724}{fl3}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_a84aa591e843fda89a3b0b2b3950c3fc3}{fl4}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_a78d75c6e6050804b6aacad209398e440}{fl5}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_a3b046228cf8a3d9b8b5eb865c56040de}{dir0}};}
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_aa385dcb69cc90a028437a9fb67e87a27}{dir1}};}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_aca3d3d132812fd44da420caf81e555b6}{dir2}};}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_a27ef8d7bfbdb47c964c068df56e2e3c8}{dir3}};}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_a02a05b1a8360997ba972de693872c75a}{dir4}};}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_a7d69071ad2ac0785180759a773b73bf9}{dir5}};}
 \DoxyCodeLine{00129\ \ \ \ \ \textcolor{keyword}{alignas}(4)\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_env_uniform_buffer_object_a4734778e285006a5d44fd7748e22eb5c}{boxSize}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{00130\ \};}
 \DoxyCodeLine{00131\ }
@@ -137,333 +137,338 @@
 \DoxyCodeLine{00134\ \ \ \ \ \mbox{\hyperlink{class_vulkan_handler_a84fe72042c829571b4729dc983e5220d}{VulkanHandler}}()\ \{\};}
 \DoxyCodeLine{00135\ \ \ \ \ \mbox{\hyperlink{class_vulkan_handler_ad4d8cbb58c842fbeb33f2e5ff687fe0c}{VulkanHandler}}(GLFWwindow*\ window)\ :\ window(window)\ \{\};}
 \DoxyCodeLine{00136\ }
-\DoxyCodeLine{00137\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a1973dbc5ca3762a02c6b5d443e92d5c1}{initVulkan}}();}
-\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a744f5899a1e5e7b93d7ffc5b45bd16c4}{drawFrame}}(\textcolor{keywordtype}{int}\ numPlanes,\ glm::vec3\ middleOfPlaneVS,\ \textcolor{keywordtype}{float}\ planeDistance,\ \mbox{\hyperlink{class_pre_integration_table}{PreIntegrationTable}}\ integrationTable);}
-\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a06636f1c45880963a47d7f51b28efcbf}{cleanup}}();}
-\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a0b91eeddb0779f1acb269379524d2aec}{setDeviceWaitIdle}}();}
-\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_ad5e7d85781302795c4b3fee00b4692da}{createCube}}();}
-\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a94adfba7ca2f3d2b93a27d5203ba5386}{createQuad}}(\mbox{\hyperlink{class_texture}{Texture}}\ texture,\ \mbox{\hyperlink{class_pre_integration_table}{PreIntegrationTable}}\ integrationTable);}
-\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a00669acc63a590b4ae33cb5e95e3e76b}{updateMVP}}(\textcolor{keywordtype}{float}\ dt,\ \mbox{\hyperlink{class_camera}{Camera}}\&\ camera);}
-\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a79ff67433f56b1731a46e8b4df04dcc1}{updateAlgo}}(glm::mat4\ inverseViewMatrix,\ glm::mat4\ viewMatrix,\ \textcolor{keywordtype}{float}\ planeDistance,\ glm::vec3\ middleOfPlaneVS,\ \textcolor{keywordtype}{float}\ sphereRadius,\ glm::vec2\ planeSides,}
-\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ glm::ivec2\ dims,\ glm::vec3\ refractionPos,\ glm::vec4\ refractionValue,\ \textcolor{keywordtype}{float}\ voxelDepth,\ \textcolor{keywordtype}{float}\ planeWidth,\ \textcolor{keywordtype}{float}\ planeHeight,\ \mbox{\hyperlink{class_light}{Light}}\ light);}
-\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a73e8c7c90eff7b72f38dc66c2d41e2bd}{dispatchCompute}}(\textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ heigth,\ \textcolor{keywordtype}{int}\ depth);}
-\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a34eebde651489223eed15a85e8214422}{runAlgo}}(\textcolor{keywordtype}{int}\ numPlanes,\ glm::vec3\ middleOfPlaneVS,\ \textcolor{keywordtype}{float}\ planeDistance);}
-\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a27b00f2ce0d2e20eb8a03b874c9b0533}{initUI}}();}
-\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a792e2b83369b992b066a122b4f69ee95}{defineUI}}(\mbox{\hyperlink{class_pre_integration_table}{PreIntegrationTable}}\ integrationTable);}
-\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_vulkan_handler_a9e3d648dd11e0e4ecb96fa06d672581b}{checkUIWindowHovered}}();}
-\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a35f88c6023bde2fec3b9a006fba32d7c}{updateCube}}(glm::mat4\ inverseViewMatrix,\ glm::vec3\ middleOfPlaneVS,\ \textcolor{keywordtype}{float}\ planeWidth,\ \textcolor{keywordtype}{float}\ planeHeight,\ glm::vec2\ planeSides,}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ glm::mat4\ fl0,\ glm::mat4\ fl1,\ glm::mat4\ fl2,\ glm::mat4\ fl3,\ glm::mat4\ fl4,\ glm::mat4\ fl5,\ \textcolor{keywordtype}{float}\ boxSize);}
-\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a4694a97a3ea61dbbae6ade7af4698720}{dispatchEnvCompute}}(\textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height,\ \textcolor{keywordtype}{int}\ depth);}
-\DoxyCodeLine{00154\ }
-\DoxyCodeLine{00155\ \ \ \ \ VkDevice\&\ \mbox{\hyperlink{class_vulkan_handler_ae0b07c1e6177bb3dabd099d92bee3cda}{getDevice}}();}
-\DoxyCodeLine{00156\ \ \ \ \ VkPhysicalDevice\&\ \mbox{\hyperlink{class_vulkan_handler_a5c880d6a24970661c36257ab5683e874}{getPhysicalDevice}}();}
-\DoxyCodeLine{00157\ \ \ \ \ VkRenderPass\&\ \mbox{\hyperlink{class_vulkan_handler_a53a19bae49d42c3fc9ce6bfd842abba9}{getRenderPass}}();}
-\DoxyCodeLine{00158\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{class_vulkan_handler_a89380a0bf0eb12e77c9da615c170b3db}{getCurrentFrame}}();}
-\DoxyCodeLine{00159\ \ \ \ \ VkCommandPool\&\ \mbox{\hyperlink{class_vulkan_handler_a9d6fa3237df25468d86f8ca9f980d825}{getCommandPool}}();}
-\DoxyCodeLine{00160\ \ \ \ \ VkQueue\&\ \mbox{\hyperlink{class_vulkan_handler_aceac72c36fc9b68785a626110f55bce8}{getGraphicsQueue}}();}
-\DoxyCodeLine{00161\ }
-\DoxyCodeLine{00162\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00163\ \ \ \ \ GLFWwindow*\ window;}
-\DoxyCodeLine{00164\ }
-\DoxyCodeLine{00165\ \ \ \ \ VkInstance\ instance;}
-\DoxyCodeLine{00166\ \ \ \ \ VkDebugUtilsMessengerEXT\ debugMessenger;}
-\DoxyCodeLine{00167\ \ \ \ \ VkSurfaceKHR\ surface;}
-\DoxyCodeLine{00168\ }
-\DoxyCodeLine{00169\ \ \ \ \ VkPhysicalDevice\ physicalDevice\ =\ VK\_NULL\_HANDLE;}
-\DoxyCodeLine{00170\ \ \ \ \ VkDevice\ device;}
-\DoxyCodeLine{00171\ }
-\DoxyCodeLine{00172\ \ \ \ \ VkQueue\ computeQueue;}
-\DoxyCodeLine{00173\ \ \ \ \ VkQueue\ graphicsQueue;}
-\DoxyCodeLine{00174\ \ \ \ \ VkQueue\ presentQueue;}
-\DoxyCodeLine{00175\ }
-\DoxyCodeLine{00176\ \ \ \ \ VkSwapchainKHR\ swapChain;}
-\DoxyCodeLine{00177\ \ \ \ \ std::vector<VkImage>\ swapChainImages;}
-\DoxyCodeLine{00178\ \ \ \ \ VkFormat\ swapChainImageFormat;}
-\DoxyCodeLine{00179\ \ \ \ \ VkExtent2D\ swapChainExtent;}
-\DoxyCodeLine{00180\ \ \ \ \ std::vector<VkImageView>\ swapChainImageViews;}
-\DoxyCodeLine{00181\ \ \ \ \ std::vector<VkFramebuffer>\ swapChainFramebuffers;}
-\DoxyCodeLine{00182\ }
-\DoxyCodeLine{00183\ \ \ \ \ std::vector<VkFramebuffer>\ algoFramebuffers;}
-\DoxyCodeLine{00184\ }
-\DoxyCodeLine{00185\ \ \ \ \ VkRenderPass\ renderPass;}
-\DoxyCodeLine{00186\ \ \ \ \ VkRenderPass\ algoRenderPass;}
-\DoxyCodeLine{00187\ }
-\DoxyCodeLine{00188\ \ \ \ \ VkCommandPool\ commandPool;}
-\DoxyCodeLine{00189\ }
-\DoxyCodeLine{00190\ \ \ \ \ uint32\_t\ imageIndex;}
-\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00192\ \ \ \ \ VkImage\ depthImage;}
-\DoxyCodeLine{00193\ \ \ \ \ VkDeviceMemory\ depthImageMemory;}
-\DoxyCodeLine{00194\ \ \ \ \ VkImageView\ depthImageView;}
-\DoxyCodeLine{00195\ }
-\DoxyCodeLine{00196\ \ \ \ \ std::vector<VkCommandBuffer>\ commandBuffers;}
-\DoxyCodeLine{00197\ \ \ \ \ std::vector<VkCommandBuffer>\ computeCommandBuffers;}
-\DoxyCodeLine{00198\ \ \ \ \ std::vector<VkCommandBuffer>\ algoCommandBuffers;}
-\DoxyCodeLine{00199\ }
-\DoxyCodeLine{00200\ \ \ \ \ std::vector<VkSemaphore>\ imageAvailableSemaphores;}
-\DoxyCodeLine{00201\ \ \ \ \ std::vector<VkSemaphore>\ renderFinishedSemaphores;}
-\DoxyCodeLine{00202\ \ \ \ \ std::vector<VkFence>\ computeInFlightFences;}
-\DoxyCodeLine{00203\ \ \ \ \ std::vector<VkSemaphore>\ computeFinishedSemaphores;}
-\DoxyCodeLine{00204\ \ \ \ \ std::vector<VkFence>\ envInFlightFences;}
-\DoxyCodeLine{00205\ \ \ \ \ std::vector<VkSemaphore>\ envFinishedSemaphores;}
-\DoxyCodeLine{00206\ \ \ \ \ std::vector<VkFence>\ algoInFlightFences;}
-\DoxyCodeLine{00207\ \ \ \ \ std::vector<VkSemaphore>\ algoFinishedSemaphores;}
-\DoxyCodeLine{00208\ \ \ \ \ std::vector<VkFence>\ inFlightFences;}
-\DoxyCodeLine{00209\ \ \ \ \ uint32\_t\ currentFrame\ =\ 0;}
-\DoxyCodeLine{00210\ }
-\DoxyCodeLine{00211\ \ \ \ \ VkDescriptorSetLayout\ descriptorSetLayout;}
-\DoxyCodeLine{00212\ \ \ \ \ VkDescriptorSetLayout\ computeDescriptorSetLayout;}
-\DoxyCodeLine{00213\ \ \ \ \ VkDescriptorSetLayout\ algoDescriptorSetLayout;}
-\DoxyCodeLine{00214\ \ \ \ \ VkDescriptorSetLayout\ envDescriptorSetLayout;}
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a1973dbc5ca3762a02c6b5d443e92d5c1}{initVulkan}}();}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a744f5899a1e5e7b93d7ffc5b45bd16c4}{drawFrame}}(\textcolor{keywordtype}{int}\ numPlanes,\ glm::vec3\ middleOfPlaneVS,\ \textcolor{keywordtype}{float}\ planeDistance,\ \mbox{\hyperlink{class_pre_integration_table}{PreIntegrationTable}}\ integrationTable);}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a06636f1c45880963a47d7f51b28efcbf}{cleanup}}();}
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a0b91eeddb0779f1acb269379524d2aec}{setDeviceWaitIdle}}();}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_ad5e7d85781302795c4b3fee00b4692da}{createCube}}();}
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a94adfba7ca2f3d2b93a27d5203ba5386}{createQuad}}(\mbox{\hyperlink{class_texture}{Texture}}\ texture,\ \mbox{\hyperlink{class_pre_integration_table}{PreIntegrationTable}}\ integrationTable);}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a00669acc63a590b4ae33cb5e95e3e76b}{updateMVP}}(\textcolor{keywordtype}{float}\ dt,\ \mbox{\hyperlink{class_camera}{Camera}}\&\ camera);}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a79ff67433f56b1731a46e8b4df04dcc1}{updateAlgo}}(glm::mat4\ inverseViewMatrix,\ glm::mat4\ viewMatrix,\ \textcolor{keywordtype}{float}\ planeDistance,\ glm::vec3\ middleOfPlaneVS,\ \textcolor{keywordtype}{float}\ sphereRadius,\ glm::vec2\ planeSides,}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ glm::ivec2\ dims,\ glm::vec3\ refractionPos,\ glm::vec4\ refractionValue,\ \textcolor{keywordtype}{float}\ voxelDepth,\ \textcolor{keywordtype}{float}\ planeWidth,\ \textcolor{keywordtype}{float}\ planeHeight,\ \mbox{\hyperlink{class_light}{Light}}\ light);}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a73e8c7c90eff7b72f38dc66c2d41e2bd}{dispatchCompute}}(\textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ heigth,\ \textcolor{keywordtype}{int}\ depth);}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a34eebde651489223eed15a85e8214422}{runAlgo}}(\textcolor{keywordtype}{int}\ numPlanes,\ glm::vec3\ middleOfPlaneVS,\ \textcolor{keywordtype}{float}\ planeDistance);}
+\DoxyCodeLine{00188\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a27b00f2ce0d2e20eb8a03b874c9b0533}{initUI}}();}
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a792e2b83369b992b066a122b4f69ee95}{defineUI}}(\mbox{\hyperlink{class_pre_integration_table}{PreIntegrationTable}}\ integrationTable);}
+\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_vulkan_handler_a9e3d648dd11e0e4ecb96fa06d672581b}{checkUIWindowHovered}}();}
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_ad4dd43fb482b1887041673616c19dc43}{updateCube}}(glm::mat4\ inverseViewMatrix,\ glm::vec3\ middleOfPlaneVS,\ \textcolor{keywordtype}{float}\ planeWidth,\ \textcolor{keywordtype}{float}\ planeHeight,\ glm::vec2\ planeSides,}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ glm::mat4\ dir0,\ glm::mat4\ dir1,\ glm::mat4\ dir2,\ glm::mat4\ dir3,\ glm::mat4\ dir4,\ glm::mat4\ dir5,\ \textcolor{keywordtype}{float}\ boxSize);}
+\DoxyCodeLine{00193\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a4694a97a3ea61dbbae6ade7af4698720}{dispatchEnvCompute}}(\textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height,\ \textcolor{keywordtype}{int}\ depth);}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00195\ \ \ \ \ VkDevice\&\ \mbox{\hyperlink{class_vulkan_handler_ae0b07c1e6177bb3dabd099d92bee3cda}{getDevice}}();}
+\DoxyCodeLine{00196\ \ \ \ \ VkPhysicalDevice\&\ \mbox{\hyperlink{class_vulkan_handler_a5c880d6a24970661c36257ab5683e874}{getPhysicalDevice}}();}
+\DoxyCodeLine{00197\ \ \ \ \ VkRenderPass\&\ \mbox{\hyperlink{class_vulkan_handler_a53a19bae49d42c3fc9ce6bfd842abba9}{getRenderPass}}();}
+\DoxyCodeLine{00198\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{class_vulkan_handler_a89380a0bf0eb12e77c9da615c170b3db}{getCurrentFrame}}();}
+\DoxyCodeLine{00199\ \ \ \ \ VkCommandPool\&\ \mbox{\hyperlink{class_vulkan_handler_a9d6fa3237df25468d86f8ca9f980d825}{getCommandPool}}();}
+\DoxyCodeLine{00200\ \ \ \ \ VkQueue\&\ \mbox{\hyperlink{class_vulkan_handler_aceac72c36fc9b68785a626110f55bce8}{getGraphicsQueue}}();}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00203\ \ \ \ \ GLFWwindow*\ window;}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00205\ \ \ \ \ VkInstance\ instance;}
+\DoxyCodeLine{00206\ \ \ \ \ VkDebugUtilsMessengerEXT\ debugMessenger;}
+\DoxyCodeLine{00207\ \ \ \ \ VkSurfaceKHR\ surface;}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00209\ \ \ \ \ VkPhysicalDevice\ physicalDevice\ =\ VK\_NULL\_HANDLE;}
+\DoxyCodeLine{00210\ \ \ \ \ VkDevice\ device;}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00212\ \ \ \ \ VkQueue\ computeQueue;}
+\DoxyCodeLine{00213\ \ \ \ \ VkQueue\ graphicsQueue;}
+\DoxyCodeLine{00214\ \ \ \ \ VkQueue\ presentQueue;}
 \DoxyCodeLine{00215\ }
-\DoxyCodeLine{00216\ \ \ \ \ VkPipelineLayout\ renderPipelineLayout;}
-\DoxyCodeLine{00217\ \ \ \ \ VkPipelineLayout\ algoPipelineLayout;}
-\DoxyCodeLine{00218\ \ \ \ \ VkPipelineLayout\ computePipelineLayout;}
-\DoxyCodeLine{00219\ \ \ \ \ VkPipelineLayout\ envPipelineLayout;}
-\DoxyCodeLine{00220\ \ \ \ \ VkPipeline\ computePipeline;}
-\DoxyCodeLine{00221\ \ \ \ \ VkPipeline\ renderPipeline;}
-\DoxyCodeLine{00222\ \ \ \ \ VkPipeline\ algoPipeline;}
-\DoxyCodeLine{00223\ \ \ \ \ VkPipeline\ envPipeline;}
+\DoxyCodeLine{00216\ \ \ \ \ VkSwapchainKHR\ swapChain;}
+\DoxyCodeLine{00217\ \ \ \ \ std::vector<VkImage>\ swapChainImages;}
+\DoxyCodeLine{00218\ \ \ \ \ VkFormat\ swapChainImageFormat;}
+\DoxyCodeLine{00219\ \ \ \ \ VkExtent2D\ swapChainExtent;}
+\DoxyCodeLine{00220\ \ \ \ \ std::vector<VkImageView>\ swapChainImageViews;}
+\DoxyCodeLine{00221\ \ \ \ \ std::vector<VkFramebuffer>\ swapChainFramebuffers;}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00223\ \ \ \ \ std::vector<VkFramebuffer>\ algoFramebuffers;}
 \DoxyCodeLine{00224\ }
-\DoxyCodeLine{00225\ \ \ \ \ VkBuffer\ vertexBuffer;}
-\DoxyCodeLine{00226\ \ \ \ \ VkDeviceMemory\ vertexBufferMemory;}
-\DoxyCodeLine{00227\ \ \ \ \ VkBuffer\ indexBuffer;}
-\DoxyCodeLine{00228\ \ \ \ \ VkDeviceMemory\ indexBufferMemory;}
+\DoxyCodeLine{00225\ \ \ \ \ VkRenderPass\ renderPass;}
+\DoxyCodeLine{00226\ \ \ \ \ VkRenderPass\ algoRenderPass;}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00228\ \ \ \ \ VkCommandPool\ commandPool;}
 \DoxyCodeLine{00229\ }
-\DoxyCodeLine{00230\ \ \ \ \ std::vector<VkBuffer>\ camUniformBuffers;}
-\DoxyCodeLine{00231\ \ \ \ \ std::vector<VkDeviceMemory>\ camUniformBuffersMemory;}
-\DoxyCodeLine{00232\ \ \ \ \ std::vector<void*>\ camUniformBuffersMapped;}
-\DoxyCodeLine{00233\ \ \ \ \ std::vector<VkBuffer>\ algoUniformBuffers;}
-\DoxyCodeLine{00234\ \ \ \ \ std::vector<VkDeviceMemory>\ algoUniformBuffersMemory;}
-\DoxyCodeLine{00235\ \ \ \ \ std::vector<void*>\ algoUniformBuffersMapped;}
-\DoxyCodeLine{00236\ \ \ \ \ std::vector<VkBuffer>\ envUniformBuffers;}
-\DoxyCodeLine{00237\ \ \ \ \ std::vector<VkDeviceMemory>\ envUniformBuffersMemory;}
-\DoxyCodeLine{00238\ \ \ \ \ std::vector<void*>\ envUniformBuffersMapped;}
+\DoxyCodeLine{00230\ \ \ \ \ uint32\_t\ imageIndex;}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00232\ \ \ \ \ VkImage\ depthImage;}
+\DoxyCodeLine{00233\ \ \ \ \ VkDeviceMemory\ depthImageMemory;}
+\DoxyCodeLine{00234\ \ \ \ \ VkImageView\ depthImageView;}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ \ \ \ \ std::vector<VkCommandBuffer>\ commandBuffers;}
+\DoxyCodeLine{00237\ \ \ \ \ std::vector<VkCommandBuffer>\ computeCommandBuffers;}
+\DoxyCodeLine{00238\ \ \ \ \ std::vector<VkCommandBuffer>\ algoCommandBuffers;}
 \DoxyCodeLine{00239\ }
-\DoxyCodeLine{00240\ \ \ \ \ VkDescriptorPool\ computeDescriptorPool;}
-\DoxyCodeLine{00241\ \ \ \ \ std::vector<VkDescriptorSet>\ computeDescriptorSets;}
-\DoxyCodeLine{00242\ \ \ \ \ VkDescriptorPool\ envDescriptorPool;}
-\DoxyCodeLine{00243\ \ \ \ \ std::vector<VkDescriptorSet>\ envDescriptorSets;}
-\DoxyCodeLine{00244\ \ \ \ \ VkDescriptorPool\ algoDescriptorPool;}
-\DoxyCodeLine{00245\ \ \ \ \ std::vector<VkDescriptorSet>\ algoDescriptorSets;}
-\DoxyCodeLine{00246\ \ \ \ \ VkDescriptorPool\ descriptorPool;}
-\DoxyCodeLine{00247\ \ \ \ \ VkDescriptorPool\ imguiDescriptorPool;}
-\DoxyCodeLine{00248\ \ \ \ \ std::vector<VkDescriptorSet>\ descriptorSets;}
-\DoxyCodeLine{00249\ \ \ \ \ std::vector<VkDescriptorSet>\ imguiDescriptorSets;}
+\DoxyCodeLine{00240\ \ \ \ \ std::vector<VkSemaphore>\ imageAvailableSemaphores;}
+\DoxyCodeLine{00241\ \ \ \ \ std::vector<VkSemaphore>\ renderFinishedSemaphores;}
+\DoxyCodeLine{00242\ \ \ \ \ std::vector<VkFence>\ computeInFlightFences;}
+\DoxyCodeLine{00243\ \ \ \ \ std::vector<VkSemaphore>\ computeFinishedSemaphores;}
+\DoxyCodeLine{00244\ \ \ \ \ std::vector<VkFence>\ envInFlightFences;}
+\DoxyCodeLine{00245\ \ \ \ \ std::vector<VkSemaphore>\ envFinishedSemaphores;}
+\DoxyCodeLine{00246\ \ \ \ \ std::vector<VkFence>\ algoInFlightFences;}
+\DoxyCodeLine{00247\ \ \ \ \ std::vector<VkSemaphore>\ algoFinishedSemaphores;}
+\DoxyCodeLine{00248\ \ \ \ \ std::vector<VkFence>\ inFlightFences;}
+\DoxyCodeLine{00249\ \ \ \ \ uint32\_t\ currentFrame\ =\ 0;}
 \DoxyCodeLine{00250\ }
-\DoxyCodeLine{00251\ \ \ \ \ \textcolor{keywordtype}{bool}\ framebufferResized\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00252\ }
-\DoxyCodeLine{00253\ \ \ \ \ std::vector<std::string>\ bufferNames\{\ \textcolor{stringliteral}{"{}vpb"{}},\ \textcolor{stringliteral}{"{}vdb"{}},\ \textcolor{stringliteral}{"{}lb"{}},\ \textcolor{stringliteral}{"{}ldb"{}},\ \textcolor{stringliteral}{"{}cb"{}},\ \textcolor{stringliteral}{"{}mb"{}}\};}
-\DoxyCodeLine{00254\ \ \ \ \ std::vector<VkImage>\ firstBuffers;}
-\DoxyCodeLine{00255\ \ \ \ \ std::vector<VkImage>\ secondBuffers;}
-\DoxyCodeLine{00256\ \ \ \ \ std::vector<VkDeviceMemory>\ firstBufferMemories;}
-\DoxyCodeLine{00257\ \ \ \ \ std::vector<VkDeviceMemory>\ secondBufferMemories;}
-\DoxyCodeLine{00258\ \ \ \ \ std::vector<VkImageView>\ firstBufferViews;}
-\DoxyCodeLine{00259\ \ \ \ \ std::vector<VkImageView>\ secondBufferViews;}
-\DoxyCodeLine{00260\ \ \ \ \ VkSampler\ bufferSampler;}
-\DoxyCodeLine{00261\ \ \ \ \ VkImage\ cubeImage;}
-\DoxyCodeLine{00262\ \ \ \ \ VkDeviceMemory\ cubeMemory;}
-\DoxyCodeLine{00263\ \ \ \ \ VkImageView\ cubeView;}
-\DoxyCodeLine{00264\ \ \ \ \ VkSampler\ cubeSampler;}
-\DoxyCodeLine{00265\ }
-\DoxyCodeLine{00266\ \ \ \ \ std::vector<Vertex>\ cube\_vertices\ =\ \{}
-\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ positions\ \ \ \ \ \ \ \ //\ texture\ Coords}}
-\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \{\ \{-\/1.0f,\ -\/1.0f,\ 1.0f\},\ \{1.0f,\ 1.0f\}\ \},}
-\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \{\ \{1.0f,\ -\/1.0f,\ 1.0f\ \},\ \{1.0f,\ 1.0f\}\ \},}
-\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \{\ \{1.0f,\ 1.0f,\ 1.0f\ \},\ \{1.0f,\ 0.0f\}\ \},}
-\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \{\ \{-\/1.0f,\ 1.0f,\ 1.0f\ \},\ \{0.0f,\ 1.0f\}\ \},}
-\DoxyCodeLine{00272\ }
-\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \{\ \{-\/1.0f,\ -\/1.0f,\ -\/1.0f\ \},\ \{0.0f,\ 0.0f\}\ \},}
-\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \{\ \{1.0f,\ -\/1.0f,\ -\/1.0f\ \},\ \{1.0f,\ 0.0f\}\ \},}
-\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \{\ \{1.0f,\ 1.0f,\ -\/1.0f\ \},\ \{0.0f,\ 1.0f\}\ \},}
-\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \{\ \{-\/1.0f,\ 1.0f,\ -\/1.0f\ \},\ \{0.0f,\ 0.0f\}\ \}}
-\DoxyCodeLine{00277\ \ \ \ \ \};}
-\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00251\ \ \ \ \ VkDescriptorSetLayout\ descriptorSetLayout;}
+\DoxyCodeLine{00252\ \ \ \ \ VkDescriptorSetLayout\ computeDescriptorSetLayout;}
+\DoxyCodeLine{00253\ \ \ \ \ VkDescriptorSetLayout\ algoDescriptorSetLayout;}
+\DoxyCodeLine{00254\ \ \ \ \ VkDescriptorSetLayout\ envDescriptorSetLayout;}
+\DoxyCodeLine{00255\ }
+\DoxyCodeLine{00256\ \ \ \ \ VkPipelineLayout\ renderPipelineLayout;}
+\DoxyCodeLine{00257\ \ \ \ \ VkPipelineLayout\ algoPipelineLayout;}
+\DoxyCodeLine{00258\ \ \ \ \ VkPipelineLayout\ computePipelineLayout;}
+\DoxyCodeLine{00259\ \ \ \ \ VkPipelineLayout\ envPipelineLayout;}
+\DoxyCodeLine{00260\ \ \ \ \ VkPipeline\ computePipeline;}
+\DoxyCodeLine{00261\ \ \ \ \ VkPipeline\ renderPipeline;}
+\DoxyCodeLine{00262\ \ \ \ \ VkPipeline\ algoPipeline;}
+\DoxyCodeLine{00263\ \ \ \ \ VkPipeline\ envPipeline;}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00265\ \ \ \ \ VkBuffer\ vertexBuffer;}
+\DoxyCodeLine{00266\ \ \ \ \ VkDeviceMemory\ vertexBufferMemory;}
+\DoxyCodeLine{00267\ \ \ \ \ VkBuffer\ indexBuffer;}
+\DoxyCodeLine{00268\ \ \ \ \ VkDeviceMemory\ indexBufferMemory;}
+\DoxyCodeLine{00269\ }
+\DoxyCodeLine{00270\ \ \ \ \ std::vector<VkBuffer>\ camUniformBuffers;}
+\DoxyCodeLine{00271\ \ \ \ \ std::vector<VkDeviceMemory>\ camUniformBuffersMemory;}
+\DoxyCodeLine{00272\ \ \ \ \ std::vector<void*>\ camUniformBuffersMapped;}
+\DoxyCodeLine{00273\ \ \ \ \ std::vector<VkBuffer>\ algoUniformBuffers;}
+\DoxyCodeLine{00274\ \ \ \ \ std::vector<VkDeviceMemory>\ algoUniformBuffersMemory;}
+\DoxyCodeLine{00275\ \ \ \ \ std::vector<void*>\ algoUniformBuffersMapped;}
+\DoxyCodeLine{00276\ \ \ \ \ std::vector<VkBuffer>\ envUniformBuffers;}
+\DoxyCodeLine{00277\ \ \ \ \ std::vector<VkDeviceMemory>\ envUniformBuffersMemory;}
+\DoxyCodeLine{00278\ \ \ \ \ std::vector<void*>\ envUniformBuffersMapped;}
 \DoxyCodeLine{00279\ }
-\DoxyCodeLine{00280\ \ \ \ \ std::vector<uint32\_t>\ cube\_indices\ =\ \{}
-\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ 0,\ 1,\ 2,}
-\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ 2,\ 3,\ 0,}
-\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ 1,\ 5,\ 6,}
-\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ 6,\ 2,\ 1,}
-\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ 7,\ 6,\ 5,}
-\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ 5,\ 4,\ 7,}
-\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ 4,\ 0,\ 3,}
-\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ 3,\ 7,\ 4,}
-\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ 4,\ 5,\ 1,}
-\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ 1,\ 0,\ 4,}
-\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ 3,\ 2,\ 6,}
-\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ 6,\ 7,\ 3}
-\DoxyCodeLine{00293\ \ \ \ \ \};}
-\DoxyCodeLine{00294\ }
-\DoxyCodeLine{00295\ \ \ \ \ std::vector<Vertex>\ quad\_vertices\ =\ \{}
-\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ positions\ \ \ \ \ \ \ \ //\ texture\ Coords}}
-\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \{\ \{-\/1.0f,\ \ 1.0f,\ 0.0f\},\ \{0.0f,1.0f\}\ \},}
-\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \{\ \{-\/1.0f,\ -\/1.0f,\ 0.0f\},\ \{0.0f,0.0f\}\ \},}
-\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \{\ \{1.0f,\ \ 1.0f,\ 0.0f\},\ \{1.0f,1.0f\}\ \},}
-\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \{\ \{1.0f,\ -\/1.0f,\ 0.0f\},\ \{1.0f,0.0f\}\ \}}
-\DoxyCodeLine{00301\ \ \ \ \ \};}
-\DoxyCodeLine{00302\ }
-\DoxyCodeLine{00303\ \ \ \ \ std::vector<uint32\_t>\ quad\_indices\ =\ \{}
-\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ 0,\ 1,\ 2,}
-\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ 1,\ 3,\ 2}
-\DoxyCodeLine{00306\ \ \ \ \ \};}
-\DoxyCodeLine{00307\ \ \ \ \ }
-\DoxyCodeLine{00308\ }
-\DoxyCodeLine{00309\ \ \ \ \ \textcolor{keyword}{static}\ VKAPI\_ATTR\ VkBool32\ VKAPI\_CALL\ debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT\ messageSeverity,\ VkDebugUtilsMessageTypeFlagsEXT\ messageType,\ \textcolor{keyword}{const}\ VkDebugUtilsMessengerCallbackDataEXT*\ pCallbackData,\ \textcolor{keywordtype}{void}*\ pUserData);}
-\DoxyCodeLine{00310\ }
-\DoxyCodeLine{00311\ \ \ \ \ \textcolor{keywordtype}{void}\ setFramebufferResized();}
+\DoxyCodeLine{00280\ \ \ \ \ VkDescriptorPool\ computeDescriptorPool;}
+\DoxyCodeLine{00281\ \ \ \ \ std::vector<VkDescriptorSet>\ computeDescriptorSets;}
+\DoxyCodeLine{00282\ \ \ \ \ VkDescriptorPool\ envDescriptorPool;}
+\DoxyCodeLine{00283\ \ \ \ \ std::vector<VkDescriptorSet>\ envDescriptorSets;}
+\DoxyCodeLine{00284\ \ \ \ \ VkDescriptorPool\ algoDescriptorPool;}
+\DoxyCodeLine{00285\ \ \ \ \ std::vector<VkDescriptorSet>\ algoDescriptorSets;}
+\DoxyCodeLine{00286\ \ \ \ \ VkDescriptorPool\ descriptorPool;}
+\DoxyCodeLine{00287\ \ \ \ \ VkDescriptorPool\ imguiDescriptorPool;}
+\DoxyCodeLine{00288\ \ \ \ \ std::vector<VkDescriptorSet>\ descriptorSets;}
+\DoxyCodeLine{00289\ \ \ \ \ std::vector<VkDescriptorSet>\ imguiDescriptorSets;}
+\DoxyCodeLine{00290\ }
+\DoxyCodeLine{00291\ \ \ \ \ \textcolor{keywordtype}{bool}\ framebufferResized\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00292\ }
+\DoxyCodeLine{00293\ \ \ \ \ std::vector<std::string>\ bufferNames\{\ \textcolor{stringliteral}{"{}vpb"{}},\ \textcolor{stringliteral}{"{}vdb"{}},\ \textcolor{stringliteral}{"{}lb"{}},\ \textcolor{stringliteral}{"{}ldb"{}},\ \textcolor{stringliteral}{"{}cb"{}},\ \textcolor{stringliteral}{"{}mb"{}}\};}
+\DoxyCodeLine{00294\ \ \ \ \ std::vector<VkImage>\ firstBuffers;}
+\DoxyCodeLine{00295\ \ \ \ \ std::vector<VkImage>\ secondBuffers;}
+\DoxyCodeLine{00296\ \ \ \ \ std::vector<VkDeviceMemory>\ firstBufferMemories;}
+\DoxyCodeLine{00297\ \ \ \ \ std::vector<VkDeviceMemory>\ secondBufferMemories;}
+\DoxyCodeLine{00298\ \ \ \ \ std::vector<VkImageView>\ firstBufferViews;}
+\DoxyCodeLine{00299\ \ \ \ \ std::vector<VkImageView>\ secondBufferViews;}
+\DoxyCodeLine{00300\ \ \ \ \ VkSampler\ bufferSampler;}
+\DoxyCodeLine{00301\ \ \ \ \ VkImage\ cubeImage;}
+\DoxyCodeLine{00302\ \ \ \ \ VkDeviceMemory\ cubeMemory;}
+\DoxyCodeLine{00303\ \ \ \ \ VkImageView\ cubeView;}
+\DoxyCodeLine{00304\ \ \ \ \ VkSampler\ cubeSampler;}
+\DoxyCodeLine{00305\ }
+\DoxyCodeLine{00306\ \ \ \ \ std::vector<Vertex>\ cube\_vertices\ =\ \{}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ positions\ \ \ \ \ \ \ \ //\ texture\ Coords}}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \{\ \{-\/1.0f,\ -\/1.0f,\ 1.0f\},\ \{1.0f,\ 1.0f\}\ \},}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \{\ \{1.0f,\ -\/1.0f,\ 1.0f\ \},\ \{1.0f,\ 1.0f\}\ \},}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \{\ \{1.0f,\ 1.0f,\ 1.0f\ \},\ \{1.0f,\ 0.0f\}\ \},}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \{\ \{-\/1.0f,\ 1.0f,\ 1.0f\ \},\ \{0.0f,\ 1.0f\}\ \},}
 \DoxyCodeLine{00312\ }
-\DoxyCodeLine{00313\ \ \ \ \ \textcolor{keywordtype}{void}\ cleanupSwapChain();}
-\DoxyCodeLine{00314\ }
-\DoxyCodeLine{00315\ \ \ \ \ \textcolor{keywordtype}{void}\ recreateSwapChain();}
-\DoxyCodeLine{00316\ }
-\DoxyCodeLine{00317\ \ \ \ \ \textcolor{keywordtype}{void}\ createInstance();}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \{\ \{-\/1.0f,\ -\/1.0f,\ -\/1.0f\ \},\ \{0.0f,\ 0.0f\}\ \},}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \{\ \{1.0f,\ -\/1.0f,\ -\/1.0f\ \},\ \{1.0f,\ 0.0f\}\ \},}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \{\ \{1.0f,\ 1.0f,\ -\/1.0f\ \},\ \{0.0f,\ 1.0f\}\ \},}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \{\ \{-\/1.0f,\ 1.0f,\ -\/1.0f\ \},\ \{0.0f,\ 0.0f\}\ \}}
+\DoxyCodeLine{00317\ \ \ \ \ \};}
 \DoxyCodeLine{00318\ }
-\DoxyCodeLine{00319\ \ \ \ \ \textcolor{keywordtype}{void}\ populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT\&\ createInfo);}
-\DoxyCodeLine{00320\ }
-\DoxyCodeLine{00321\ \ \ \ \ \textcolor{keywordtype}{void}\ setupDebugMessenger();}
-\DoxyCodeLine{00322\ }
-\DoxyCodeLine{00323\ \ \ \ \ VkCommandBuffer\ beginSingleTimeCommands();}
-\DoxyCodeLine{00324\ }
-\DoxyCodeLine{00325\ \ \ \ \ \textcolor{keywordtype}{void}\ endSingleTimeCommands(VkCommandBuffer\ commandBuffer);}
-\DoxyCodeLine{00326\ }
-\DoxyCodeLine{00327\ \ \ \ \ \textcolor{keywordtype}{void}\ createSurface();}
-\DoxyCodeLine{00328\ }
-\DoxyCodeLine{00329\ \ \ \ \ \textcolor{keywordtype}{void}\ pickPhysicalDevice();}
-\DoxyCodeLine{00330\ }
-\DoxyCodeLine{00331\ \ \ \ \ \textcolor{keywordtype}{void}\ createLogicalDevice();}
-\DoxyCodeLine{00332\ }
-\DoxyCodeLine{00333\ \ \ \ \ \textcolor{keywordtype}{void}\ createEnvDescriptorPool();}
+\DoxyCodeLine{00319\ }
+\DoxyCodeLine{00320\ \ \ \ \ std::vector<uint32\_t>\ cube\_indices\ =\ \{}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ 0,\ 1,\ 2,}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ 2,\ 3,\ 0,}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ 1,\ 5,\ 6,}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ 6,\ 2,\ 1,}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ 7,\ 6,\ 5,}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ 5,\ 4,\ 7,}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ 4,\ 0,\ 3,}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ 3,\ 7,\ 4,}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ 4,\ 5,\ 1,}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ 1,\ 0,\ 4,}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ 3,\ 2,\ 6,}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ 6,\ 7,\ 3}
+\DoxyCodeLine{00333\ \ \ \ \ \};}
 \DoxyCodeLine{00334\ }
-\DoxyCodeLine{00335\ \ \ \ \ \textcolor{keywordtype}{void}\ createEnvDescriptorSets();}
-\DoxyCodeLine{00336\ }
-\DoxyCodeLine{00337\ \ \ \ \ \textcolor{keywordtype}{void}\ copyBufferToImage(VkBuffer\ buffer,\ VkImage\ image,\ uint32\_t\ width,\ uint32\_t\ height,\ uint32\_t\ depth);}
-\DoxyCodeLine{00338\ }
-\DoxyCodeLine{00339\ \ \ \ \ \textcolor{keywordtype}{void}\ createComputeCommandBuffers();}
-\DoxyCodeLine{00340\ }
-\DoxyCodeLine{00341\ \ \ \ \ \textcolor{keywordtype}{void}\ createSwapChain();}
+\DoxyCodeLine{00335\ \ \ \ \ std::vector<Vertex>\ quad\_vertices\ =\ \{}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ positions\ \ \ \ \ \ \ \ //\ texture\ Coords}}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \{\ \{-\/1.0f,\ \ 1.0f,\ 0.0f\},\ \{0.0f,1.0f\}\ \},}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \{\ \{-\/1.0f,\ -\/1.0f,\ 0.0f\},\ \{0.0f,0.0f\}\ \},}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \{\ \{1.0f,\ \ 1.0f,\ 0.0f\},\ \{1.0f,1.0f\}\ \},}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \{\ \{1.0f,\ -\/1.0f,\ 0.0f\},\ \{1.0f,0.0f\}\ \}}
+\DoxyCodeLine{00341\ \ \ \ \ \};}
 \DoxyCodeLine{00342\ }
-\DoxyCodeLine{00343\ \ \ \ \ \textcolor{keywordtype}{void}\ transitionImageForWrite(VkCommandBuffer\ commandBuffer,\ VkImage\ image,\ VkImageLayout\ newLayout);}
-\DoxyCodeLine{00344\ }
-\DoxyCodeLine{00345\ \ \ \ \ \textcolor{keywordtype}{void}\ transitionImageForSampling(VkCommandBuffer\ commandBuffer,\ VkImage\ image,\ VkImageLayout\ newLayout);}
-\DoxyCodeLine{00346\ }
-\DoxyCodeLine{00347\ \ \ \ \ \textcolor{keywordtype}{void}\ createImageViews();}
+\DoxyCodeLine{00343\ \ \ \ \ std::vector<uint32\_t>\ quad\_indices\ =\ \{}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ 0,\ 1,\ 2,}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ 1,\ 3,\ 2}
+\DoxyCodeLine{00346\ \ \ \ \ \};}
+\DoxyCodeLine{00347\ \ \ \ \ }
 \DoxyCodeLine{00348\ }
-\DoxyCodeLine{00349\ \ \ \ \ \textcolor{keywordtype}{void}\ createEnvDescriptorSetLayout();}
+\DoxyCodeLine{00349\ \ \ \ \ \textcolor{keyword}{static}\ VKAPI\_ATTR\ VkBool32\ VKAPI\_CALL\ debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT\ messageSeverity,\ VkDebugUtilsMessageTypeFlagsEXT\ messageType,\ \textcolor{keyword}{const}\ VkDebugUtilsMessengerCallbackDataEXT*\ pCallbackData,\ \textcolor{keywordtype}{void}*\ pUserData);}
 \DoxyCodeLine{00350\ }
-\DoxyCodeLine{00351\ \ \ \ \ \textcolor{keywordtype}{void}\ createEnvironmentPipeline();}
+\DoxyCodeLine{00351\ \ \ \ \ \textcolor{keywordtype}{void}\ setFramebufferResized();}
 \DoxyCodeLine{00352\ }
-\DoxyCodeLine{00353\ \ \ \ \ \textcolor{keywordtype}{void}\ createRenderPass();}
+\DoxyCodeLine{00353\ \ \ \ \ \textcolor{keywordtype}{void}\ cleanupSwapChain();}
 \DoxyCodeLine{00354\ }
-\DoxyCodeLine{00355\ \ \ \ \ \textcolor{keywordtype}{void}\ createFramebuffers();}
+\DoxyCodeLine{00355\ \ \ \ \ \textcolor{keywordtype}{void}\ recreateSwapChain();}
 \DoxyCodeLine{00356\ }
-\DoxyCodeLine{00357\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoDescriptorSetLayout();}
+\DoxyCodeLine{00357\ \ \ \ \ \textcolor{keywordtype}{void}\ createInstance();}
 \DoxyCodeLine{00358\ }
-\DoxyCodeLine{00359\ \ \ \ \ \textcolor{keywordtype}{void}\ createDescriptorSetLayout();}
+\DoxyCodeLine{00359\ \ \ \ \ \textcolor{keywordtype}{void}\ populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT\&\ createInfo);}
 \DoxyCodeLine{00360\ }
-\DoxyCodeLine{00361\ \ \ \ \ \textcolor{keywordtype}{void}\ createStorageImages(uint32\_t\ width,\ uint32\_t\ height,\ VkFormat\ format);}
+\DoxyCodeLine{00361\ \ \ \ \ \textcolor{keywordtype}{void}\ setupDebugMessenger();}
 \DoxyCodeLine{00362\ }
-\DoxyCodeLine{00363\ \ \ \ \ \textcolor{keywordtype}{void}\ createCommandPool();}
+\DoxyCodeLine{00363\ \ \ \ \ VkCommandBuffer\ beginSingleTimeCommands();}
 \DoxyCodeLine{00364\ }
-\DoxyCodeLine{00365\ \ \ \ \ \textcolor{keywordtype}{void}\ createDepthResources();}
+\DoxyCodeLine{00365\ \ \ \ \ \textcolor{keywordtype}{void}\ endSingleTimeCommands(VkCommandBuffer\ commandBuffer);}
 \DoxyCodeLine{00366\ }
-\DoxyCodeLine{00367\ \ \ \ \ \textcolor{keywordtype}{void}\ recordAlgoCommandBuffer(VkCommandBuffer\ commandBuffer,\ \textcolor{keywordtype}{int}\ numPlanes,\ glm::vec3\ middleOfPlaneVS,\ \textcolor{keywordtype}{float}\ planeDistance);}
+\DoxyCodeLine{00367\ \ \ \ \ \textcolor{keywordtype}{void}\ createSurface();}
 \DoxyCodeLine{00368\ }
-\DoxyCodeLine{00369\ \ \ \ \ \textcolor{keywordtype}{void}\ transitionImageLayout(VkImage\ image,\ VkFormat\ format,\ VkImageLayout\ oldLayout,\ VkImageLayout\ newLayout);}
+\DoxyCodeLine{00369\ \ \ \ \ \textcolor{keywordtype}{void}\ pickPhysicalDevice();}
 \DoxyCodeLine{00370\ }
-\DoxyCodeLine{00371\ \ \ \ \ \textcolor{keywordtype}{void}\ recordComputeCommandBuffer(VkCommandBuffer\ commandBuffer);}
+\DoxyCodeLine{00371\ \ \ \ \ \textcolor{keywordtype}{void}\ createLogicalDevice();}
 \DoxyCodeLine{00372\ }
-\DoxyCodeLine{00373\ \ \ \ \ uint32\_t\ findMemoryType(uint32\_t\ typeFilter,\ VkMemoryPropertyFlags\ properties);}
+\DoxyCodeLine{00373\ \ \ \ \ \textcolor{keywordtype}{void}\ createEnvDescriptorPool();}
 \DoxyCodeLine{00374\ }
-\DoxyCodeLine{00375\ \ \ \ \ \textcolor{keywordtype}{void}\ createImage(uint32\_t\ width,\ uint32\_t\ height,\ VkFormat\ format,\ VkImageTiling\ tiling,\ VkImageUsageFlags\ usage,\ VkMemoryPropertyFlags\ properties,\ VkImage\&\ image,\ VkDeviceMemory\&\ imageMemory);}
+\DoxyCodeLine{00375\ \ \ \ \ \textcolor{keywordtype}{void}\ createEnvDescriptorSets();}
 \DoxyCodeLine{00376\ }
-\DoxyCodeLine{00377\ \ \ \ \ VkImageView\ createImageView(VkImage\ image,\ VkFormat\ format,\ VkImageAspectFlags\ aspectFlags);}
+\DoxyCodeLine{00377\ \ \ \ \ \textcolor{keywordtype}{void}\ copyBufferToImage(VkBuffer\ buffer,\ VkImage\ image,\ uint32\_t\ width,\ uint32\_t\ height,\ uint32\_t\ depth);}
 \DoxyCodeLine{00378\ }
-\DoxyCodeLine{00379\ \ \ \ \ VkFormat\ findSupportedFormat(\textcolor{keyword}{const}\ std::vector<VkFormat>\&\ candidates,\ VkImageTiling\ tiling,\ VkFormatFeatureFlags\ features);}
+\DoxyCodeLine{00379\ \ \ \ \ \textcolor{keywordtype}{void}\ createComputeCommandBuffers();}
 \DoxyCodeLine{00380\ }
-\DoxyCodeLine{00381\ \ \ \ \ VkFormat\ findDepthFormat();}
+\DoxyCodeLine{00381\ \ \ \ \ \textcolor{keywordtype}{void}\ createSwapChain();}
 \DoxyCodeLine{00382\ }
-\DoxyCodeLine{00383\ \ \ \ \ \textcolor{keywordtype}{bool}\ hasStencilComponent(VkFormat\ format);}
+\DoxyCodeLine{00383\ \ \ \ \ \textcolor{keywordtype}{void}\ transitionImageForWrite(VkCommandBuffer\ commandBuffer,\ VkImage\ image,\ VkImageLayout\ newLayout);}
 \DoxyCodeLine{00384\ }
-\DoxyCodeLine{00385\ \ \ \ \ \textcolor{keywordtype}{void}\ createCommandBuffers();}
+\DoxyCodeLine{00385\ \ \ \ \ \textcolor{keywordtype}{void}\ transitionImageForSampling(VkCommandBuffer\ commandBuffer,\ VkImage\ image,\ VkImageLayout\ newLayout);}
 \DoxyCodeLine{00386\ }
-\DoxyCodeLine{00387\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoCommandBuffers();}
+\DoxyCodeLine{00387\ \ \ \ \ \textcolor{keywordtype}{void}\ createImageViews();}
 \DoxyCodeLine{00388\ }
-\DoxyCodeLine{00389\ \ \ \ \ \textcolor{keywordtype}{void}\ recordCommandBuffer(VkCommandBuffer\ commandBuffer,\ uint32\_t\ imageIndex,\ \textcolor{keywordtype}{int}\ numPlanes,\ glm::vec3\ middleOfPlaneVS,\ \textcolor{keywordtype}{float}\ planeDistance,\ PreIntegrationTable\ integrationTable);}
+\DoxyCodeLine{00389\ \ \ \ \ \textcolor{keywordtype}{void}\ createEnvDescriptorSetLayout();}
 \DoxyCodeLine{00390\ }
-\DoxyCodeLine{00391\ \ \ \ \ \textcolor{keywordtype}{void}\ createSyncObjects();}
+\DoxyCodeLine{00391\ \ \ \ \ \textcolor{keywordtype}{void}\ createEnvironmentPipeline();}
 \DoxyCodeLine{00392\ }
-\DoxyCodeLine{00393\ \ \ \ \ \textcolor{keywordtype}{void}\ recordEnvCommandBuffer(VkCommandBuffer\ commandBuffer);}
+\DoxyCodeLine{00393\ \ \ \ \ \textcolor{keywordtype}{void}\ createRenderPass();}
 \DoxyCodeLine{00394\ }
-\DoxyCodeLine{00395\ \ \ \ \ VkSurfaceFormatKHR\ chooseSwapSurfaceFormat(\textcolor{keyword}{const}\ std::vector<VkSurfaceFormatKHR>\&\ availableFormats);}
+\DoxyCodeLine{00395\ \ \ \ \ \textcolor{keywordtype}{void}\ createFramebuffers();}
 \DoxyCodeLine{00396\ }
-\DoxyCodeLine{00397\ \ \ \ \ VkExtent2D\ chooseSwapExtent(\textcolor{keyword}{const}\ VkSurfaceCapabilitiesKHR\&\ capabilities);}
+\DoxyCodeLine{00397\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoDescriptorSetLayout();}
 \DoxyCodeLine{00398\ }
-\DoxyCodeLine{00399\ \ \ \ \ SwapChainSupportDetails\ querySwapChainSupport(VkPhysicalDevice\ device);}
+\DoxyCodeLine{00399\ \ \ \ \ \textcolor{keywordtype}{void}\ createDescriptorSetLayout();}
 \DoxyCodeLine{00400\ }
-\DoxyCodeLine{00401\ \ \ \ \ \textcolor{keywordtype}{bool}\ isDeviceSuitable(VkPhysicalDevice\ device);}
+\DoxyCodeLine{00401\ \ \ \ \ \textcolor{keywordtype}{void}\ createStorageImages(uint32\_t\ width,\ uint32\_t\ height,\ VkFormat\ format);}
 \DoxyCodeLine{00402\ }
-\DoxyCodeLine{00403\ \ \ \ \ \textcolor{keywordtype}{bool}\ checkDeviceExtensionSupport(VkPhysicalDevice\ device);}
+\DoxyCodeLine{00403\ \ \ \ \ \textcolor{keywordtype}{void}\ createCommandPool();}
 \DoxyCodeLine{00404\ }
-\DoxyCodeLine{00405\ \ \ \ \ QueueFamilyIndices\ findQueueFamilies(VkPhysicalDevice\ device);}
+\DoxyCodeLine{00405\ \ \ \ \ \textcolor{keywordtype}{void}\ createDepthResources();}
 \DoxyCodeLine{00406\ }
-\DoxyCodeLine{00407\ \ \ \ \ std::vector<const\ char*>\ getRequiredExtensions();}
+\DoxyCodeLine{00407\ \ \ \ \ \textcolor{keywordtype}{void}\ recordAlgoCommandBuffer(VkCommandBuffer\ commandBuffer,\ \textcolor{keywordtype}{int}\ numPlanes,\ glm::vec3\ middleOfPlaneVS,\ \textcolor{keywordtype}{float}\ planeDistance);}
 \DoxyCodeLine{00408\ }
-\DoxyCodeLine{00409\ \ \ \ \ \textcolor{keywordtype}{bool}\ checkValidationLayerSupport();}
+\DoxyCodeLine{00409\ \ \ \ \ \textcolor{keywordtype}{void}\ transitionImageLayout(VkImage\ image,\ VkFormat\ format,\ VkImageLayout\ oldLayout,\ VkImageLayout\ newLayout);}
 \DoxyCodeLine{00410\ }
-\DoxyCodeLine{00411\ \ \ \ \ VkResult\ CreateDebugUtilsMessengerEXT(VkInstance\ instance,\ \textcolor{keyword}{const}\ VkDebugUtilsMessengerCreateInfoEXT*\ pCreateInfo,\ \textcolor{keyword}{const}\ VkAllocationCallbacks*\ pAllocator,\ VkDebugUtilsMessengerEXT*\ pDebugMessenger);}
+\DoxyCodeLine{00411\ \ \ \ \ \textcolor{keywordtype}{void}\ recordComputeCommandBuffer(VkCommandBuffer\ commandBuffer);}
 \DoxyCodeLine{00412\ }
-\DoxyCodeLine{00413\ \ \ \ \ \textcolor{keywordtype}{void}\ DestroyDebugUtilsMessengerEXT(VkInstance\ instance,\ VkDebugUtilsMessengerEXT\ debugMessenger,\ \textcolor{keyword}{const}\ VkAllocationCallbacks*\ pAllocator);}
+\DoxyCodeLine{00413\ \ \ \ \ uint32\_t\ findMemoryType(uint32\_t\ typeFilter,\ VkMemoryPropertyFlags\ properties);}
 \DoxyCodeLine{00414\ }
-\DoxyCodeLine{00415\ \ \ \ \ VkPresentModeKHR\ chooseSwapPresentMode(\textcolor{keyword}{const}\ std::vector<VkPresentModeKHR>\&\ availablePresentModes);}
+\DoxyCodeLine{00415\ \ \ \ \ \textcolor{keywordtype}{void}\ createImage(uint32\_t\ width,\ uint32\_t\ height,\ VkFormat\ format,\ VkImageTiling\ tiling,\ VkImageUsageFlags\ usage,\ VkMemoryPropertyFlags\ properties,\ VkImage\&\ image,\ VkDeviceMemory\&\ imageMemory);}
 \DoxyCodeLine{00416\ }
-\DoxyCodeLine{00417\ \ \ \ \ \textcolor{keywordtype}{void}\ createRenderPipeline();}
+\DoxyCodeLine{00417\ \ \ \ \ VkImageView\ createImageView(VkImage\ image,\ VkFormat\ format,\ VkImageAspectFlags\ aspectFlags);}
 \DoxyCodeLine{00418\ }
-\DoxyCodeLine{00419\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoPipeline();}
+\DoxyCodeLine{00419\ \ \ \ \ VkFormat\ findSupportedFormat(\textcolor{keyword}{const}\ std::vector<VkFormat>\&\ candidates,\ VkImageTiling\ tiling,\ VkFormatFeatureFlags\ features);}
 \DoxyCodeLine{00420\ }
-\DoxyCodeLine{00421\ \ \ \ \ \textcolor{keywordtype}{void}\ createImageCube();}
+\DoxyCodeLine{00421\ \ \ \ \ VkFormat\ findDepthFormat();}
 \DoxyCodeLine{00422\ }
-\DoxyCodeLine{00423\ \ \ \ \ \textcolor{keywordtype}{void}\ createComputePipeline();}
+\DoxyCodeLine{00423\ \ \ \ \ \textcolor{keywordtype}{bool}\ hasStencilComponent(VkFormat\ format);}
 \DoxyCodeLine{00424\ }
-\DoxyCodeLine{00425\ \ \ \ \ \textcolor{keywordtype}{void}\ createComputeDescriptorSetLayout();}
+\DoxyCodeLine{00425\ \ \ \ \ \textcolor{keywordtype}{void}\ createCommandBuffers();}
 \DoxyCodeLine{00426\ }
-\DoxyCodeLine{00427\ \ \ \ \ std::vector<char>\ readFile(\textcolor{keyword}{const}\ std::string\&\ filename);}
+\DoxyCodeLine{00427\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoCommandBuffers();}
 \DoxyCodeLine{00428\ }
-\DoxyCodeLine{00429\ \ \ \ \ VkShaderModule\ createShaderModule(\textcolor{keyword}{const}\ std::vector<char>\&\ code);}
+\DoxyCodeLine{00429\ \ \ \ \ \textcolor{keywordtype}{void}\ recordCommandBuffer(VkCommandBuffer\ commandBuffer,\ uint32\_t\ imageIndex,\ \textcolor{keywordtype}{int}\ numPlanes,\ glm::vec3\ middleOfPlaneVS,\ \textcolor{keywordtype}{float}\ planeDistance,\ PreIntegrationTable\ integrationTable);}
 \DoxyCodeLine{00430\ }
-\DoxyCodeLine{00431\ \ \ \ \ \textcolor{keywordtype}{void}\ createVertexBuffer(std::vector<Vertex>\ vertices);}
+\DoxyCodeLine{00431\ \ \ \ \ \textcolor{keywordtype}{void}\ createSyncObjects();}
 \DoxyCodeLine{00432\ }
-\DoxyCodeLine{00433\ \ \ \ \ \textcolor{keywordtype}{void}\ createIndexBuffer(std::vector<uint32\_t>\ indices);}
+\DoxyCodeLine{00433\ \ \ \ \ \textcolor{keywordtype}{void}\ recordEnvCommandBuffer(VkCommandBuffer\ commandBuffer);}
 \DoxyCodeLine{00434\ }
-\DoxyCodeLine{00435\ \ \ \ \ \textcolor{keywordtype}{void}\ createCubeVertexBuffer(std::vector<Vertex>\ vertices);}
+\DoxyCodeLine{00435\ \ \ \ \ VkSurfaceFormatKHR\ chooseSwapSurfaceFormat(\textcolor{keyword}{const}\ std::vector<VkSurfaceFormatKHR>\&\ availableFormats);}
 \DoxyCodeLine{00436\ }
-\DoxyCodeLine{00437\ \ \ \ \ \textcolor{keywordtype}{void}\ createCubeIndexBuffer(std::vector<uint32\_t>\ indices);}
+\DoxyCodeLine{00437\ \ \ \ \ VkExtent2D\ chooseSwapExtent(\textcolor{keyword}{const}\ VkSurfaceCapabilitiesKHR\&\ capabilities);}
 \DoxyCodeLine{00438\ }
-\DoxyCodeLine{00439\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoFramebuffers();}
+\DoxyCodeLine{00439\ \ \ \ \ SwapChainSupportDetails\ querySwapChainSupport(VkPhysicalDevice\ device);}
 \DoxyCodeLine{00440\ }
-\DoxyCodeLine{00441\ \ \ \ \ \textcolor{keywordtype}{void}\ createUniformBuffers();}
+\DoxyCodeLine{00441\ \ \ \ \ \textcolor{keywordtype}{bool}\ isDeviceSuitable(VkPhysicalDevice\ device);}
 \DoxyCodeLine{00442\ }
-\DoxyCodeLine{00443\ \ \ \ \ \textcolor{keywordtype}{void}\ createCubeUniformBuffers();}
+\DoxyCodeLine{00443\ \ \ \ \ \textcolor{keywordtype}{bool}\ checkDeviceExtensionSupport(VkPhysicalDevice\ device);}
 \DoxyCodeLine{00444\ }
-\DoxyCodeLine{00445\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoDescriptorPool();}
+\DoxyCodeLine{00445\ \ \ \ \ QueueFamilyIndices\ findQueueFamilies(VkPhysicalDevice\ device);}
 \DoxyCodeLine{00446\ }
-\DoxyCodeLine{00447\ \ \ \ \ \textcolor{keywordtype}{void}\ createComputeDescriptorPool();}
+\DoxyCodeLine{00447\ \ \ \ \ std::vector<const\ char*>\ getRequiredExtensions();}
 \DoxyCodeLine{00448\ }
-\DoxyCodeLine{00449\ \ \ \ \ \textcolor{keywordtype}{void}\ createDescriptorPool();}
+\DoxyCodeLine{00449\ \ \ \ \ \textcolor{keywordtype}{bool}\ checkValidationLayerSupport();}
 \DoxyCodeLine{00450\ }
-\DoxyCodeLine{00451\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoRenderPass();}
+\DoxyCodeLine{00451\ \ \ \ \ VkResult\ CreateDebugUtilsMessengerEXT(VkInstance\ instance,\ \textcolor{keyword}{const}\ VkDebugUtilsMessengerCreateInfoEXT*\ pCreateInfo,\ \textcolor{keyword}{const}\ VkAllocationCallbacks*\ pAllocator,\ VkDebugUtilsMessengerEXT*\ pDebugMessenger);}
 \DoxyCodeLine{00452\ }
-\DoxyCodeLine{00453\ \ \ \ \ \textcolor{keywordtype}{void}\ createComputeDescriptorSets(Texture\ texture);}
+\DoxyCodeLine{00453\ \ \ \ \ \textcolor{keywordtype}{void}\ DestroyDebugUtilsMessengerEXT(VkInstance\ instance,\ VkDebugUtilsMessengerEXT\ debugMessenger,\ \textcolor{keyword}{const}\ VkAllocationCallbacks*\ pAllocator);}
 \DoxyCodeLine{00454\ }
-\DoxyCodeLine{00455\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoDescriptorSets(Texture\ texture,\ PreIntegrationTable\ integrationTable);}
+\DoxyCodeLine{00455\ \ \ \ \ VkPresentModeKHR\ chooseSwapPresentMode(\textcolor{keyword}{const}\ std::vector<VkPresentModeKHR>\&\ availablePresentModes);}
 \DoxyCodeLine{00456\ }
-\DoxyCodeLine{00457\ \ \ \ \ \textcolor{keywordtype}{void}\ createDescriptorSets(Texture\ texture);}
+\DoxyCodeLine{00457\ \ \ \ \ \textcolor{keywordtype}{void}\ createRenderPipeline();}
 \DoxyCodeLine{00458\ }
-\DoxyCodeLine{00459\ \ \ \ \ \textcolor{keywordtype}{void}\ createBuffer(VkDeviceSize\ size,\ VkBufferUsageFlags\ usage,\ VkMemoryPropertyFlags\ properties,\ VkBuffer\&\ buffer,\ VkDeviceMemory\&\ bufferMemory);}
+\DoxyCodeLine{00459\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoPipeline();}
 \DoxyCodeLine{00460\ }
-\DoxyCodeLine{00461\ \ \ \ \ \textcolor{keywordtype}{void}\ copyBuffer(VkBuffer\ srcBuffer,\ VkBuffer\ dstBuffer,\ VkDeviceSize\ size);}
+\DoxyCodeLine{00461\ \ \ \ \ \textcolor{keywordtype}{void}\ createImageCube();}
 \DoxyCodeLine{00462\ }
-\DoxyCodeLine{00463\ \ \ \ \ \textcolor{keywordtype}{void}\ createUIDescriptorPool();}
-\DoxyCodeLine{00464\ \};}
+\DoxyCodeLine{00463\ \ \ \ \ \textcolor{keywordtype}{void}\ createComputePipeline();}
+\DoxyCodeLine{00464\ }
+\DoxyCodeLine{00465\ \ \ \ \ \textcolor{keywordtype}{void}\ createComputeDescriptorSetLayout();}
+\DoxyCodeLine{00466\ }
+\DoxyCodeLine{00467\ \ \ \ \ std::vector<char>\ readFile(\textcolor{keyword}{const}\ std::string\&\ filename);}
+\DoxyCodeLine{00468\ }
+\DoxyCodeLine{00469\ \ \ \ \ VkShaderModule\ createShaderModule(\textcolor{keyword}{const}\ std::vector<char>\&\ code);}
+\DoxyCodeLine{00470\ }
+\DoxyCodeLine{00471\ \ \ \ \ \textcolor{keywordtype}{void}\ createVertexBuffer(std::vector<Vertex>\ vertices);}
+\DoxyCodeLine{00472\ }
+\DoxyCodeLine{00473\ \ \ \ \ \textcolor{keywordtype}{void}\ createIndexBuffer(std::vector<uint32\_t>\ indices);}
+\DoxyCodeLine{00474\ }
+\DoxyCodeLine{00475\ \ \ \ \ \textcolor{keywordtype}{void}\ createCubeVertexBuffer(std::vector<Vertex>\ vertices);}
+\DoxyCodeLine{00476\ }
+\DoxyCodeLine{00477\ \ \ \ \ \textcolor{keywordtype}{void}\ createCubeIndexBuffer(std::vector<uint32\_t>\ indices);}
+\DoxyCodeLine{00478\ }
+\DoxyCodeLine{00479\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoFramebuffers();}
+\DoxyCodeLine{00480\ }
+\DoxyCodeLine{00481\ \ \ \ \ \textcolor{keywordtype}{void}\ createUniformBuffers();}
+\DoxyCodeLine{00482\ }
+\DoxyCodeLine{00483\ \ \ \ \ \textcolor{keywordtype}{void}\ createCubeUniformBuffers();}
+\DoxyCodeLine{00484\ }
+\DoxyCodeLine{00485\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoDescriptorPool();}
+\DoxyCodeLine{00486\ }
+\DoxyCodeLine{00487\ \ \ \ \ \textcolor{keywordtype}{void}\ createComputeDescriptorPool();}
+\DoxyCodeLine{00488\ }
+\DoxyCodeLine{00489\ \ \ \ \ \textcolor{keywordtype}{void}\ createDescriptorPool();}
+\DoxyCodeLine{00490\ }
+\DoxyCodeLine{00491\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoRenderPass();}
+\DoxyCodeLine{00492\ }
+\DoxyCodeLine{00493\ \ \ \ \ \textcolor{keywordtype}{void}\ createComputeDescriptorSets(Texture\ texture);}
+\DoxyCodeLine{00494\ }
+\DoxyCodeLine{00495\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoDescriptorSets(Texture\ texture,\ PreIntegrationTable\ integrationTable);}
+\DoxyCodeLine{00496\ }
+\DoxyCodeLine{00497\ \ \ \ \ \textcolor{keywordtype}{void}\ createDescriptorSets(Texture\ texture);}
+\DoxyCodeLine{00498\ }
+\DoxyCodeLine{00499\ \ \ \ \ \textcolor{keywordtype}{void}\ createBuffer(VkDeviceSize\ size,\ VkBufferUsageFlags\ usage,\ VkMemoryPropertyFlags\ properties,\ VkBuffer\&\ buffer,\ VkDeviceMemory\&\ bufferMemory);}
+\DoxyCodeLine{00500\ }
+\DoxyCodeLine{00501\ \ \ \ \ \textcolor{keywordtype}{void}\ copyBuffer(VkBuffer\ srcBuffer,\ VkBuffer\ dstBuffer,\ VkDeviceSize\ size);}
+\DoxyCodeLine{00502\ }
+\DoxyCodeLine{00503\ \ \ \ \ \textcolor{keywordtype}{void}\ createUIDescriptorPool();}
+\DoxyCodeLine{00504\ \};}
 
 \end{DoxyCode}

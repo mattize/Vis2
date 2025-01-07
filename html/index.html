@@ -1,41 +1,75 @@
 <!DOCTYPE html>
 <head>
     <title>Visualization2 WS2024</title>
-    <style>
-        div.a {
-            text-align: justify;
-            margin-right: 30px;
-            margin-left: 30px;
-        }
-    </style>
 </head>
 <body>
+    <div style="text-align: center; width: 60%; margin-left: auto; margin-right: auto;">
     <h1 style="text-align: center;">Interactive Dynamic Volume Illumination with Refraction and Caustics</h1>
     <h3 style="text-align: center;">Author: Matthias Zezulka</h3>
+    <div style="text-align: center;">
+        <img src="sample1.png" alt="Teaser" style="height: 200px;">
+        <img src="sample4.png" alt="Teaser" style="height: 200px">
+    </div>
     <hr>
     <h2>Introduction</h2>
-    This project implements the 3D volume visualization approach presented by J. G. Magnus and S. Bruckner presented in their paper "Interactive Dynamic Volume Illumination with Refraction and Caustics" in 2017.
-    However, due to the restricted time scope and the quiting of one project member, the current project state is only semi-functioning.
-    In the following sections, we cover various implementation aspects followed by a quick user guide. In the end, we briefly discuss the data sets used during the implementation process. 
+    This project implements the 3D volume visualization approach presented by J. G. Magnus and S. Bruckner presented in their paper "Interactive Dynamic Volume
+     Illumination with Refraction and Caustics" in 2017. However, due to the restricted time scope and the quitting of one project member, the current project
+      state is only semi-functioning. In the following sections, we cover various implementation aspects followed by a quick user guide. In the end, we briefly 
+      discuss the data sets used during the implementation process.
     
     <h2>Implementation</h2>
     This project uses C++ 17 in combination with the Vulkan SDK (Verison 1.3.296.0). Aditionally, we use various libraries such as GLM, GLFW, STB Image, ImGui and TkSplines which are all added via Git submodules.
+    Generally, the structure of the program is very simple in that we have an arcball camera, that reacts to mouse input (i.e. dragging and scrolling) and a render loop that 
+    updates this camera and draws the volume based on the parameters of the camera.
+    <br>
+    The important part now is how we implemented the rendering of the volume. According to the paper, we use the following per-frame sequence of steps:
+    <div style="text-align: left; margin-left: 20%; margin-right: 20%;">
+    <ol>
+        <li> The model is centered in the scene and bound by a bounding sphere. View space coordinates of the first and 
+            last cutting plane is calculated. The number of cutting planes can be defined by the user (default 400). </li>
+        <li> A compute shader initializes 2 times 6 framebuffers based on their intended function. In particular, it initializes two sets of
+            each one viewing ray position buffer, viewing direction buffer, light buffer, light direction buffer, medium buffer and color buffer.
+            These buffers will be used to propagate information from cutting plane to cutting plane in a ping-pong manner when running the main algorithm.</li>
+        <li> The fixed number of planes is drawn through the volume from front to back using a fragment shader that implements
+            the concept of the paper. The final result of this step is located in the color buffer.</li>
+        <li> A second compute shader draws on a cubemap texture based on the resulting contents of the light direction buffer and light buffer in order to simulate
+            refraction.</li>
+        <li>Finally, basic drawing shaders draw the resulting environment map from step 4, and plane from step 3 is drawn on the screen.</li>
+    </ol>
+    </div>
+    Note that, even though some parts exist in the project source, the environment map feature is currently not working. 
 
     <h2>User Guide</h2>
+    In order to achieve interactivity, we not only implement a camera but also transfer functions (TFs) to have manual control over the rendered volume.
+    In particular, we implement three transfer functions as suggested by the authors: a volume TF, a medium TF, and a refraction TF. Note that currently, we are only
+    able to successfully use the volume TF. All functions have, per RGBA channel three fixed control points (covering density values [0,1]) with respective values (covering color values [0,255]). We use these
+    points for spline interpolation (using the TkSplines library) which we then encode in a texture and pass to the shader. After changing the function values, the button "Apply TFs" has to be used in order to apply the new values.
+    The figures below show an application of these functions.
+
+    <br><br>
+    <div style="text-align: center;">
+        <img src="tf1.png" alt="Teaser" style="height: 300px;">
+        <img src="tf2.png" alt="Teaser" style="height: 300px">
+    </div>
+    <br><br>
+    <b>ATTENTION:</b> Due to a bug the volume is rotated arround the y-axis (i.e. the up-axis) and therefore not visible. By draging
+    the mouse and rotating the camera around the volume, the result can be made visible.
 
     <h2>Data</h2>
+    Currently, we include only two data sets in our project. First the human head scan by <a href="https://www.nlm.nih.gov/research/visible/visible_human.html">The Visible Human Project</a> and secondly
+    the black-headed python by the <a href="https://www.digimorph.org/publications.phtml">Digital Morphology Library</a>. In preprocessing, we
+    changed both datasets to consist of a numbered series of JPEG images of size 512x512. Different datasets can be used, but currently have to follow the size and naming conventions. In particular, 512x512 pixels and named <i>index</i>.jpg, where index ranges from 1 to the number of pictures, without leading zeros.
+    Further the number of loaded images has to be changed manually in the code (<i>Vis.cpp</i> in loadAssets()). 
 
-    <a href="https://www.nlm.nih.gov/research/visible/visible_human.html">The Visible Human Project</a>
 
-
-    <h2>Links</h2>
-    Some useful links for this project:
-    <div class="a">
+    <h2>Links</h2>    
+    <div style="text-align: left; margin-left: 45%;">
+        Some useful links for this project:
         <ul>
-            <li><a href="https://github.com/mattize/Vis2">Github</a></li>    
+            <li><a href="https://github.com/mattize/Vis2">Github</a></li>   
             <li><a href="../doc/html/index.html">Documentation</a></li>
             <li><a href="https://ieeexplore.ieee.org/document/8017622">Original Paper</a></li>
         </ul>
     </div>
-
+</div>
 </body>

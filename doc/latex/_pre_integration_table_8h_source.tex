@@ -25,53 +25,55 @@
 \DoxyCodeLine{00022\ \textcolor{keyword}{public}:}
 \DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{class_pre_integration_table_ada36722b8949650ac4edb880aa35cd15}{PreIntegrationTable}}()\ \{\};}
 \DoxyCodeLine{00024\ \ \ \ }
-\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_pre_integration_table_acce8763baf1dc2fe69afe777ea49141f}{defineUI}}();}
-\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_pre_integration_table_ab281c9728cc72b2593bf6b44a163659b}{init}}();}
-\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_pre_integration_table_aeacc884056e015eaee214de5e95977cb}{cleanup}}();}
-\DoxyCodeLine{00028\ }
-\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_pre_integration_table_ade1e912e4bf7d485c1cbb21dd336b0bd}{setVulkanDevice}}(\mbox{\hyperlink{class_vulkan_device}{VulkanDevice}}\ vulkDevice)\ \{\ }
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ vulkanDevice\ =\ vulkDevice;}
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ device\ =\ vulkDevice.\mbox{\hyperlink{class_vulkan_device_add20c2619afe204e19f22f0a3d89dfcc}{getVkDevice}}();}
-\DoxyCodeLine{00032\ \ \ \ \ \}}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \ \ \ \ VkImageView\ \mbox{\hyperlink{class_pre_integration_table_a77a5d3a2d761a6be1f0e91cd834ff4af}{getVolumeTableView}}()\ \{\ \textcolor{keywordflow}{return}\ tableViews[0];\ \}}
-\DoxyCodeLine{00035\ \ \ \ \ VkImageView\ \mbox{\hyperlink{class_pre_integration_table_aa23e19b8636928d1bf008e688bd3ea25}{getMediumTableView}}()\ \{\ \textcolor{keywordflow}{return}\ tableViews[1];\ \}}
-\DoxyCodeLine{00036\ \ \ \ \ VkImageView\ \mbox{\hyperlink{class_pre_integration_table_a5862a473de73932c43255e3a20f7630e}{getRefractionTableView}}()\ \{\ \textcolor{keywordflow}{return}\ tableViews[2];\ \}}
-\DoxyCodeLine{00037\ \ \ \ \ VkSampler\ \mbox{\hyperlink{class_pre_integration_table_ab156a399a6a3951319f0e9584e9929cb}{getTableSampler}}()\ \{\ \textcolor{keywordflow}{return}\ tableSampler;\ \}}
-\DoxyCodeLine{00038\ }
-\DoxyCodeLine{00039\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ CONTROL\_POINTS\_COUNT\ =\ 4;}
-\DoxyCodeLine{00041\ \ \ \ \ std::array<std::string,\ 4>\ channels\ =\ \{\ \textcolor{stringliteral}{"{}Red"{}},\ \textcolor{stringliteral}{"{}Green"{}},\ \textcolor{stringliteral}{"{}Blue"{}},\ \textcolor{stringliteral}{"{}Alpha"{}}\ \};}
-\DoxyCodeLine{00042\ \ \ \ \ std::array<std::string,\ 3>\ transfer\_types\ =\ \{\ \textcolor{stringliteral}{"{}Volume"{}},\ \textcolor{stringliteral}{"{}Medium"{}},\ \textcolor{stringliteral}{"{}Refraction"{}}\ \};\ \ \ \ }
-\DoxyCodeLine{00043\ }
-\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{float}\ volume\_positions[4][4];}
-\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ volume\_values[4][4];}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_pre_integration_table_acce8763baf1dc2fe69afe777ea49141f}{defineUI}}();}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_pre_integration_table_ab281c9728cc72b2593bf6b44a163659b}{init}}();}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_pre_integration_table_aeacc884056e015eaee214de5e95977cb}{cleanup}}();}
 \DoxyCodeLine{00046\ }
-\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{float}\ medium\_positions[4][4];}
-\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ medium\_values[4][4];}
-\DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{float}\ refraction\_positions[4];}
-\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{float}\ refraction\_values[4];}
-\DoxyCodeLine{00052\ }
-\DoxyCodeLine{00053\ \ \ \ \ std::array<tk::spline,\ 4>\ volume\_curves;}
-\DoxyCodeLine{00054\ \ \ \ \ std::array<tk::spline,\ 4>\ medium\_curves;}
-\DoxyCodeLine{00055\ \ \ \ \ std::array<tk::spline,\ 4>\ refraction\_curves;}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_pre_integration_table_ade1e912e4bf7d485c1cbb21dd336b0bd}{setVulkanDevice}}(\mbox{\hyperlink{class_vulkan_device}{VulkanDevice}}\ vulkDevice)\ \{\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ vulkanDevice\ =\ vulkDevice;}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ device\ =\ vulkDevice.\mbox{\hyperlink{class_vulkan_device_add20c2619afe204e19f22f0a3d89dfcc}{getVkDevice}}();}
+\DoxyCodeLine{00050\ \ \ \ \ \}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ VkImageView\ \mbox{\hyperlink{class_pre_integration_table_a77a5d3a2d761a6be1f0e91cd834ff4af}{getVolumeTableView}}()\ \{\ \textcolor{keywordflow}{return}\ tableViews[0];\ \}}
+\DoxyCodeLine{00053\ \ \ \ \ VkImageView\ \mbox{\hyperlink{class_pre_integration_table_aa23e19b8636928d1bf008e688bd3ea25}{getMediumTableView}}()\ \{\ \textcolor{keywordflow}{return}\ tableViews[1];\ \}}
+\DoxyCodeLine{00054\ \ \ \ \ VkImageView\ \mbox{\hyperlink{class_pre_integration_table_a5862a473de73932c43255e3a20f7630e}{getRefractionTableView}}()\ \{\ \textcolor{keywordflow}{return}\ tableViews[2];\ \}}
+\DoxyCodeLine{00055\ \ \ \ \ VkSampler\ \mbox{\hyperlink{class_pre_integration_table_ab156a399a6a3951319f0e9584e9929cb}{getTableSampler}}()\ \{\ \textcolor{keywordflow}{return}\ tableSampler;\ \}}
 \DoxyCodeLine{00056\ }
-\DoxyCodeLine{00057\ \ \ \ \ VulkanDevice\ vulkanDevice;}
-\DoxyCodeLine{00058\ \ \ \ \ VkDevice\ device;}
-\DoxyCodeLine{00059\ }
-\DoxyCodeLine{00060\ \ \ \ \ std::array<VkImage,\ 3>\ preIntegrationTables;}
-\DoxyCodeLine{00061\ \ \ \ \ std::array<VkImageView,\ 3>\ tableViews;}
-\DoxyCodeLine{00062\ \ \ \ \ std::array<VkDeviceMemory,\ 3>\ tableMemories;}
-\DoxyCodeLine{00063\ \ \ \ \ VkSampler\ tableSampler;}
+\DoxyCodeLine{00057\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ CONTROL\_POINTS\_COUNT\ =\ 4;}
+\DoxyCodeLine{00059\ \ \ \ \ std::array<std::string,\ 4>\ channels\ =\ \{\ \textcolor{stringliteral}{"{}Red"{}},\ \textcolor{stringliteral}{"{}Green"{}},\ \textcolor{stringliteral}{"{}Blue"{}},\ \textcolor{stringliteral}{"{}Alpha"{}}\ \};}
+\DoxyCodeLine{00060\ \ \ \ \ std::array<std::string,\ 3>\ transfer\_types\ =\ \{\ \textcolor{stringliteral}{"{}Volume"{}},\ \textcolor{stringliteral}{"{}Medium"{}},\ \textcolor{stringliteral}{"{}Refraction"{}}\ \};\ \ \ \ }
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{float}\ volume\_positions[4][4];}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ volume\_values[4][4];}
 \DoxyCodeLine{00064\ }
-\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ applyTransportFunctions();}
-\DoxyCodeLine{00066\ \ \ \ \ uint32\_t\ vec4ToRGBA8(\textcolor{keyword}{const}\ glm::vec4\&\ color);}
-\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{void}\ setPixel(uint32\_t*\ pixels,\ glm::vec4\ color,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
-\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{void}\ sortDataPoints(std::vector<double>\&\ positions,\ std::vector<double>\&\ values);}
-\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ resetTransportFunctions();}
-\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{void}\ transitionImageLayout(VkImage\ image,\ VkFormat\ format,\ VkImageLayout\ oldLayout,\ VkImageLayout\ newLayout);}
-\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{void}\ writeSplinesToTexture(VkImage\ image,\ std::array<tk::spline,\ 4>\ splines);}
-\DoxyCodeLine{00072\ \};}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{float}\ medium\_positions[4][4];}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ medium\_values[4][4];}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{float}\ refraction\_positions[4];}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{float}\ refraction\_values[4];}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ std::array<tk::spline,\ 4>\ volume\_curves;}
+\DoxyCodeLine{00072\ \ \ \ \ std::array<tk::spline,\ 4>\ medium\_curves;}
+\DoxyCodeLine{00073\ \ \ \ \ std::array<tk::spline,\ 4>\ refraction\_curves;}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ VulkanDevice\ vulkanDevice;}
+\DoxyCodeLine{00076\ \ \ \ \ VkDevice\ device;}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ std::array<VkImage,\ 3>\ preIntegrationTables;}
+\DoxyCodeLine{00079\ \ \ \ \ std::array<VkImageView,\ 3>\ tableViews;}
+\DoxyCodeLine{00080\ \ \ \ \ std::array<VkDeviceMemory,\ 3>\ tableMemories;}
+\DoxyCodeLine{00081\ \ \ \ \ VkSampler\ tableSampler;}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{void}\ applyTransportFunctions();}
+\DoxyCodeLine{00084\ \ \ \ \ uint32\_t\ vec4ToRGBA8(\textcolor{keyword}{const}\ glm::vec4\&\ color);}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{void}\ setPixel(uint32\_t*\ pixels,\ glm::vec4\ color,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ sortDataPoints(std::vector<double>\&\ positions,\ std::vector<double>\&\ values);}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{void}\ resetTransportFunctions();}
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordtype}{void}\ transitionImageLayout(VkImage\ image,\ VkFormat\ format,\ VkImageLayout\ oldLayout,\ VkImageLayout\ newLayout);}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{void}\ writeSplinesToTexture(VkImage\ image,\ std::array<tk::spline,\ 4>\ splines);}
+\DoxyCodeLine{00090\ \};}
 
 \end{DoxyCode}

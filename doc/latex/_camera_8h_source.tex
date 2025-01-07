@@ -15,37 +15,37 @@
 \DoxyCodeLine{00012\ \ \ \ \ \mbox{\hyperlink{class_camera_a01f94c3543f56ede7af49dc778f19331}{Camera}}()\ \{\};}
 \DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{class_camera_a51109bcee8114e65529d8a721a910738}{Camera}}(uint32\_t\ width,\ uint32\_t\ height,\ \textcolor{keywordtype}{float}\ fov,\ \textcolor{keywordtype}{float}\ nearPlane,\ \textcolor{keywordtype}{float}\ farPlane)\ :\ WIDTH(width),\ HEIGHT(height),\ m\_fov(fov),\ m\_nearPlane(nearPlane),\ m\_farPlane(farPlane)\ \{\};}
 \DoxyCodeLine{00014\ }
-\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_camera_a481e6e39d038ac8c9c21a2d817e7241a}{update}}(\textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height,\ \textcolor{keywordtype}{float}\ deltaMouseX,\ \textcolor{keywordtype}{float}\ deltaMouseY,\ \textcolor{keywordtype}{float}\ zoom);}
-\DoxyCodeLine{00016\ }
-\DoxyCodeLine{00017\ \ \ \ \ glm::mat4\ \mbox{\hyperlink{class_camera_a2415fdca6aea84bad415367a11fa469e}{getProjMat}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_proj;\ \};}
-\DoxyCodeLine{00018\ \ \ \ \ glm::mat4\ \mbox{\hyperlink{class_camera_ad6744de351a376ffba05b23a06580860}{getViewMat}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_view;\ \};}
-\DoxyCodeLine{00019\ \ \ \ \ glm::vec3\ \mbox{\hyperlink{class_camera_aa9dc951f8d6e7082233786438139c51d}{getPosition}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_position;\ \};}
-\DoxyCodeLine{00020\ }
-\DoxyCodeLine{00021\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00022\ }
-\DoxyCodeLine{00023\ \ \ \ \ glm::vec3\ getViewDir()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ -\/glm::transpose(m\_view)[2];\ \}}
-\DoxyCodeLine{00024\ \ \ \ \ glm::vec3\ getRightVector()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ glm::transpose(m\_view)[0];\ \}}
-\DoxyCodeLine{00025\ }
-\DoxyCodeLine{00026\ \ \ \ \ glm::mat4\ m\_proj\ =\ glm::mat4(1.0f);}
-\DoxyCodeLine{00027\ \ \ \ \ glm::mat4\ m\_view\ =\ glm::mat4(1.0f);}
-\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_debug\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00029\ }
-\DoxyCodeLine{00030\ \ \ \ \ uint32\_t\ WIDTH;}
-\DoxyCodeLine{00031\ \ \ \ \ uint32\_t\ HEIGHT;}
-\DoxyCodeLine{00032\ }
-\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_fov;}
-\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_aspect\ =\ (float)WIDTH\ /\ (\textcolor{keywordtype}{float})HEIGHT;}
-\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_nearPlane;}
-\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_farPlane;}
-\DoxyCodeLine{00037\ }
-\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_firstClick\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_sensitivity\ =\ 160.0f;}
-\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_radius\ =\ 6.0f;}
-\DoxyCodeLine{00041\ }
-\DoxyCodeLine{00042\ \ \ \ \ glm::vec3\ m\_position\ =\ glm::vec3(0.0f,\ 0.0f,\ 10.0f);}
-\DoxyCodeLine{00043\ \ \ \ \ glm::vec3\ m\_lookAt\ =\ glm::vec3(0.0f,\ 0.0f,\ 0.0f);}
-\DoxyCodeLine{00044\ \ \ \ \ glm::vec3\ m\_up\ =\ glm::vec3(0.0f,\ 1.0f,\ 0.0f);}
-\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_speed\ =\ 0.05f;}
-\DoxyCodeLine{00046\ \};}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_camera_a481e6e39d038ac8c9c21a2d817e7241a}{update}}(\textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height,\ \textcolor{keywordtype}{float}\ deltaMouseX,\ \textcolor{keywordtype}{float}\ deltaMouseY,\ \textcolor{keywordtype}{float}\ zoom);}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ glm::mat4\ \mbox{\hyperlink{class_camera_a2415fdca6aea84bad415367a11fa469e}{getProjMat}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_proj;\ \};}
+\DoxyCodeLine{00029\ \ \ \ \ glm::mat4\ \mbox{\hyperlink{class_camera_ad6744de351a376ffba05b23a06580860}{getViewMat}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_view;\ \};}
+\DoxyCodeLine{00030\ \ \ \ \ glm::vec3\ \mbox{\hyperlink{class_camera_aa9dc951f8d6e7082233786438139c51d}{getPosition}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_position;\ \};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ glm::vec3\ getViewDir()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ -\/glm::transpose(m\_view)[2];\ \}}
+\DoxyCodeLine{00035\ \ \ \ \ glm::vec3\ getRightVector()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ glm::transpose(m\_view)[0];\ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ glm::mat4\ m\_proj\ =\ glm::mat4(1.0f);}
+\DoxyCodeLine{00038\ \ \ \ \ glm::mat4\ m\_view\ =\ glm::mat4(1.0f);}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_debug\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ uint32\_t\ WIDTH;}
+\DoxyCodeLine{00042\ \ \ \ \ uint32\_t\ HEIGHT;}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_fov;}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_aspect\ =\ (float)WIDTH\ /\ (\textcolor{keywordtype}{float})HEIGHT;}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_nearPlane;}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_farPlane;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_firstClick\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_sensitivity\ =\ 160.0f;}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_radius\ =\ 6.0f;}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ glm::vec3\ m\_position\ =\ glm::vec3(0.0f,\ 0.0f,\ 10.0f);}
+\DoxyCodeLine{00054\ \ \ \ \ glm::vec3\ m\_lookAt\ =\ glm::vec3(0.0f,\ 0.0f,\ 0.0f);}
+\DoxyCodeLine{00055\ \ \ \ \ glm::vec3\ m\_up\ =\ glm::vec3(0.0f,\ 1.0f,\ 0.0f);}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_speed\ =\ 0.05f;}
+\DoxyCodeLine{00057\ \};}
 
 \end{DoxyCode}

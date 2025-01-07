@@ -12,6 +12,17 @@ public:
 	Camera() {};
 	Camera(uint32_t width, uint32_t height, float fov, float nearPlane, float farPlane) : WIDTH(width), HEIGHT(height), m_fov(fov), m_nearPlane(nearPlane), m_farPlane(farPlane) {};
 
+	/**
+	 * @brief Updates arcball camera.
+	 *
+	 * This function updates the arcball camera based on mouse dragging and scrolling inputs.
+	 *
+	 * @param width Window width.
+	 * @param height Window height.
+	 * @param deltaMouseX Mouse movement delta in X direction.
+	 * @param deltaMouseY Mouse movement delta in Y direction.
+	 * @param zoom Describing the current zoom level.
+	 */
 	void update(int width, int height, float deltaMouseX, float deltaMouseY, float zoom);
 
 	glm::mat4 getProjMat() const { return m_proj; };

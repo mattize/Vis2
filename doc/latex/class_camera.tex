@@ -12,7 +12,7 @@
 \mbox{\hyperlink{class_camera_a51109bcee8114e65529d8a721a910738}{Camera}} (uint32\+\_\+t width, uint32\+\_\+t height, float fov, float near\+Plane, float far\+Plane)
 \item 
 void \mbox{\hyperlink{class_camera_a481e6e39d038ac8c9c21a2d817e7241a}{update}} (int width, int height, float delta\+MouseX, float delta\+MouseY, float zoom)
-\item 
+\begin{DoxyCompactList}\small\item\em Updates arcball camera. \end{DoxyCompactList}\item 
 glm\+::mat4 \mbox{\hyperlink{class_camera_a2415fdca6aea84bad415367a11fa469e}{get\+Proj\+Mat}} () const
 \item 
 glm\+::mat4 \mbox{\hyperlink{class_camera_ad6744de351a376ffba05b23a06580860}{get\+View\+Mat}} () const
@@ -61,6 +61,25 @@ glm\+::mat4 Camera\+::get\+View\+Mat (\begin{DoxyParamCaption}{}{}\end{DoxyParam
 {\footnotesize\ttfamily \label{class_camera_a481e6e39d038ac8c9c21a2d817e7241a} 
 void Camera\+::update (\begin{DoxyParamCaption}\item[{int}]{width}{, }\item[{int}]{height}{, }\item[{float}]{delta\+MouseX}{, }\item[{float}]{delta\+MouseY}{, }\item[{float}]{zoom}{}\end{DoxyParamCaption})}
 
+
+
+Updates arcball camera. 
+
+This function updates the arcball camera based on mouse dragging and scrolling inputs.
+
+
+\begin{DoxyParams}{Parameters}
+{\em width} & Window width. \\
+\hline
+{\em height} & Window height. \\
+\hline
+{\em delta\+MouseX} & Mouse movement delta in X direction. \\
+\hline
+{\em delta\+MouseY} & Mouse movement delta in Y direction. \\
+\hline
+{\em zoom} & Describing the current zoom level. \\
+\hline
+\end{DoxyParams}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

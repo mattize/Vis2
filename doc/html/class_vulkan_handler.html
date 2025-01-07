@@ -120,8 +120,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad4d8cbb58c842fbeb33f2e5ff687fe0c" id="r_ad4d8cbb58c842fbeb33f2e5ff687fe0c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad4d8cbb58c842fbeb33f2e5ff687fe0c">VulkanHandler</a> (GLFWwindow *window)</td></tr>
 <tr class="separator:ad4d8cbb58c842fbeb33f2e5ff687fe0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1973dbc5ca3762a02c6b5d443e92d5c1" id="r_a1973dbc5ca3762a02c6b5d443e92d5c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1973dbc5ca3762a02c6b5d443e92d5c1">initVulkan</a> ()</td></tr>
+<tr class="memdesc:a1973dbc5ca3762a02c6b5d443e92d5c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes Vulkan.  <br /></td></tr>
 <tr class="separator:a1973dbc5ca3762a02c6b5d443e92d5c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a744f5899a1e5e7b93d7ffc5b45bd16c4" id="r_a744f5899a1e5e7b93d7ffc5b45bd16c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a744f5899a1e5e7b93d7ffc5b45bd16c4">drawFrame</a> (int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance, <a class="el" href="class_pre_integration_table.html">PreIntegrationTable</a> integrationTable)</td></tr>
+<tr class="memdesc:a744f5899a1e5e7b93d7ffc5b45bd16c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draws the final frame.  <br /></td></tr>
 <tr class="separator:a744f5899a1e5e7b93d7ffc5b45bd16c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06636f1c45880963a47d7f51b28efcbf" id="r_a06636f1c45880963a47d7f51b28efcbf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a06636f1c45880963a47d7f51b28efcbf">cleanup</a> ()</td></tr>
 <tr class="separator:a06636f1c45880963a47d7f51b28efcbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,10 +136,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a00669acc63a590b4ae33cb5e95e3e76b" id="r_a00669acc63a590b4ae33cb5e95e3e76b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00669acc63a590b4ae33cb5e95e3e76b">updateMVP</a> (float dt, <a class="el" href="class_camera.html">Camera</a> &amp;camera)</td></tr>
 <tr class="separator:a00669acc63a590b4ae33cb5e95e3e76b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79ff67433f56b1731a46e8b4df04dcc1" id="r_a79ff67433f56b1731a46e8b4df04dcc1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79ff67433f56b1731a46e8b4df04dcc1">updateAlgo</a> (glm::mat4 inverseViewMatrix, glm::mat4 viewMatrix, float planeDistance, glm::vec3 middleOfPlaneVS, float sphereRadius, glm::vec2 planeSides, glm::ivec2 dims, glm::vec3 refractionPos, glm::vec4 refractionValue, float voxelDepth, float planeWidth, float planeHeight, <a class="el" href="class_light.html">Light</a> light)</td></tr>
+<tr class="memdesc:a79ff67433f56b1731a46e8b4df04dcc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates parameters of the main algorithm.  <br /></td></tr>
 <tr class="separator:a79ff67433f56b1731a46e8b4df04dcc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73e8c7c90eff7b72f38dc66c2d41e2bd" id="r_a73e8c7c90eff7b72f38dc66c2d41e2bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a73e8c7c90eff7b72f38dc66c2d41e2bd">dispatchCompute</a> (int width, int heigth, int depth)</td></tr>
+<tr class="memdesc:a73e8c7c90eff7b72f38dc66c2d41e2bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dispatches buffer compute.  <br /></td></tr>
 <tr class="separator:a73e8c7c90eff7b72f38dc66c2d41e2bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34eebde651489223eed15a85e8214422" id="r_a34eebde651489223eed15a85e8214422"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a34eebde651489223eed15a85e8214422">runAlgo</a> (int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance)</td></tr>
+<tr class="memdesc:a34eebde651489223eed15a85e8214422"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the main algorithm.  <br /></td></tr>
 <tr class="separator:a34eebde651489223eed15a85e8214422"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27b00f2ce0d2e20eb8a03b874c9b0533" id="r_a27b00f2ce0d2e20eb8a03b874c9b0533"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27b00f2ce0d2e20eb8a03b874c9b0533">initUI</a> ()</td></tr>
 <tr class="separator:a27b00f2ce0d2e20eb8a03b874c9b0533"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,8 +150,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a792e2b83369b992b066a122b4f69ee95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e3d648dd11e0e4ecb96fa06d672581b" id="r_a9e3d648dd11e0e4ecb96fa06d672581b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e3d648dd11e0e4ecb96fa06d672581b">checkUIWindowHovered</a> ()</td></tr>
 <tr class="separator:a9e3d648dd11e0e4ecb96fa06d672581b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35f88c6023bde2fec3b9a006fba32d7c" id="r_a35f88c6023bde2fec3b9a006fba32d7c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a35f88c6023bde2fec3b9a006fba32d7c">updateCube</a> (glm::mat4 inverseViewMatrix, glm::vec3 middleOfPlaneVS, float planeWidth, float planeHeight, glm::vec2 planeSides, glm::mat4 fl0, glm::mat4 fl1, glm::mat4 fl2, glm::mat4 fl3, glm::mat4 fl4, glm::mat4 fl5, float boxSize)</td></tr>
-<tr class="separator:a35f88c6023bde2fec3b9a006fba32d7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4dd43fb482b1887041673616c19dc43" id="r_ad4dd43fb482b1887041673616c19dc43"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad4dd43fb482b1887041673616c19dc43">updateCube</a> (glm::mat4 inverseViewMatrix, glm::vec3 middleOfPlaneVS, float planeWidth, float planeHeight, glm::vec2 planeSides, glm::mat4 dir0, glm::mat4 dir1, glm::mat4 dir2, glm::mat4 dir3, glm::mat4 dir4, glm::mat4 dir5, float boxSize)</td></tr>
+<tr class="separator:ad4dd43fb482b1887041673616c19dc43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4694a97a3ea61dbbae6ade7af4698720" id="r_a4694a97a3ea61dbbae6ade7af4698720"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4694a97a3ea61dbbae6ade7af4698720">dispatchEnvCompute</a> (int width, int height, int depth)</td></tr>
 <tr class="separator:a4694a97a3ea61dbbae6ade7af4698720"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0b07c1e6177bb3dabd099d92bee3cda" id="r_ae0b07c1e6177bb3dabd099d92bee3cda"><td class="memItemLeft" align="right" valign="top">VkDevice &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0b07c1e6177bb3dabd099d92bee3cda">getDevice</a> ()</td></tr>
@@ -327,6 +332,17 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Dispatches buffer compute. </p>
+<p>This function dispatches the compute pass that initializes the buffers.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">width</td><td>Workgroups in X direction. </td></tr>
+    <tr><td class="paramname">height</td><td>Workgroups in Y direction. </td></tr>
+    <tr><td class="paramname">depth</td><td>Workgroups in Z direction. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a4694a97a3ea61dbbae6ade7af4698720" name="a4694a97a3ea61dbbae6ade7af4698720"></a>
@@ -383,6 +399,9 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Draws the final frame. </p>
+<p>This function draws the final plane, using the result of the main algorithms' color buffer. </p>
 
 </div>
 </div>
@@ -520,6 +539,9 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Initializes Vulkan. </p>
+<p>This function initializes all Vulkan aspects and all used renderpasses. </p>
+
 </div>
 </div>
 <a id="a34eebde651489223eed15a85e8214422" name="a34eebde651489223eed15a85e8214422"></a>
@@ -545,6 +567,17 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Runs the main algorithm. </p>
+<p>This function runs the main algorithm to visualize the volume.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">numPlanes</td><td>Number of planes that slice through the volume. </td></tr>
+    <tr><td class="paramname">middleOfPlaneVS</td><td>View space coordinates for the middle of the plane. </td></tr>
+    <tr><td class="paramname">planeDistance</td><td>Distance between two consecutive cutting planes. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -639,10 +672,13 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Updates parameters of the main algorithm. </p>
+<p>This function updates the uniform buffers of the main algorithm renderpass. </p>
+
 </div>
 </div>
-<a id="a35f88c6023bde2fec3b9a006fba32d7c" name="a35f88c6023bde2fec3b9a006fba32d7c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a35f88c6023bde2fec3b9a006fba32d7c">&#9670;&#160;</a></span>updateCube()</h2>
+<a id="ad4dd43fb482b1887041673616c19dc43" name="ad4dd43fb482b1887041673616c19dc43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4dd43fb482b1887041673616c19dc43">&#9670;&#160;</a></span>updateCube()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -675,32 +711,32 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">glm::mat4</td>          <td class="paramname"><span class="paramname"><em>fl0</em></span>, </td>
+          <td class="paramtype">glm::mat4</td>          <td class="paramname"><span class="paramname"><em>dir0</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">glm::mat4</td>          <td class="paramname"><span class="paramname"><em>fl1</em></span>, </td>
+          <td class="paramtype">glm::mat4</td>          <td class="paramname"><span class="paramname"><em>dir1</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">glm::mat4</td>          <td class="paramname"><span class="paramname"><em>fl2</em></span>, </td>
+          <td class="paramtype">glm::mat4</td>          <td class="paramname"><span class="paramname"><em>dir2</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">glm::mat4</td>          <td class="paramname"><span class="paramname"><em>fl3</em></span>, </td>
+          <td class="paramtype">glm::mat4</td>          <td class="paramname"><span class="paramname"><em>dir3</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">glm::mat4</td>          <td class="paramname"><span class="paramname"><em>fl4</em></span>, </td>
+          <td class="paramtype">glm::mat4</td>          <td class="paramname"><span class="paramname"><em>dir4</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">glm::mat4</td>          <td class="paramname"><span class="paramname"><em>fl5</em></span>, </td>
+          <td class="paramtype">glm::mat4</td>          <td class="paramname"><span class="paramname"><em>dir5</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

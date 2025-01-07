@@ -22,8 +22,26 @@ class PreIntegrationTable {
 public:
     PreIntegrationTable() {};
    
+    /**
+     * @brief Defines UI elements.
+     *
+     * This function defines the ImGui Elements and has usually to be called each iteration.
+     *
+     */
 	void defineUI();
+
+    /**
+     * @brief Initializes UI elements.
+     *
+     * This function initializes the ImGui elements.
+     */
     void init();
+
+    /**
+     * @brief Cleans up UI elements.
+     *
+     * This function cleans up all related ImGui aspects.
+     */
     void cleanup();
 
     void setVulkanDevice(VulkanDevice vulkDevice) { 

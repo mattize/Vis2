@@ -134,16 +134,56 @@ public:
     VulkanHandler() {};
     VulkanHandler(GLFWwindow* window) : window(window) {};
 
+    /**
+     * @brief Initializes Vulkan.
+     *
+     * This function initializes all Vulkan aspects and all used renderpasses.
+     */
     void initVulkan();
+
+    /**
+     * @brief Draws the final frame.
+     *
+     * This function draws the final plane, using the result of the main algorithms' color buffer.
+     *
+     */
     void drawFrame(int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance, PreIntegrationTable integrationTable);
+
     void cleanup();
     void setDeviceWaitIdle();
     void createCube();
     void createQuad(Texture texture, PreIntegrationTable integrationTable);
     void updateMVP(float dt, Camera& camera);
+
+    /**
+     * @brief Updates parameters of the main algorithm.
+     *
+     * This function updates the uniform buffers of the main algorithm renderpass.
+     *
+     */
     void updateAlgo(glm::mat4 inverseViewMatrix, glm::mat4 viewMatrix, float planeDistance, glm::vec3 middleOfPlaneVS, float sphereRadius, glm::vec2 planeSides,
         glm::ivec2 dims, glm::vec3 refractionPos, glm::vec4 refractionValue, float voxelDepth, float planeWidth, float planeHeight, Light light);
+
+    /**
+     * @brief Dispatches buffer compute.
+     *
+     * This function dispatches the compute pass that initializes the buffers.
+     *
+     * @param width Workgroups in X direction.
+     * @param height Workgroups in Y direction.
+     * @param depth Workgroups in Z direction.
+     */
     void dispatchCompute(int width, int heigth, int depth);
+
+    /**
+     * @brief Runs the main algorithm.
+     *
+     * This function runs the main algorithm to visualize the volume.
+     *
+     * @param numPlanes Number of planes that slice through the volume.
+     * @param middleOfPlaneVS View space coordinates for the middle of the plane.
+     * @param planeDistance Distance between two consecutive cutting planes.
+     */
     void runAlgo(int numPlanes, glm::vec3 middleOfPlaneVS, float planeDistance);
     void initUI();
     void defineUI(PreIntegrationTable integrationTable);

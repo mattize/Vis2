@@ -120,6 +120,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a51109bcee8114e65529d8a721a910738" id="r_a51109bcee8114e65529d8a721a910738"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a51109bcee8114e65529d8a721a910738">Camera</a> (uint32_t width, uint32_t height, float fov, float nearPlane, float farPlane)</td></tr>
 <tr class="separator:a51109bcee8114e65529d8a721a910738"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a481e6e39d038ac8c9c21a2d817e7241a" id="r_a481e6e39d038ac8c9c21a2d817e7241a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a481e6e39d038ac8c9c21a2d817e7241a">update</a> (int width, int height, float deltaMouseX, float deltaMouseY, float zoom)</td></tr>
+<tr class="memdesc:a481e6e39d038ac8c9c21a2d817e7241a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates arcball camera.  <br /></td></tr>
 <tr class="separator:a481e6e39d038ac8c9c21a2d817e7241a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2415fdca6aea84bad415367a11fa469e" id="r_a2415fdca6aea84bad415367a11fa469e"><td class="memItemLeft" align="right" valign="top">glm::mat4&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2415fdca6aea84bad415367a11fa469e">getProjMat</a> () const</td></tr>
 <tr class="separator:a2415fdca6aea84bad415367a11fa469e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -307,6 +308,19 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Updates arcball camera. </p>
+<p>This function updates the arcball camera based on mouse dragging and scrolling inputs.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">width</td><td>Window width. </td></tr>
+    <tr><td class="paramname">height</td><td>Window height. </td></tr>
+    <tr><td class="paramname">deltaMouseX</td><td>Mouse movement delta in X direction. </td></tr>
+    <tr><td class="paramname">deltaMouseY</td><td>Mouse movement delta in Y direction. </td></tr>
+    <tr><td class="paramname">zoom</td><td>Describing the current zoom level. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

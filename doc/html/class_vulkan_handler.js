@@ -21,6 +21,6 @@ var class_vulkan_handler =
     [ "runAlgo", "class_vulkan_handler.html#a34eebde651489223eed15a85e8214422", null ],
     [ "setDeviceWaitIdle", "class_vulkan_handler.html#a0b91eeddb0779f1acb269379524d2aec", null ],
     [ "updateAlgo", "class_vulkan_handler.html#a79ff67433f56b1731a46e8b4df04dcc1", null ],
-    [ "updateCube", "class_vulkan_handler.html#a35f88c6023bde2fec3b9a006fba32d7c", null ],
+    [ "updateCube", "class_vulkan_handler.html#ad4dd43fb482b1887041673616c19dc43", null ],
     [ "updateMVP", "class_vulkan_handler.html#a00669acc63a590b4ae33cb5e95e3e76b", null ]
 ];
