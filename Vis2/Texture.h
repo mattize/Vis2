@@ -10,7 +10,24 @@ public:
 	Texture() {};
 	Texture(VulkanDevice vulkanDevice) : m_vulkanDevice(vulkanDevice) { m_device = vulkanDevice.getVkDevice(); };
 
+	/**
+	 * @brief Loads a 3D volume texture.
+	 *
+	 * This function loads a 3D volume texture and creates the respective Vulkan handles needed for binding the texture.
+	 *
+	 * @param path Path to the texture.
+	 * @param startIndex First index of the textures.
+	 * @param endIndex Last index of the textures.
+	 * @param fileType Type of texture images.
+	 */
 	void load3DTexture(std::string path, int startIndex, int endIndex, std::string fileType);
+
+	/**
+	 * @brief Cleans up all Vulkan object handles.
+	 *
+	 * This function deletes all Vulkan handles related to the texture.
+	 *
+	 */
 	void cleanup();
 
 	std::string getType() const { return m_type; }

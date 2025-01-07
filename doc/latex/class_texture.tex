@@ -1,0 +1,146 @@
+\doxysection{Texture Class Reference}
+\hypertarget{class_texture}{}\label{class_texture}\index{Texture@{Texture}}
+
+
+{\ttfamily \#include $<$Texture.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_texture_a6c275e3f186675ff6ed73ccf970e552f}{Texture}} ()
+\item 
+\mbox{\hyperlink{class_texture_a5b2141a90ad4c4cdbb74e271f4dfc3c7}{Texture}} (\mbox{\hyperlink{class_vulkan_device}{Vulkan\+Device}} vulkan\+Device)
+\item 
+void \mbox{\hyperlink{class_texture_aeebec90afed29d5875495f86669cf961}{load3\+DTexture}} (std\+::string path, int start\+Index, int end\+Index, std\+::string file\+Type)
+\begin{DoxyCompactList}\small\item\em Loads a 3D volume texture. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_texture_ae13a97cde8768d3b61fd9524c21fbfac}{cleanup}} ()
+\begin{DoxyCompactList}\small\item\em Cleans up all Vulkan object handles. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_texture_abb690b4ae02d495d5ff1dcf8d13f4e57}{get\+Type}} () const
+\item 
+int \mbox{\hyperlink{class_texture_a2c2b502138a1a1786c4bf74016620885}{get\+Width}} () const
+\item 
+int \mbox{\hyperlink{class_texture_a23c3c1315267a5521d824982bb8d208c}{get\+Height}} () const
+\item 
+int \mbox{\hyperlink{class_texture_a7d75a9f3a12efe5c5405f12a61f8fa0d}{get\+Nr\+Channels}} () const
+\item 
+Vk\+Format \mbox{\hyperlink{class_texture_a247892ae125244e94cf5194fc7374a9a}{get\+Format}} () const
+\item 
+Vk\+Image \mbox{\hyperlink{class_texture_a0098307ecdd3bfc8d3321cd07fb4c8d0}{get\+Texture}} () const
+\item 
+Vk\+Sampler \mbox{\hyperlink{class_texture_ac84290121b3faf715445b4905140647d}{get\+Sampler}} () const
+\item 
+Vk\+Image\+View \mbox{\hyperlink{class_texture_a7133edd10931a078dc8fe6ce0a6c005d}{get\+Texture\+View}} () const
+\item 
+Vk\+Image\+Layout \mbox{\hyperlink{class_texture_aecfa17790b158ab2f42ad145e35631aa}{get\+Texture\+Layout}} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_texture_a6c275e3f186675ff6ed73ccf970e552f}\index{Texture@{Texture}!Texture@{Texture}}
+\index{Texture@{Texture}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{Texture()}{Texture()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_texture_a6c275e3f186675ff6ed73ccf970e552f} 
+Texture\+::\+Texture (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_texture_a5b2141a90ad4c4cdbb74e271f4dfc3c7}\index{Texture@{Texture}!Texture@{Texture}}
+\index{Texture@{Texture}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{Texture()}{Texture()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_texture_a5b2141a90ad4c4cdbb74e271f4dfc3c7} 
+Texture\+::\+Texture (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_vulkan_device}{Vulkan\+Device}}}]{vulkan\+Device}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_texture_ae13a97cde8768d3b61fd9524c21fbfac}\index{Texture@{Texture}!cleanup@{cleanup}}
+\index{cleanup@{cleanup}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{cleanup()}{cleanup()}}
+{\footnotesize\ttfamily \label{class_texture_ae13a97cde8768d3b61fd9524c21fbfac} 
+void Texture\+::cleanup (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Cleans up all Vulkan object handles. 
+
+This function deletes all Vulkan handles related to the texture. \Hypertarget{class_texture_a247892ae125244e94cf5194fc7374a9a}\index{Texture@{Texture}!getFormat@{getFormat}}
+\index{getFormat@{getFormat}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{getFormat()}{getFormat()}}
+{\footnotesize\ttfamily \label{class_texture_a247892ae125244e94cf5194fc7374a9a} 
+Vk\+Format Texture\+::get\+Format (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_texture_a23c3c1315267a5521d824982bb8d208c}\index{Texture@{Texture}!getHeight@{getHeight}}
+\index{getHeight@{getHeight}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{getHeight()}{getHeight()}}
+{\footnotesize\ttfamily \label{class_texture_a23c3c1315267a5521d824982bb8d208c} 
+int Texture\+::get\+Height (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_texture_a7d75a9f3a12efe5c5405f12a61f8fa0d}\index{Texture@{Texture}!getNrChannels@{getNrChannels}}
+\index{getNrChannels@{getNrChannels}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{getNrChannels()}{getNrChannels()}}
+{\footnotesize\ttfamily \label{class_texture_a7d75a9f3a12efe5c5405f12a61f8fa0d} 
+int Texture\+::get\+Nr\+Channels (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_texture_ac84290121b3faf715445b4905140647d}\index{Texture@{Texture}!getSampler@{getSampler}}
+\index{getSampler@{getSampler}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{getSampler()}{getSampler()}}
+{\footnotesize\ttfamily \label{class_texture_ac84290121b3faf715445b4905140647d} 
+Vk\+Sampler Texture\+::get\+Sampler (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_texture_a0098307ecdd3bfc8d3321cd07fb4c8d0}\index{Texture@{Texture}!getTexture@{getTexture}}
+\index{getTexture@{getTexture}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{getTexture()}{getTexture()}}
+{\footnotesize\ttfamily \label{class_texture_a0098307ecdd3bfc8d3321cd07fb4c8d0} 
+Vk\+Image Texture\+::get\+Texture (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_texture_aecfa17790b158ab2f42ad145e35631aa}\index{Texture@{Texture}!getTextureLayout@{getTextureLayout}}
+\index{getTextureLayout@{getTextureLayout}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{getTextureLayout()}{getTextureLayout()}}
+{\footnotesize\ttfamily \label{class_texture_aecfa17790b158ab2f42ad145e35631aa} 
+Vk\+Image\+Layout Texture\+::get\+Texture\+Layout (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_texture_a7133edd10931a078dc8fe6ce0a6c005d}\index{Texture@{Texture}!getTextureView@{getTextureView}}
+\index{getTextureView@{getTextureView}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{getTextureView()}{getTextureView()}}
+{\footnotesize\ttfamily \label{class_texture_a7133edd10931a078dc8fe6ce0a6c005d} 
+Vk\+Image\+View Texture\+::get\+Texture\+View (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_texture_abb690b4ae02d495d5ff1dcf8d13f4e57}\index{Texture@{Texture}!getType@{getType}}
+\index{getType@{getType}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{getType()}{getType()}}
+{\footnotesize\ttfamily \label{class_texture_abb690b4ae02d495d5ff1dcf8d13f4e57} 
+std\+::string Texture\+::get\+Type (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_texture_a2c2b502138a1a1786c4bf74016620885}\index{Texture@{Texture}!getWidth@{getWidth}}
+\index{getWidth@{getWidth}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{getWidth()}{getWidth()}}
+{\footnotesize\ttfamily \label{class_texture_a2c2b502138a1a1786c4bf74016620885} 
+int Texture\+::get\+Width (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_texture_aeebec90afed29d5875495f86669cf961}\index{Texture@{Texture}!load3DTexture@{load3DTexture}}
+\index{load3DTexture@{load3DTexture}!Texture@{Texture}}
+\doxysubsubsection{\texorpdfstring{load3DTexture()}{load3DTexture()}}
+{\footnotesize\ttfamily \label{class_texture_aeebec90afed29d5875495f86669cf961} 
+void Texture\+::load3\+DTexture (\begin{DoxyParamCaption}\item[{std\+::string}]{path}{, }\item[{int}]{start\+Index}{, }\item[{int}]{end\+Index}{, }\item[{std\+::string}]{file\+Type}{}\end{DoxyParamCaption})}
+
+
+
+Loads a 3D volume texture. 
+
+This function loads a 3D volume texture and creates the respective Vulkan handles needed for binding the texture.
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Path to the texture. \\
+\hline
+{\em start\+Index} & First index of the textures. \\
+\hline
+{\em end\+Index} & Last index of the textures. \\
+\hline
+{\em file\+Type} & Type of texture images. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_texture_8h}{Texture.\+h}}\item 
+\mbox{\hyperlink{_texture_8cpp}{Texture.\+cpp}}\end{DoxyCompactItemize}

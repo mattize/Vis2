@@ -115,18 +115,18 @@ struct PerPlanePushConstant {
 };
 
 struct EnvUniformBufferObject {
-    glm::mat4 inverseViewMatrix;
-    glm::vec3 middleOfPlaneVSOpp;
-    float planeWidth;
-    float planeHeight;
-    glm::vec2 planeSides;
-    glm::mat4 fl0;
-    glm::mat4 fl1;
-    glm::mat4 fl2;
-    glm::mat4 fl3;
-    glm::mat4 fl4;
-    glm::mat4 fl5;
-    float boxSize;
+    alignas(16) glm::mat4 inverseViewMatrix;  
+    alignas(16) glm::vec3 middleOfPlaneVSOpp;  
+    alignas(4) float planeWidth;                
+    alignas(4) float planeHeight;               
+    alignas(8) glm::vec2 planeSides;           
+    alignas(16) glm::mat4 dir0;
+    alignas(16) glm::mat4 dir1;
+    alignas(16) glm::mat4 dir2;
+    alignas(16) glm::mat4 dir3;
+    alignas(16) glm::mat4 dir4;
+    alignas(16) glm::mat4 dir5;
+    alignas(4) float boxSize;                  
 };
 
 class VulkanHandler {
@@ -148,6 +148,9 @@ public:
     void initUI();
     void defineUI(PreIntegrationTable integrationTable);
     bool checkUIWindowHovered();
+    void updateCube(glm::mat4 inverseViewMatrix, glm::vec3 middleOfPlaneVS, float planeWidth, float planeHeight, glm::vec2 planeSides,
+        glm::mat4 dir0, glm::mat4 dir1, glm::mat4 dir2, glm::mat4 dir3, glm::mat4 dir4, glm::mat4 dir5, float boxSize);
+    void dispatchEnvCompute(int width, int height, int depth);
 
     VkDevice& getDevice();
     VkPhysicalDevice& getPhysicalDevice();
@@ -198,6 +201,8 @@ private:
     std::vector<VkSemaphore> renderFinishedSemaphores;
     std::vector<VkFence> computeInFlightFences;
     std::vector<VkSemaphore> computeFinishedSemaphores;
+    std::vector<VkFence> envInFlightFences;
+    std::vector<VkSemaphore> envFinishedSemaphores;
     std::vector<VkFence> algoInFlightFences;
     std::vector<VkSemaphore> algoFinishedSemaphores;
     std::vector<VkFence> inFlightFences;
@@ -228,6 +233,9 @@ private:
     std::vector<VkBuffer> algoUniformBuffers;
     std::vector<VkDeviceMemory> algoUniformBuffersMemory;
     std::vector<void*> algoUniformBuffersMapped;
+    std::vector<VkBuffer> envUniformBuffers;
+    std::vector<VkDeviceMemory> envUniformBuffersMemory;
+    std::vector<void*> envUniformBuffersMapped;
 
     VkDescriptorPool computeDescriptorPool;
     std::vector<VkDescriptorSet> computeDescriptorSets;
@@ -250,6 +258,10 @@ private:
     std::vector<VkImageView> firstBufferViews;
     std::vector<VkImageView> secondBufferViews;
     VkSampler bufferSampler;
+    VkImage cubeImage;
+    VkDeviceMemory cubeMemory;
+    VkImageView cubeView;
+    VkSampler cubeSampler;
 
     std::vector<Vertex> cube_vertices = {
         // positions        // texture Coords
@@ -318,6 +330,12 @@ private:
 
     void createLogicalDevice();
 
+    void createEnvDescriptorPool();
+
+    void createEnvDescriptorSets();
+
+    void copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height, uint32_t depth);
+
     void createComputeCommandBuffers();
 
     void createSwapChain();
@@ -337,8 +355,6 @@ private:
     void createFramebuffers();
 
     void createAlgoDescriptorSetLayout();
-
-    void createEnvPipeline();
 
     void createDescriptorSetLayout();
 
@@ -402,6 +418,8 @@ private:
 
     void createAlgoPipeline();
 
+    void createImageCube();
+
     void createComputePipeline();
 
     void createComputeDescriptorSetLayout();
@@ -414,9 +432,15 @@ private:
 
     void createIndexBuffer(std::vector<uint32_t> indices);
 
+    void createCubeVertexBuffer(std::vector<Vertex> vertices);
+
+    void createCubeIndexBuffer(std::vector<uint32_t> indices);
+
     void createAlgoFramebuffers();
 
     void createUniformBuffers();
+
+    void createCubeUniformBuffers();
 
     void createAlgoDescriptorPool();
 

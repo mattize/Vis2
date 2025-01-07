@@ -11,7 +11,7 @@ vec3 sampleOffset[20] = vec3[]
 
 layout(location = 0) in vec2 texCoords;
 layout(location = 1) in vec3 position_model;
-layout(location = 2) in vec3 FragPos;
+layout(location = 3) in vec3 FragPos;
 
 layout(binding = 1) uniform sampler2D vpb;
 layout(binding = 2) uniform sampler2D vdb;

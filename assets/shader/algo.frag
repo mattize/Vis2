@@ -102,7 +102,7 @@ vec3 getVolumeGradient(vec3 position)
 	return length(diff) > 0 ? normalize(diff) : vec3(0);
 }
 
-// assume normalized ray/n, no parallelity
+
 vec3 intersectPlane(vec3 n, vec3 p0, vec3 r, vec3 r0)
 {
 	float d = dot(n, r);
@@ -111,9 +111,6 @@ vec3 intersectPlane(vec3 n, vec3 p0, vec3 r, vec3 r0)
 	float t = -(dot(r0, n) + p0.z) / d;
 	return r0 + r * t;
 }
-
-
-
 
 void main() {
 	float currentZVS = push.currentZVS;
@@ -138,10 +135,7 @@ void main() {
 	int readLayer = 1 - push.layer;
 	int writeLayer = push.layer;
 
-	// LIGHT
 	vec4 ldi = texture(ldb, texCoords);
-
-	
 	vec2 lpi_1 = intersectPlane(
 		vec3(0,0,-1),
 		vec3(0.5, 0.5, currentZVS + planeDistance),
@@ -149,7 +143,6 @@ void main() {
 		vec3(texCoords, currentZVS)
 	).xy;
 
-	//TODO worldpos geometry shader way or this way??
 	vec3 volumePosLPI_1 = (inverseViewMatrix * vec4(texFactor2 * (middleOfPlaneVS.xy + lpi_1 - 0.5), currentZVS + planeDistance, 1.0)).xyz + texOffset;
 	vec3 WorldPos = (inverseViewMatrix * vec4(texFactor2 * (middleOfPlaneVS.xy + texCoords - 0.5), currentZVS, 1.0)).xyz + texOffset;
 
@@ -165,19 +158,15 @@ void main() {
 	float Si = abs(dFdxFine(texCoords.x)) * abs(dFdyFine(texCoords.y));  // DOT CORRECT?
 	float Si_1 = abs(dFdxFine(lpi_1.x)) *  abs(dFdyFine(lpi_1.y));
 	
-	float Ii = Si_1/Si; //IC
+	float Ii = Si_1/Si;
 
-	// if (!useIi) Ii = 1.0;
 
-	// INTEGRATION TABLE LIGHT
 	float volumeX = sampleVolTexture(WorldPos);
 	float volumeLPI_1 = sampleVolTexture(volumePosLPI_1);
 	vec4 transfer = texture(volumeTF, vec2(volumeX, volumeLPI_1));
 	float alphaL = transfer.w;
-	vec4 mL = texture(mediumTF, vec2(volumeX, volumeLPI_1));//1.0 - transfer.xyz * 0.05; // transfer medium lpi_1
-	//mL.xyz = mL.xyz * mL.w + vec3(1.0) * (1-mL.w);
-	
-	//mL = vec3(1.0);
+	vec4 mL = texture(mediumTF, vec2(volumeX, volumeLPI_1));
+
 	vec4 Li = Li_1 * Ii *  abs(1.0 - alphaL) * vec4( vec3(0.99) + mL.xyz * 0.01,1);
 
 	precise vec3 ref = getRefractionGradient((WorldPos+volumePosLPI_1)/2.0) * planeDistance;
@@ -185,8 +174,6 @@ void main() {
 	
 	lbOut = vec4(Li.xyz, 1.0);
 	ldbOut = ldi;			
-
-	// VIEW
 
 	vec4 vpi = texture(vpb, texCoords);
 	vec4 vpiWorldPos = inverseViewMatrix * vpi;
@@ -197,9 +184,6 @@ void main() {
 	vec4 Mi_1 = texture(mb, texCoords);
 	vec4 id = texture(lb, texCoords);
 	
-
-	// INTEGRATION TABLE VIEW
-	//vec4 vpi_1 = vpi - vdi * planeDistance;
 	vec4 vpi_1 = vec4(intersectPlane(
 		vec3(0,0,-1),
 		vec3(0, 0, currentZVS + planeDistance),
@@ -225,14 +209,7 @@ void main() {
 	vec3 Mi = Mi_1.xyz * (1.0-mV.w) + (Mi_1.xyz * mV.xyz * mV.w);
 
 	vec4 vdi_P1 = vdi;
-	/*
-	if (useVRayRefraction)
-	{
-		vdi_P1 = normalize(vdi + planeDistance * vec4(refractionView, 0.0));
-	}
-	*/
 	
-	//vec4 vpi_P2 = vpi + vdi_P1 * planeDistance;
 	vec4 vpi_P1 = vec4(intersectPlane(
 		vec3(0,0,-1),
 		vec3(0, 0, currentZVS - planeDistance),

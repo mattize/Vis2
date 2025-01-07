@@ -1,0 +1,100 @@
+\doxysection{Vulkan\+Handler.\+h File Reference}
+\hypertarget{_vulkan_handler_8h}{}\label{_vulkan_handler_8h}\index{VulkanHandler.h@{VulkanHandler.h}}
+{\ttfamily \#include $<$GLFW/glfw3.\+h$>$}\newline
+{\ttfamily \#include "{}Camera.\+h"{}}\newline
+{\ttfamily \#include "{}Light.\+h"{}}\newline
+{\ttfamily \#include "{}Texture.\+h"{}}\newline
+{\ttfamily \#include "{}Pre\+Integration\+Table.\+h"{}}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_queue_family_indices}{Queue\+Family\+Indices}}
+\item 
+struct \mbox{\hyperlink{struct_swap_chain_support_details}{Swap\+Chain\+Support\+Details}}
+\item 
+struct \mbox{\hyperlink{struct_vertex}{Vertex}}
+\item 
+struct \mbox{\hyperlink{structstd_1_1hash_3_01_vertex_01_4}{std\+::hash$<$ Vertex $>$}}
+\item 
+struct \mbox{\hyperlink{struct_camera_uniform_buffer_object}{Camera\+Uniform\+Buffer\+Object}}
+\item 
+struct \mbox{\hyperlink{struct_algo_uniform_buffer_object}{Algo\+Uniform\+Buffer\+Object}}
+\item 
+struct \mbox{\hyperlink{struct_per_plane_push_constant}{Per\+Plane\+Push\+Constant}}
+\item 
+struct \mbox{\hyperlink{struct_env_uniform_buffer_object}{Env\+Uniform\+Buffer\+Object}}
+\item 
+class \mbox{\hyperlink{class_vulkan_handler}{Vulkan\+Handler}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacestd}{std}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_vulkan_handler_8h_ab91f325a54d3e35fe831a86d6382c2a9}{GLFW\+\_\+\+INCLUDE\+\_\+\+VULKAN}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const std\+::vector$<$ const char \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{_vulkan_handler_8h_a7ca66b16460bd6b27fa5176e228218e8}{validation\+Layers}}
+\item 
+const std\+::vector$<$ const char \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{_vulkan_handler_8h_ae9f2e52186582e1f54bb6e686671c24c}{device\+Extensions}}
+\item 
+const bool \mbox{\hyperlink{_vulkan_handler_8h_aebf0191c8cb852209eefbb50d9cbf7ba}{enable\+Validation\+Layers}} = true
+\item 
+const int \mbox{\hyperlink{_vulkan_handler_8h_a7302e21aaabe341f71d799a7dd3f274f}{MAX\+\_\+\+FRAMES\+\_\+\+IN\+\_\+\+FLIGHT}} = 2
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_vulkan_handler_8h_ab91f325a54d3e35fe831a86d6382c2a9}\index{VulkanHandler.h@{VulkanHandler.h}!GLFW\_INCLUDE\_VULKAN@{GLFW\_INCLUDE\_VULKAN}}
+\index{GLFW\_INCLUDE\_VULKAN@{GLFW\_INCLUDE\_VULKAN}!VulkanHandler.h@{VulkanHandler.h}}
+\doxysubsubsection{\texorpdfstring{GLFW\_INCLUDE\_VULKAN}{GLFW\_INCLUDE\_VULKAN}}
+{\footnotesize\ttfamily \label{_vulkan_handler_8h_ab91f325a54d3e35fe831a86d6382c2a9} 
+\#define GLFW\+\_\+\+INCLUDE\+\_\+\+VULKAN}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{_vulkan_handler_8h_ae9f2e52186582e1f54bb6e686671c24c}\index{VulkanHandler.h@{VulkanHandler.h}!deviceExtensions@{deviceExtensions}}
+\index{deviceExtensions@{deviceExtensions}!VulkanHandler.h@{VulkanHandler.h}}
+\doxysubsubsection{\texorpdfstring{deviceExtensions}{deviceExtensions}}
+{\footnotesize\ttfamily \label{_vulkan_handler_8h_ae9f2e52186582e1f54bb6e686671c24c} 
+const std\+::vector$<$const char\texorpdfstring{$\ast$}{*}$>$ device\+Extensions}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ VK\_KHR\_SWAPCHAIN\_EXTENSION\_NAME}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\Hypertarget{_vulkan_handler_8h_aebf0191c8cb852209eefbb50d9cbf7ba}\index{VulkanHandler.h@{VulkanHandler.h}!enableValidationLayers@{enableValidationLayers}}
+\index{enableValidationLayers@{enableValidationLayers}!VulkanHandler.h@{VulkanHandler.h}}
+\doxysubsubsection{\texorpdfstring{enableValidationLayers}{enableValidationLayers}}
+{\footnotesize\ttfamily \label{_vulkan_handler_8h_aebf0191c8cb852209eefbb50d9cbf7ba} 
+const bool enable\+Validation\+Layers = true}
+
+\Hypertarget{_vulkan_handler_8h_a7302e21aaabe341f71d799a7dd3f274f}\index{VulkanHandler.h@{VulkanHandler.h}!MAX\_FRAMES\_IN\_FLIGHT@{MAX\_FRAMES\_IN\_FLIGHT}}
+\index{MAX\_FRAMES\_IN\_FLIGHT@{MAX\_FRAMES\_IN\_FLIGHT}!VulkanHandler.h@{VulkanHandler.h}}
+\doxysubsubsection{\texorpdfstring{MAX\_FRAMES\_IN\_FLIGHT}{MAX\_FRAMES\_IN\_FLIGHT}}
+{\footnotesize\ttfamily \label{_vulkan_handler_8h_a7302e21aaabe341f71d799a7dd3f274f} 
+const int MAX\+\_\+\+FRAMES\+\_\+\+IN\+\_\+\+FLIGHT = 2}
+
+\Hypertarget{_vulkan_handler_8h_a7ca66b16460bd6b27fa5176e228218e8}\index{VulkanHandler.h@{VulkanHandler.h}!validationLayers@{validationLayers}}
+\index{validationLayers@{validationLayers}!VulkanHandler.h@{VulkanHandler.h}}
+\doxysubsubsection{\texorpdfstring{validationLayers}{validationLayers}}
+{\footnotesize\ttfamily \label{_vulkan_handler_8h_a7ca66b16460bd6b27fa5176e228218e8} 
+const std\+::vector$<$const char\texorpdfstring{$\ast$}{*}$>$ validation\+Layers}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}VK\_LAYER\_KHRONOS\_validation"{}}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

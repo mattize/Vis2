@@ -1,8 +1,8 @@
 #version 450 core
 
 layout(local_size_x = 1, local_size_y = 1) in;
-layout(rgba32f, binding = 0) uniform sampler2D lb;
-layout(rgba32f, binding = 1) uniform sampler2D ldb;
+layout(binding = 0) uniform sampler2D lb;
+layout(binding = 1) uniform sampler2D ldb;
 
 layout(rgba32f, binding = 2) uniform imageCube results;
 
@@ -12,12 +12,12 @@ layout(binding = 3) uniform EnvUniformBufferObject {
 	float planeWidth;
 	float planeHeight;
 	vec2 planeSides;
-	mat4 fl0;
-	mat4 fl1;
-	mat4 fl2;
-	mat4 fl3;
-	mat4 fl4;
-	mat4 fl5;
+	mat4 dir0;
+	mat4 dir1;
+	mat4 dir2;
+	mat4 dir3;
+	mat4 dir4;
+	mat4 dir5;
 	float boxSize;
 } ubo;
 
@@ -41,12 +41,12 @@ void main() {
 	float planeWidth = ubo.planeWidth;
 	float planeHeight = ubo.planeHeight;
 	vec2 planeSides = ubo.planeSides;
-	mat4 fl0 = ubo.fl0;
-	mat4 fl1 = ubo.fl1;
-	mat4 fl2 = ubo.fl2;
-	mat4 fl3 = ubo.fl3;
-	mat4 fl4 = ubo.fl4;
-	mat4 fl5 = ubo.fl5;
+	mat4 dir0 = ubo.dir0;
+	mat4 dir1 = ubo.dir1;
+	mat4 dir2 = ubo.dir2;
+	mat4 dir3 = ubo.dir3;
+	mat4 dir4 = ubo.dir4;
+	mat4 dir5 = ubo.dir5;
 	float boxSize = ubo.boxSize;
   
   ivec3 pixel_coords = ivec3(gl_GlobalInvocationID.xyz);  
@@ -54,8 +54,8 @@ void main() {
   vec3 pixelPos = vec3(inverseViewMatrix * vec4(middleOfPlaneVSOpp + vec3(-planeSides.x + pixel_coords.x/(planeWidth), -planeSides.y + pixel_coords.y/(planeHeight), 0), 1.0));
   
     
-  vec4 light = imageLoad(lb, pixel_coords);
-  vec3 lightdir = normalize(mat3(inverseViewMatrix) * imageLoad(ldb, pixel_coords).xyz);
+  vec4 light = texture(lb, pixel_coords.xy);
+  vec3 lightdir = normalize(mat3(inverseViewMatrix) * texture(ldb, pixel_coords.xy).xyz);
   
     
   vec3 posXIntersect = intersectPlane(
@@ -67,7 +67,7 @@ void main() {
 	);
 	vec4 pos = vec4(0);	
 	if (t != 0) {
-		pos = fl0 * vec4(posXIntersect, 1);	
+		pos = dir0 * vec4(posXIntersect, 1);	
 		ivec3 coords = ivec3(planeWidth /2+ planeWidth*pos.xy/boxSize, 0);
 		vec4 prev = imageLoad(results, coords);
 		imageStore(results,coords, light+prev);
@@ -81,7 +81,7 @@ void main() {
 		t
 	);	
 	if (t != 0) {
-		pos = fl1 * vec4(negXIntersect, 1);	
+		pos = dir1 * vec4(negXIntersect, 1);	
 		ivec3 coords = ivec3(planeWidth /2+ planeWidth*pos.xy/boxSize, 1);
 		vec4 prev = imageLoad(results, coords);
 		imageStore(results, coords, light+prev);
@@ -95,7 +95,7 @@ void main() {
 		t
 	);	
 	if (t != 0) {
-		pos = fl2 * vec4(posYIntersect, 1);	
+		pos = dir2 * vec4(posYIntersect, 1);	
 		ivec3 coords = ivec3(planeWidth /2+ planeWidth*pos.xy/boxSize, 2);
 		vec4 prev = imageLoad(results, coords);
 		imageStore(results, coords, light + prev);
@@ -109,7 +109,7 @@ void main() {
 		t
 	);	
 	if (t != 0) {
-		pos = fl3 * vec4(negYIntersect, 1);	
+		pos = dir3 * vec4(negYIntersect, 1);	
 		ivec3 coords = ivec3(planeWidth /2+ planeWidth*pos.xy/boxSize, 3);
 		vec4 prev = imageLoad(results, coords);
 		imageStore(results, coords, light + prev);
@@ -123,9 +123,8 @@ void main() {
 		t
 	);
 	
-	
 	if (t != 0) {
-		pos = fl4 * vec4(posZIntersect, 1);
+		pos = dir4 * vec4(posZIntersect, 1);
 		ivec3 coords = ivec3(planeWidth /2+ planeWidth*pos.xy/boxSize, 4);
 		vec4 prev = imageLoad(results, coords);
 		imageStore(results, coords, light + prev);
@@ -140,7 +139,7 @@ void main() {
 	);
 	
 	if (t != 0) {
-		pos = fl5 * vec4(negZIntersect, 1);
+		pos = dir5 * vec4(negZIntersect, 1);
 		ivec3 coords = ivec3(planeWidth /2+ planeWidth*pos.xy/boxSize, 5);
 		vec4 prev = imageLoad(results, coords);
 		imageStore(results, coords, light + prev);

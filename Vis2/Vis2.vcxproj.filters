@@ -60,9 +60,6 @@
     <ClCompile Include="PreIntergrationTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EnvironmentMap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vis2.h">
@@ -96,9 +93,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PreIntegrationTable.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EnvironmentMap.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Light.h">

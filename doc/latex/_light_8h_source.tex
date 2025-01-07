@@ -1,0 +1,23 @@
+\doxysection{Light.\+h}
+\hypertarget{_light_8h_source}{}\label{_light_8h_source}\mbox{\hyperlink{_light_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_common_8h}{Common.h}}"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_light_aeb5df09a25a32f19fdffa761268ba24f}{Light}}\ \{}
+\DoxyCodeLine{00006\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00007\ \ \ \ \ \mbox{\hyperlink{class_light_aeb5df09a25a32f19fdffa761268ba24f}{Light}}()\ \{\};}
+\DoxyCodeLine{00008\ \ \ \ \ \mbox{\hyperlink{class_light_a1995c9cd80ca52622ab7b1cee2d34dcf}{Light}}(\textcolor{keywordtype}{float}\ intensity,\ glm::vec3\ color,\ glm::vec3\ position)\ :\ m\_intensity(intensity),\ m\_color(color),\ m\_position(position)\ \{\};}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_light_a68adeebbc8b6806213a0a7454251bb02}{getIntensity}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_intensity;\ \}}
+\DoxyCodeLine{00011\ \ \ \ \ glm::vec3\ \mbox{\hyperlink{class_light_aa9b30b98a16eebf0556cff42dd560246}{getColor}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_color;\ \}}
+\DoxyCodeLine{00012\ \ \ \ \ glm::vec3\ \mbox{\hyperlink{class_light_a24d3c226daf99f57427a0cb4b75605a7}{getPosition}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_position;\ \}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_intensity;}
+\DoxyCodeLine{00016\ \ \ \ \ glm::vec3\ m\_color;}
+\DoxyCodeLine{00017\ \ \ \ \ glm::vec3\ m\_position;}
+\DoxyCodeLine{00018\ \};}
+
+\end{DoxyCode}

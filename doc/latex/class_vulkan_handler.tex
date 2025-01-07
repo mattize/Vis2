@@ -1,0 +1,205 @@
+\doxysection{Vulkan\+Handler Class Reference}
+\hypertarget{class_vulkan_handler}{}\label{class_vulkan_handler}\index{VulkanHandler@{VulkanHandler}}
+
+
+{\ttfamily \#include $<$Vulkan\+Handler.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_vulkan_handler_a84fe72042c829571b4729dc983e5220d}{Vulkan\+Handler}} ()
+\item 
+\mbox{\hyperlink{class_vulkan_handler_ad4d8cbb58c842fbeb33f2e5ff687fe0c}{Vulkan\+Handler}} (GLFWwindow \texorpdfstring{$\ast$}{*}window)
+\item 
+void \mbox{\hyperlink{class_vulkan_handler_a1973dbc5ca3762a02c6b5d443e92d5c1}{init\+Vulkan}} ()
+\item 
+void \mbox{\hyperlink{class_vulkan_handler_a744f5899a1e5e7b93d7ffc5b45bd16c4}{draw\+Frame}} (int num\+Planes, glm\+::vec3 middle\+Of\+Plane\+VS, float plane\+Distance, \mbox{\hyperlink{class_pre_integration_table}{Pre\+Integration\+Table}} integration\+Table)
+\item 
+void \mbox{\hyperlink{class_vulkan_handler_a06636f1c45880963a47d7f51b28efcbf}{cleanup}} ()
+\item 
+void \mbox{\hyperlink{class_vulkan_handler_a0b91eeddb0779f1acb269379524d2aec}{set\+Device\+Wait\+Idle}} ()
+\item 
+void \mbox{\hyperlink{class_vulkan_handler_ad5e7d85781302795c4b3fee00b4692da}{create\+Cube}} ()
+\item 
+void \mbox{\hyperlink{class_vulkan_handler_a94adfba7ca2f3d2b93a27d5203ba5386}{create\+Quad}} (\mbox{\hyperlink{class_texture}{Texture}} texture, \mbox{\hyperlink{class_pre_integration_table}{Pre\+Integration\+Table}} integration\+Table)
+\item 
+void \mbox{\hyperlink{class_vulkan_handler_a00669acc63a590b4ae33cb5e95e3e76b}{update\+MVP}} (float dt, \mbox{\hyperlink{class_camera}{Camera}} \&camera)
+\item 
+void \mbox{\hyperlink{class_vulkan_handler_a79ff67433f56b1731a46e8b4df04dcc1}{update\+Algo}} (glm\+::mat4 inverse\+View\+Matrix, glm\+::mat4 view\+Matrix, float plane\+Distance, glm\+::vec3 middle\+Of\+Plane\+VS, float sphere\+Radius, glm\+::vec2 plane\+Sides, glm\+::ivec2 dims, glm\+::vec3 refraction\+Pos, glm\+::vec4 refraction\+Value, float voxel\+Depth, float plane\+Width, float plane\+Height, \mbox{\hyperlink{class_light}{Light}} light)
+\item 
+void \mbox{\hyperlink{class_vulkan_handler_a73e8c7c90eff7b72f38dc66c2d41e2bd}{dispatch\+Compute}} (int width, int heigth, int depth)
+\item 
+void \mbox{\hyperlink{class_vulkan_handler_a34eebde651489223eed15a85e8214422}{run\+Algo}} (int num\+Planes, glm\+::vec3 middle\+Of\+Plane\+VS, float plane\+Distance)
+\item 
+void \mbox{\hyperlink{class_vulkan_handler_a27b00f2ce0d2e20eb8a03b874c9b0533}{init\+UI}} ()
+\item 
+void \mbox{\hyperlink{class_vulkan_handler_a792e2b83369b992b066a122b4f69ee95}{define\+UI}} (\mbox{\hyperlink{class_pre_integration_table}{Pre\+Integration\+Table}} integration\+Table)
+\item 
+bool \mbox{\hyperlink{class_vulkan_handler_a9e3d648dd11e0e4ecb96fa06d672581b}{check\+UIWindow\+Hovered}} ()
+\item 
+void \mbox{\hyperlink{class_vulkan_handler_a35f88c6023bde2fec3b9a006fba32d7c}{update\+Cube}} (glm\+::mat4 inverse\+View\+Matrix, glm\+::vec3 middle\+Of\+Plane\+VS, float plane\+Width, float plane\+Height, glm\+::vec2 plane\+Sides, glm\+::mat4 fl0, glm\+::mat4 fl1, glm\+::mat4 fl2, glm\+::mat4 fl3, glm\+::mat4 fl4, glm\+::mat4 fl5, float box\+Size)
+\item 
+void \mbox{\hyperlink{class_vulkan_handler_a4694a97a3ea61dbbae6ade7af4698720}{dispatch\+Env\+Compute}} (int width, int height, int depth)
+\item 
+Vk\+Device \& \mbox{\hyperlink{class_vulkan_handler_ae0b07c1e6177bb3dabd099d92bee3cda}{get\+Device}} ()
+\item 
+Vk\+Physical\+Device \& \mbox{\hyperlink{class_vulkan_handler_a5c880d6a24970661c36257ab5683e874}{get\+Physical\+Device}} ()
+\item 
+Vk\+Render\+Pass \& \mbox{\hyperlink{class_vulkan_handler_a53a19bae49d42c3fc9ce6bfd842abba9}{get\+Render\+Pass}} ()
+\item 
+uint32\+\_\+t \mbox{\hyperlink{class_vulkan_handler_a89380a0bf0eb12e77c9da615c170b3db}{get\+Current\+Frame}} ()
+\item 
+Vk\+Command\+Pool \& \mbox{\hyperlink{class_vulkan_handler_a9d6fa3237df25468d86f8ca9f980d825}{get\+Command\+Pool}} ()
+\item 
+Vk\+Queue \& \mbox{\hyperlink{class_vulkan_handler_aceac72c36fc9b68785a626110f55bce8}{get\+Graphics\+Queue}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_vulkan_handler_a84fe72042c829571b4729dc983e5220d}\index{VulkanHandler@{VulkanHandler}!VulkanHandler@{VulkanHandler}}
+\index{VulkanHandler@{VulkanHandler}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{VulkanHandler()}{VulkanHandler()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a84fe72042c829571b4729dc983e5220d} 
+Vulkan\+Handler\+::\+Vulkan\+Handler (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_vulkan_handler_ad4d8cbb58c842fbeb33f2e5ff687fe0c}\index{VulkanHandler@{VulkanHandler}!VulkanHandler@{VulkanHandler}}
+\index{VulkanHandler@{VulkanHandler}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{VulkanHandler()}{VulkanHandler()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_ad4d8cbb58c842fbeb33f2e5ff687fe0c} 
+Vulkan\+Handler\+::\+Vulkan\+Handler (\begin{DoxyParamCaption}\item[{GLFWwindow \texorpdfstring{$\ast$}{*}}]{window}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_vulkan_handler_a9e3d648dd11e0e4ecb96fa06d672581b}\index{VulkanHandler@{VulkanHandler}!checkUIWindowHovered@{checkUIWindowHovered}}
+\index{checkUIWindowHovered@{checkUIWindowHovered}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{checkUIWindowHovered()}{checkUIWindowHovered()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a9e3d648dd11e0e4ecb96fa06d672581b} 
+bool Vulkan\+Handler\+::check\+UIWindow\+Hovered (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_a06636f1c45880963a47d7f51b28efcbf}\index{VulkanHandler@{VulkanHandler}!cleanup@{cleanup}}
+\index{cleanup@{cleanup}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{cleanup()}{cleanup()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a06636f1c45880963a47d7f51b28efcbf} 
+void Vulkan\+Handler\+::cleanup (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_ad5e7d85781302795c4b3fee00b4692da}\index{VulkanHandler@{VulkanHandler}!createCube@{createCube}}
+\index{createCube@{createCube}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{createCube()}{createCube()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_ad5e7d85781302795c4b3fee00b4692da} 
+void Vulkan\+Handler\+::create\+Cube (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_a94adfba7ca2f3d2b93a27d5203ba5386}\index{VulkanHandler@{VulkanHandler}!createQuad@{createQuad}}
+\index{createQuad@{createQuad}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{createQuad()}{createQuad()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a94adfba7ca2f3d2b93a27d5203ba5386} 
+void Vulkan\+Handler\+::create\+Quad (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_texture}{Texture}}}]{texture}{, }\item[{\mbox{\hyperlink{class_pre_integration_table}{Pre\+Integration\+Table}}}]{integration\+Table}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_a792e2b83369b992b066a122b4f69ee95}\index{VulkanHandler@{VulkanHandler}!defineUI@{defineUI}}
+\index{defineUI@{defineUI}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{defineUI()}{defineUI()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a792e2b83369b992b066a122b4f69ee95} 
+void Vulkan\+Handler\+::define\+UI (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_pre_integration_table}{Pre\+Integration\+Table}}}]{integration\+Table}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_a73e8c7c90eff7b72f38dc66c2d41e2bd}\index{VulkanHandler@{VulkanHandler}!dispatchCompute@{dispatchCompute}}
+\index{dispatchCompute@{dispatchCompute}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{dispatchCompute()}{dispatchCompute()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a73e8c7c90eff7b72f38dc66c2d41e2bd} 
+void Vulkan\+Handler\+::dispatch\+Compute (\begin{DoxyParamCaption}\item[{int}]{width}{, }\item[{int}]{heigth}{, }\item[{int}]{depth}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_a4694a97a3ea61dbbae6ade7af4698720}\index{VulkanHandler@{VulkanHandler}!dispatchEnvCompute@{dispatchEnvCompute}}
+\index{dispatchEnvCompute@{dispatchEnvCompute}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{dispatchEnvCompute()}{dispatchEnvCompute()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a4694a97a3ea61dbbae6ade7af4698720} 
+void Vulkan\+Handler\+::dispatch\+Env\+Compute (\begin{DoxyParamCaption}\item[{int}]{width}{, }\item[{int}]{height}{, }\item[{int}]{depth}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_a744f5899a1e5e7b93d7ffc5b45bd16c4}\index{VulkanHandler@{VulkanHandler}!drawFrame@{drawFrame}}
+\index{drawFrame@{drawFrame}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{drawFrame()}{drawFrame()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a744f5899a1e5e7b93d7ffc5b45bd16c4} 
+void Vulkan\+Handler\+::draw\+Frame (\begin{DoxyParamCaption}\item[{int}]{num\+Planes}{, }\item[{glm\+::vec3}]{middle\+Of\+Plane\+VS}{, }\item[{float}]{plane\+Distance}{, }\item[{\mbox{\hyperlink{class_pre_integration_table}{Pre\+Integration\+Table}}}]{integration\+Table}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_a9d6fa3237df25468d86f8ca9f980d825}\index{VulkanHandler@{VulkanHandler}!getCommandPool@{getCommandPool}}
+\index{getCommandPool@{getCommandPool}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{getCommandPool()}{getCommandPool()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a9d6fa3237df25468d86f8ca9f980d825} 
+Vk\+Command\+Pool \& Vulkan\+Handler\+::get\+Command\+Pool (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_a89380a0bf0eb12e77c9da615c170b3db}\index{VulkanHandler@{VulkanHandler}!getCurrentFrame@{getCurrentFrame}}
+\index{getCurrentFrame@{getCurrentFrame}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{getCurrentFrame()}{getCurrentFrame()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a89380a0bf0eb12e77c9da615c170b3db} 
+uint32\+\_\+t Vulkan\+Handler\+::get\+Current\+Frame (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_ae0b07c1e6177bb3dabd099d92bee3cda}\index{VulkanHandler@{VulkanHandler}!getDevice@{getDevice}}
+\index{getDevice@{getDevice}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{getDevice()}{getDevice()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_ae0b07c1e6177bb3dabd099d92bee3cda} 
+Vk\+Device \& Vulkan\+Handler\+::get\+Device (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_aceac72c36fc9b68785a626110f55bce8}\index{VulkanHandler@{VulkanHandler}!getGraphicsQueue@{getGraphicsQueue}}
+\index{getGraphicsQueue@{getGraphicsQueue}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{getGraphicsQueue()}{getGraphicsQueue()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_aceac72c36fc9b68785a626110f55bce8} 
+Vk\+Queue \& Vulkan\+Handler\+::get\+Graphics\+Queue (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_a5c880d6a24970661c36257ab5683e874}\index{VulkanHandler@{VulkanHandler}!getPhysicalDevice@{getPhysicalDevice}}
+\index{getPhysicalDevice@{getPhysicalDevice}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{getPhysicalDevice()}{getPhysicalDevice()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a5c880d6a24970661c36257ab5683e874} 
+Vk\+Physical\+Device \& Vulkan\+Handler\+::get\+Physical\+Device (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_a53a19bae49d42c3fc9ce6bfd842abba9}\index{VulkanHandler@{VulkanHandler}!getRenderPass@{getRenderPass}}
+\index{getRenderPass@{getRenderPass}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{getRenderPass()}{getRenderPass()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a53a19bae49d42c3fc9ce6bfd842abba9} 
+Vk\+Render\+Pass \& Vulkan\+Handler\+::get\+Render\+Pass (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_a27b00f2ce0d2e20eb8a03b874c9b0533}\index{VulkanHandler@{VulkanHandler}!initUI@{initUI}}
+\index{initUI@{initUI}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{initUI()}{initUI()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a27b00f2ce0d2e20eb8a03b874c9b0533} 
+void Vulkan\+Handler\+::init\+UI (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_a1973dbc5ca3762a02c6b5d443e92d5c1}\index{VulkanHandler@{VulkanHandler}!initVulkan@{initVulkan}}
+\index{initVulkan@{initVulkan}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{initVulkan()}{initVulkan()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a1973dbc5ca3762a02c6b5d443e92d5c1} 
+void Vulkan\+Handler\+::init\+Vulkan (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_a34eebde651489223eed15a85e8214422}\index{VulkanHandler@{VulkanHandler}!runAlgo@{runAlgo}}
+\index{runAlgo@{runAlgo}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{runAlgo()}{runAlgo()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a34eebde651489223eed15a85e8214422} 
+void Vulkan\+Handler\+::run\+Algo (\begin{DoxyParamCaption}\item[{int}]{num\+Planes}{, }\item[{glm\+::vec3}]{middle\+Of\+Plane\+VS}{, }\item[{float}]{plane\+Distance}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_a0b91eeddb0779f1acb269379524d2aec}\index{VulkanHandler@{VulkanHandler}!setDeviceWaitIdle@{setDeviceWaitIdle}}
+\index{setDeviceWaitIdle@{setDeviceWaitIdle}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{setDeviceWaitIdle()}{setDeviceWaitIdle()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a0b91eeddb0779f1acb269379524d2aec} 
+void Vulkan\+Handler\+::set\+Device\+Wait\+Idle (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_a79ff67433f56b1731a46e8b4df04dcc1}\index{VulkanHandler@{VulkanHandler}!updateAlgo@{updateAlgo}}
+\index{updateAlgo@{updateAlgo}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{updateAlgo()}{updateAlgo()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a79ff67433f56b1731a46e8b4df04dcc1} 
+void Vulkan\+Handler\+::update\+Algo (\begin{DoxyParamCaption}\item[{glm\+::mat4}]{inverse\+View\+Matrix}{, }\item[{glm\+::mat4}]{view\+Matrix}{, }\item[{float}]{plane\+Distance}{, }\item[{glm\+::vec3}]{middle\+Of\+Plane\+VS}{, }\item[{float}]{sphere\+Radius}{, }\item[{glm\+::vec2}]{plane\+Sides}{, }\item[{glm\+::ivec2}]{dims}{, }\item[{glm\+::vec3}]{refraction\+Pos}{, }\item[{glm\+::vec4}]{refraction\+Value}{, }\item[{float}]{voxel\+Depth}{, }\item[{float}]{plane\+Width}{, }\item[{float}]{plane\+Height}{, }\item[{\mbox{\hyperlink{class_light}{Light}}}]{light}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_a35f88c6023bde2fec3b9a006fba32d7c}\index{VulkanHandler@{VulkanHandler}!updateCube@{updateCube}}
+\index{updateCube@{updateCube}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{updateCube()}{updateCube()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a35f88c6023bde2fec3b9a006fba32d7c} 
+void Vulkan\+Handler\+::update\+Cube (\begin{DoxyParamCaption}\item[{glm\+::mat4}]{inverse\+View\+Matrix}{, }\item[{glm\+::vec3}]{middle\+Of\+Plane\+VS}{, }\item[{float}]{plane\+Width}{, }\item[{float}]{plane\+Height}{, }\item[{glm\+::vec2}]{plane\+Sides}{, }\item[{glm\+::mat4}]{fl0}{, }\item[{glm\+::mat4}]{fl1}{, }\item[{glm\+::mat4}]{fl2}{, }\item[{glm\+::mat4}]{fl3}{, }\item[{glm\+::mat4}]{fl4}{, }\item[{glm\+::mat4}]{fl5}{, }\item[{float}]{box\+Size}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_handler_a00669acc63a590b4ae33cb5e95e3e76b}\index{VulkanHandler@{VulkanHandler}!updateMVP@{updateMVP}}
+\index{updateMVP@{updateMVP}!VulkanHandler@{VulkanHandler}}
+\doxysubsubsection{\texorpdfstring{updateMVP()}{updateMVP()}}
+{\footnotesize\ttfamily \label{class_vulkan_handler_a00669acc63a590b4ae33cb5e95e3e76b} 
+void Vulkan\+Handler\+::update\+MVP (\begin{DoxyParamCaption}\item[{float}]{dt}{, }\item[{\mbox{\hyperlink{class_camera}{Camera}} \&}]{camera}{}\end{DoxyParamCaption})}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_vulkan_handler_8h}{Vulkan\+Handler.\+h}}\item 
+\mbox{\hyperlink{_vulkan_handler_8cpp}{Vulkan\+Handler.\+cpp}}\end{DoxyCompactItemize}

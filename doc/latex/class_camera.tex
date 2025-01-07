@@ -1,0 +1,69 @@
+\doxysection{Camera Class Reference}
+\hypertarget{class_camera}{}\label{class_camera}\index{Camera@{Camera}}
+
+
+{\ttfamily \#include $<$Camera.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_camera_a01f94c3543f56ede7af49dc778f19331}{Camera}} ()
+\item 
+\mbox{\hyperlink{class_camera_a51109bcee8114e65529d8a721a910738}{Camera}} (uint32\+\_\+t width, uint32\+\_\+t height, float fov, float near\+Plane, float far\+Plane)
+\item 
+void \mbox{\hyperlink{class_camera_a481e6e39d038ac8c9c21a2d817e7241a}{update}} (int width, int height, float delta\+MouseX, float delta\+MouseY, float zoom)
+\item 
+glm\+::mat4 \mbox{\hyperlink{class_camera_a2415fdca6aea84bad415367a11fa469e}{get\+Proj\+Mat}} () const
+\item 
+glm\+::mat4 \mbox{\hyperlink{class_camera_ad6744de351a376ffba05b23a06580860}{get\+View\+Mat}} () const
+\item 
+glm\+::vec3 \mbox{\hyperlink{class_camera_aa9dc951f8d6e7082233786438139c51d}{get\+Position}} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_camera_a01f94c3543f56ede7af49dc778f19331}\index{Camera@{Camera}!Camera@{Camera}}
+\index{Camera@{Camera}!Camera@{Camera}}
+\doxysubsubsection{\texorpdfstring{Camera()}{Camera()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_camera_a01f94c3543f56ede7af49dc778f19331} 
+Camera\+::\+Camera (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_camera_a51109bcee8114e65529d8a721a910738}\index{Camera@{Camera}!Camera@{Camera}}
+\index{Camera@{Camera}!Camera@{Camera}}
+\doxysubsubsection{\texorpdfstring{Camera()}{Camera()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_camera_a51109bcee8114e65529d8a721a910738} 
+Camera\+::\+Camera (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{width}{, }\item[{uint32\+\_\+t}]{height}{, }\item[{float}]{fov}{, }\item[{float}]{near\+Plane}{, }\item[{float}]{far\+Plane}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_camera_aa9dc951f8d6e7082233786438139c51d}\index{Camera@{Camera}!getPosition@{getPosition}}
+\index{getPosition@{getPosition}!Camera@{Camera}}
+\doxysubsubsection{\texorpdfstring{getPosition()}{getPosition()}}
+{\footnotesize\ttfamily \label{class_camera_aa9dc951f8d6e7082233786438139c51d} 
+glm\+::vec3 Camera\+::get\+Position (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_camera_a2415fdca6aea84bad415367a11fa469e}\index{Camera@{Camera}!getProjMat@{getProjMat}}
+\index{getProjMat@{getProjMat}!Camera@{Camera}}
+\doxysubsubsection{\texorpdfstring{getProjMat()}{getProjMat()}}
+{\footnotesize\ttfamily \label{class_camera_a2415fdca6aea84bad415367a11fa469e} 
+glm\+::mat4 Camera\+::get\+Proj\+Mat (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_camera_ad6744de351a376ffba05b23a06580860}\index{Camera@{Camera}!getViewMat@{getViewMat}}
+\index{getViewMat@{getViewMat}!Camera@{Camera}}
+\doxysubsubsection{\texorpdfstring{getViewMat()}{getViewMat()}}
+{\footnotesize\ttfamily \label{class_camera_ad6744de351a376ffba05b23a06580860} 
+glm\+::mat4 Camera\+::get\+View\+Mat (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_camera_a481e6e39d038ac8c9c21a2d817e7241a}\index{Camera@{Camera}!update@{update}}
+\index{update@{update}!Camera@{Camera}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily \label{class_camera_a481e6e39d038ac8c9c21a2d817e7241a} 
+void Camera\+::update (\begin{DoxyParamCaption}\item[{int}]{width}{, }\item[{int}]{height}{, }\item[{float}]{delta\+MouseX}{, }\item[{float}]{delta\+MouseY}{, }\item[{float}]{zoom}{}\end{DoxyParamCaption})}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_camera_8h}{Camera.\+h}}\item 
+\mbox{\hyperlink{_camera_8cpp}{Camera.\+cpp}}\end{DoxyCompactItemize}

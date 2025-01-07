@@ -1,0 +1,67 @@
+\doxysection{Vis2.\+h}
+\hypertarget{_vis2_8h_source}{}\label{_vis2_8h_source}\mbox{\hyperlink{_vis2_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ GLFW\_INCLUDE\_VULKAN}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <GLFW/glfw3.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_vulkan_handler_8h}{VulkanHandler.h}}"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <iterator>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_vis2}{Vis2}}\ \{}
+\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vis2_a107d15b02b294fda73b009ee241744a4}{run}}();}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vis2_a55243554b566ae44a2c25718a900bbb5}{setDeltaZoom}}(\textcolor{keywordtype}{float}\ deltaZoom);}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{const}\ uint32\_t\ WIDTH\ =\ 800;}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{const}\ uint32\_t\ HEIGHT\ =\ 600;}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ ASPECT\ =\ float(WIDTH)\ /\ float(HEIGHT);}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ FOV\ =\ 60.0f;}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ NEARZ\ =\ 0.1f;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ FARZ\ =\ 300.0f;}
+\DoxyCodeLine{00024\ \ \ \ \ }
+\DoxyCodeLine{00025\ \ \ \ \ glm::vec2\ planeSides\ =\ glm::vec2(0.6,\ 0.6);}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{int}\ numPlanes\ =\ 400;}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{float}\ voxelDepth\ =\ 1.0;}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{class_texture}{Texture}}\ m\_volume;}
+\DoxyCodeLine{00030\ \ \ \ \ uint32\_t\ volume\_width;}
+\DoxyCodeLine{00031\ \ \ \ \ uint32\_t\ volume\_height;}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{class_light}{Light}}\ m\_light;}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ GLFWwindow*\ m\_window;}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_framebufferResized\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_mouse\_control\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_firstClick\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{double}\ m\_mouse\_x;}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{double}\ m\_mouse\_y;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_lastMouse\_x\ =\ 0;}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_lastMouse\_y\ =\ 0;}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{float}\ m\_deltaZoom;}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{class_camera}{Camera}}\ m\_camera;}
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{class_vulkan_handler}{VulkanHandler}}\ m\_vulkanHandler;}
+\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{class_vulkan_device}{VulkanDevice}}\ m\_vulkanDevice;}
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{class_pre_integration_table}{PreIntegrationTable}}\ m\_integrationTable;}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{void}\ setWorkingDirectory();}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{void}\ renderLoop();}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ cleanup();}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ loadAssets();}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{void}\ updateCamera();}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ framebufferResizeCallback(GLFWwindow*\ window,\ \textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height);}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ mouse\_button\_callback(GLFWwindow*\ window,\ \textcolor{keywordtype}{int}\ button,\ \textcolor{keywordtype}{int}\ action,\ \textcolor{keywordtype}{int}\ mods);}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ scroll\_callback(GLFWwindow*\ window,\ \textcolor{keywordtype}{double}\ xoffset,\ \textcolor{keywordtype}{double}\ yoffset);}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \};}
+
+\end{DoxyCode}

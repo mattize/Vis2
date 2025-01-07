@@ -1,0 +1,469 @@
+\doxysection{Vulkan\+Handler.\+h}
+\hypertarget{_vulkan_handler_8h_source}{}\label{_vulkan_handler_8h_source}\mbox{\hyperlink{_vulkan_handler_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ GLFW\_INCLUDE\_VULKAN}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <GLFW/glfw3.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_camera_8h}{Camera.h}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_light_8h}{Light.h}}"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_texture_8h}{Texture.h}}"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_pre_integration_table_8h}{PreIntegrationTable.h}}"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{const}\ std::vector<const\ char*>\ \mbox{\hyperlink{_vulkan_handler_8h_a7ca66b16460bd6b27fa5176e228218e8}{validationLayers}}\ =\ \{}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{stringliteral}{"{}VK\_LAYER\_KHRONOS\_validation"{}}}
+\DoxyCodeLine{00015\ \};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{const}\ std::vector<const\ char*>\ \mbox{\hyperlink{_vulkan_handler_8h_ae9f2e52186582e1f54bb6e686671c24c}{deviceExtensions}}\ =\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ VK\_KHR\_SWAPCHAIN\_EXTENSION\_NAME}
+\DoxyCodeLine{00019\ \};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#ifdef\ NDEBUG}}
+\DoxyCodeLine{00022\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{_vulkan_handler_8h_aebf0191c8cb852209eefbb50d9cbf7ba}{enableValidationLayers}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00024\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{_vulkan_handler_8h_aebf0191c8cb852209eefbb50d9cbf7ba}{enableValidationLayers}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_queue_family_indices}{QueueFamilyIndices}}\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ std::optional<uint32\_t>\ \mbox{\hyperlink{struct_queue_family_indices_a0f31245079f85b663eef498afd3243eb}{graphicsAndComputeFamily}};}
+\DoxyCodeLine{00030\ \ \ \ \ std::optional<uint32\_t>\ \mbox{\hyperlink{struct_queue_family_indices_a7229b20d9ad2a8179565812fcf650775}{presentFamily}};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_queue_family_indices_a652cdfabe4719ae21a701e77d57e7899}{isComplete}}()\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_queue_family_indices_a0f31245079f85b663eef498afd3243eb}{graphicsAndComputeFamily}}.has\_value()\ \&\&\ \mbox{\hyperlink{struct_queue_family_indices_a7229b20d9ad2a8179565812fcf650775}{presentFamily}}.has\_value();}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_swap_chain_support_details}{SwapChainSupportDetails}}\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ VkSurfaceCapabilitiesKHR\ \mbox{\hyperlink{struct_swap_chain_support_details_a8918f9f5496b29a701e8d094aa455b2a}{capabilities}};}
+\DoxyCodeLine{00040\ \ \ \ \ std::vector<VkSurfaceFormatKHR>\ \mbox{\hyperlink{struct_swap_chain_support_details_a22cda9622ff2cd725ec00311e2007a7f}{formats}};}
+\DoxyCodeLine{00041\ \ \ \ \ std::vector<VkPresentModeKHR>\ \mbox{\hyperlink{struct_swap_chain_support_details_ae4fff3c89a63ae4cf896b6b385e2dad9}{presentModes}};}
+\DoxyCodeLine{00042\ \};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_vulkan_handler_8h_a7302e21aaabe341f71d799a7dd3f274f}{MAX\_FRAMES\_IN\_FLIGHT}}\ =\ 2;}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_vertex}{Vertex}}\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ glm::vec3\ \mbox{\hyperlink{struct_vertex_a858242dc7b40c034c5e13c589b30cfb4}{pos}};}
+\DoxyCodeLine{00049\ \ \ \ \ glm::vec2\ \mbox{\hyperlink{struct_vertex_a6867a886e0d431705da6f652e7521e76}{tex}};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{static}\ VkVertexInputBindingDescription\ \mbox{\hyperlink{struct_vertex_aaca5987855365a64b2e48a60ccf4a6fc}{getBindingDescription}}()\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ VkVertexInputBindingDescription\ bindingDescription\{\};}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ bindingDescription.binding\ =\ 0;}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ bindingDescription.stride\ =\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_vertex}{Vertex}});}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ bindingDescription.inputRate\ =\ VK\_VERTEX\_INPUT\_RATE\_VERTEX;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ bindingDescription;}
+\DoxyCodeLine{00058\ \ \ \ \ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keyword}{static}\ std::array<VkVertexInputAttributeDescription,\ 2>\ \mbox{\hyperlink{struct_vertex_af32ec35f0de1b1b54feea2edefc16578}{getAttributeDescriptions}}()\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ std::array<VkVertexInputAttributeDescription,\ 2>\ attributeDescriptions\{\};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ attributeDescriptions[0].binding\ =\ 0;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ attributeDescriptions[0].location\ =\ 0;}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ attributeDescriptions[0].format\ =\ VK\_FORMAT\_R32G32B32\_SFLOAT;}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ attributeDescriptions[0].offset\ =\ offsetof(\mbox{\hyperlink{struct_vertex}{Vertex}},\ \mbox{\hyperlink{struct_vertex_a858242dc7b40c034c5e13c589b30cfb4}{pos}});}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ attributeDescriptions[1].binding\ =\ 0;}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ attributeDescriptions[1].location\ =\ 1;}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ attributeDescriptions[1].format\ =\ VK\_FORMAT\_R32G32\_SFLOAT;}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ attributeDescriptions[1].offset\ =\ offsetof(\mbox{\hyperlink{struct_vertex}{Vertex}},\ \mbox{\hyperlink{struct_vertex_a6867a886e0d431705da6f652e7521e76}{tex}});}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ attributeDescriptions;}
+\DoxyCodeLine{00074\ \ \ \ \ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_vertex_a80a54a84866d511b63bcc6f38899bed9}{operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_vertex}{Vertex}}\&\ other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_vertex_a858242dc7b40c034c5e13c589b30cfb4}{pos}}\ ==\ other.\mbox{\hyperlink{struct_vertex_a858242dc7b40c034c5e13c589b30cfb4}{pos}}\ \&\&\ \mbox{\hyperlink{struct_vertex_a6867a886e0d431705da6f652e7521e76}{tex}}\ ==\ other.\mbox{\hyperlink{struct_vertex_a6867a886e0d431705da6f652e7521e76}{tex}};}
+\DoxyCodeLine{00078\ \ \ \ \ \}}
+\DoxyCodeLine{00079\ \};}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacestd}{std}}\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keyword}{template}<>\ \textcolor{keyword}{struct\ }hash<\mbox{\hyperlink{struct_vertex}{Vertex}}>\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structstd_1_1hash_3_01_vertex_01_4_a6ca0b0b4c01c345481ca4ae6a3b791e1}{operator()}}(\mbox{\hyperlink{struct_vertex}{Vertex}}\ \textcolor{keyword}{const}\&\ vertex)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ((hash<glm::vec3>()(vertex.\mbox{\hyperlink{struct_vertex_a858242dc7b40c034c5e13c589b30cfb4}{pos}})\ \string^\ (hash<glm::vec2>()(vertex.\mbox{\hyperlink{struct_vertex_a6867a886e0d431705da6f652e7521e76}{tex}})\ <<\ 1))\ >>\ 1);}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00086\ \ \ \ \ \};}
+\DoxyCodeLine{00087\ \}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_camera_uniform_buffer_object}{CameraUniformBufferObject}}\ \{}
+\DoxyCodeLine{00090\ \ \ \ \ glm::mat4\ \mbox{\hyperlink{struct_camera_uniform_buffer_object_a1a0e27987e7575804045d402f7d0d98c}{model}};}
+\DoxyCodeLine{00091\ \ \ \ \ glm::mat4\ \mbox{\hyperlink{struct_camera_uniform_buffer_object_a17dafabaf0659b754e3c20ec9e588531}{view}};}
+\DoxyCodeLine{00092\ \ \ \ \ glm::mat4\ \mbox{\hyperlink{struct_camera_uniform_buffer_object_a79880b08cfc32bff924a0d9c10ede20d}{proj}};}
+\DoxyCodeLine{00093\ \};}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_algo_uniform_buffer_object}{AlgoUniformBufferObject}}\ \{}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_algo_uniform_buffer_object_af0f0f02bf05fb3d70f8db869c998aebb}{inverseViewMatrix}};\ \ \ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_algo_uniform_buffer_object_af392fdf6af3e3a3fff34e2131cbab469}{viewMatrix}};\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::vec3\ \mbox{\hyperlink{struct_algo_uniform_buffer_object_add4a228936f2e8437c55735ff82305f1}{lightVSPos}};\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::vec3\ \mbox{\hyperlink{struct_algo_uniform_buffer_object_af69e01520e5aa6ca02d41c0ca502ffa2}{lightColor}};\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keyword}{alignas}(4)\ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_algo_uniform_buffer_object_ab57b1f625b3d9f472c3ce6cb1e05ab87}{planeDistance}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::vec3\ \mbox{\hyperlink{struct_algo_uniform_buffer_object_a881667eb89504dd25961febbe8727b2a}{middleOfPlaneVS}};\ \ \ \ \ }
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keyword}{alignas}(4)\ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_algo_uniform_buffer_object_ac8f12e1e4ac02d2bc5d8a8dbd375517a}{sphereRadius}};\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keyword}{alignas}(8)\ \ glm::vec2\ \mbox{\hyperlink{struct_algo_uniform_buffer_object_a39ebb246fb1883c5cb928fcd1ca78d38}{planeSides}};\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keyword}{alignas}(8)\ \ glm::ivec2\ \mbox{\hyperlink{struct_algo_uniform_buffer_object_aa3d514127e36b06b9abf699a2c1a060e}{dims}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::vec3\ \mbox{\hyperlink{struct_algo_uniform_buffer_object_ad31175036ed963782ef059cd2cbece19}{refractionPos}};\ \ \ \ \ \ \ }
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::vec4\ \mbox{\hyperlink{struct_algo_uniform_buffer_object_a5699f079d0f321ab150cd6391f194dd9}{refractionValue}};\ \ \ \ \ }
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keyword}{alignas}(4)\ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_algo_uniform_buffer_object_a6fcca9839a439e102d9e8dd455d8dc07}{voxelDepth}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keyword}{alignas}(4)\ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_algo_uniform_buffer_object_ad3f0351fd123e6222072ac1972d18372}{planeWidth}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keyword}{alignas}(4)\ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_algo_uniform_buffer_object_aa23d740ecb7cf56e12baec9bdf6e00d1}{planeHeight}};\ \ \ \ \ }
+\DoxyCodeLine{00110\ \};}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_per_plane_push_constant}{PerPlanePushConstant}}\ \{}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_per_plane_push_constant_aeabe5630e38ae54c758e993ee121ce15}{layer}};}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_per_plane_push_constant_a369aff961e6064164aab9181cf0a1c63}{currentZVS}};}
+\DoxyCodeLine{00115\ \};}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_env_uniform_buffer_object}{EnvUniformBufferObject}}\ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_a9669457d1a6bd750a3ef46a30caf6fbc}{inverseViewMatrix}};\ \ }
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::vec3\ \mbox{\hyperlink{struct_env_uniform_buffer_object_a3470b5eb24ac2d91079cb5323e547513}{middleOfPlaneVSOpp}};\ \ }
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{alignas}(4)\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_env_uniform_buffer_object_aae5d5b3e01ebadcb87228322402665ae}{planeWidth}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keyword}{alignas}(4)\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_env_uniform_buffer_object_a3ce92b4fcbc46cc0a7ff6e0308bb2e33}{planeHeight}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keyword}{alignas}(8)\ glm::vec2\ \mbox{\hyperlink{struct_env_uniform_buffer_object_adba28b0862c238b5d8ded33cfa3a8751}{planeSides}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_a9b777f2299a5eaf576ff451eeb11e6c4}{fl0}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_af4576caff6917d4681035a5acede3b16}{fl1}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_ad09d2ea1b179dc3522efc717ab2a4d9a}{fl2}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_a749ef7b1294b09711cc706644977b724}{fl3}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_a84aa591e843fda89a3b0b2b3950c3fc3}{fl4}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keyword}{alignas}(16)\ glm::mat4\ \mbox{\hyperlink{struct_env_uniform_buffer_object_a78d75c6e6050804b6aacad209398e440}{fl5}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keyword}{alignas}(4)\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_env_uniform_buffer_object_a4734778e285006a5d44fd7748e22eb5c}{boxSize}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00130\ \};}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_vulkan_handler_a84fe72042c829571b4729dc983e5220d}{VulkanHandler}}\ \{}
+\DoxyCodeLine{00133\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00134\ \ \ \ \ \mbox{\hyperlink{class_vulkan_handler_a84fe72042c829571b4729dc983e5220d}{VulkanHandler}}()\ \{\};}
+\DoxyCodeLine{00135\ \ \ \ \ \mbox{\hyperlink{class_vulkan_handler_ad4d8cbb58c842fbeb33f2e5ff687fe0c}{VulkanHandler}}(GLFWwindow*\ window)\ :\ window(window)\ \{\};}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a1973dbc5ca3762a02c6b5d443e92d5c1}{initVulkan}}();}
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a744f5899a1e5e7b93d7ffc5b45bd16c4}{drawFrame}}(\textcolor{keywordtype}{int}\ numPlanes,\ glm::vec3\ middleOfPlaneVS,\ \textcolor{keywordtype}{float}\ planeDistance,\ \mbox{\hyperlink{class_pre_integration_table}{PreIntegrationTable}}\ integrationTable);}
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a06636f1c45880963a47d7f51b28efcbf}{cleanup}}();}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a0b91eeddb0779f1acb269379524d2aec}{setDeviceWaitIdle}}();}
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_ad5e7d85781302795c4b3fee00b4692da}{createCube}}();}
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a94adfba7ca2f3d2b93a27d5203ba5386}{createQuad}}(\mbox{\hyperlink{class_texture}{Texture}}\ texture,\ \mbox{\hyperlink{class_pre_integration_table}{PreIntegrationTable}}\ integrationTable);}
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a00669acc63a590b4ae33cb5e95e3e76b}{updateMVP}}(\textcolor{keywordtype}{float}\ dt,\ \mbox{\hyperlink{class_camera}{Camera}}\&\ camera);}
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a79ff67433f56b1731a46e8b4df04dcc1}{updateAlgo}}(glm::mat4\ inverseViewMatrix,\ glm::mat4\ viewMatrix,\ \textcolor{keywordtype}{float}\ planeDistance,\ glm::vec3\ middleOfPlaneVS,\ \textcolor{keywordtype}{float}\ sphereRadius,\ glm::vec2\ planeSides,}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ glm::ivec2\ dims,\ glm::vec3\ refractionPos,\ glm::vec4\ refractionValue,\ \textcolor{keywordtype}{float}\ voxelDepth,\ \textcolor{keywordtype}{float}\ planeWidth,\ \textcolor{keywordtype}{float}\ planeHeight,\ \mbox{\hyperlink{class_light}{Light}}\ light);}
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a73e8c7c90eff7b72f38dc66c2d41e2bd}{dispatchCompute}}(\textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ heigth,\ \textcolor{keywordtype}{int}\ depth);}
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a34eebde651489223eed15a85e8214422}{runAlgo}}(\textcolor{keywordtype}{int}\ numPlanes,\ glm::vec3\ middleOfPlaneVS,\ \textcolor{keywordtype}{float}\ planeDistance);}
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a27b00f2ce0d2e20eb8a03b874c9b0533}{initUI}}();}
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a792e2b83369b992b066a122b4f69ee95}{defineUI}}(\mbox{\hyperlink{class_pre_integration_table}{PreIntegrationTable}}\ integrationTable);}
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_vulkan_handler_a9e3d648dd11e0e4ecb96fa06d672581b}{checkUIWindowHovered}}();}
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a35f88c6023bde2fec3b9a006fba32d7c}{updateCube}}(glm::mat4\ inverseViewMatrix,\ glm::vec3\ middleOfPlaneVS,\ \textcolor{keywordtype}{float}\ planeWidth,\ \textcolor{keywordtype}{float}\ planeHeight,\ glm::vec2\ planeSides,}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ glm::mat4\ fl0,\ glm::mat4\ fl1,\ glm::mat4\ fl2,\ glm::mat4\ fl3,\ glm::mat4\ fl4,\ glm::mat4\ fl5,\ \textcolor{keywordtype}{float}\ boxSize);}
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vulkan_handler_a4694a97a3ea61dbbae6ade7af4698720}{dispatchEnvCompute}}(\textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height,\ \textcolor{keywordtype}{int}\ depth);}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \ \ \ \ VkDevice\&\ \mbox{\hyperlink{class_vulkan_handler_ae0b07c1e6177bb3dabd099d92bee3cda}{getDevice}}();}
+\DoxyCodeLine{00156\ \ \ \ \ VkPhysicalDevice\&\ \mbox{\hyperlink{class_vulkan_handler_a5c880d6a24970661c36257ab5683e874}{getPhysicalDevice}}();}
+\DoxyCodeLine{00157\ \ \ \ \ VkRenderPass\&\ \mbox{\hyperlink{class_vulkan_handler_a53a19bae49d42c3fc9ce6bfd842abba9}{getRenderPass}}();}
+\DoxyCodeLine{00158\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{class_vulkan_handler_a89380a0bf0eb12e77c9da615c170b3db}{getCurrentFrame}}();}
+\DoxyCodeLine{00159\ \ \ \ \ VkCommandPool\&\ \mbox{\hyperlink{class_vulkan_handler_a9d6fa3237df25468d86f8ca9f980d825}{getCommandPool}}();}
+\DoxyCodeLine{00160\ \ \ \ \ VkQueue\&\ \mbox{\hyperlink{class_vulkan_handler_aceac72c36fc9b68785a626110f55bce8}{getGraphicsQueue}}();}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00163\ \ \ \ \ GLFWwindow*\ window;}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \ \ \ \ VkInstance\ instance;}
+\DoxyCodeLine{00166\ \ \ \ \ VkDebugUtilsMessengerEXT\ debugMessenger;}
+\DoxyCodeLine{00167\ \ \ \ \ VkSurfaceKHR\ surface;}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \ \ \ \ VkPhysicalDevice\ physicalDevice\ =\ VK\_NULL\_HANDLE;}
+\DoxyCodeLine{00170\ \ \ \ \ VkDevice\ device;}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \ \ \ \ VkQueue\ computeQueue;}
+\DoxyCodeLine{00173\ \ \ \ \ VkQueue\ graphicsQueue;}
+\DoxyCodeLine{00174\ \ \ \ \ VkQueue\ presentQueue;}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \ \ VkSwapchainKHR\ swapChain;}
+\DoxyCodeLine{00177\ \ \ \ \ std::vector<VkImage>\ swapChainImages;}
+\DoxyCodeLine{00178\ \ \ \ \ VkFormat\ swapChainImageFormat;}
+\DoxyCodeLine{00179\ \ \ \ \ VkExtent2D\ swapChainExtent;}
+\DoxyCodeLine{00180\ \ \ \ \ std::vector<VkImageView>\ swapChainImageViews;}
+\DoxyCodeLine{00181\ \ \ \ \ std::vector<VkFramebuffer>\ swapChainFramebuffers;}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \ \ \ \ std::vector<VkFramebuffer>\ algoFramebuffers;}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \ \ \ \ VkRenderPass\ renderPass;}
+\DoxyCodeLine{00186\ \ \ \ \ VkRenderPass\ algoRenderPass;}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00188\ \ \ \ \ VkCommandPool\ commandPool;}
+\DoxyCodeLine{00189\ }
+\DoxyCodeLine{00190\ \ \ \ \ uint32\_t\ imageIndex;}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00192\ \ \ \ \ VkImage\ depthImage;}
+\DoxyCodeLine{00193\ \ \ \ \ VkDeviceMemory\ depthImageMemory;}
+\DoxyCodeLine{00194\ \ \ \ \ VkImageView\ depthImageView;}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \ \ \ \ std::vector<VkCommandBuffer>\ commandBuffers;}
+\DoxyCodeLine{00197\ \ \ \ \ std::vector<VkCommandBuffer>\ computeCommandBuffers;}
+\DoxyCodeLine{00198\ \ \ \ \ std::vector<VkCommandBuffer>\ algoCommandBuffers;}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00200\ \ \ \ \ std::vector<VkSemaphore>\ imageAvailableSemaphores;}
+\DoxyCodeLine{00201\ \ \ \ \ std::vector<VkSemaphore>\ renderFinishedSemaphores;}
+\DoxyCodeLine{00202\ \ \ \ \ std::vector<VkFence>\ computeInFlightFences;}
+\DoxyCodeLine{00203\ \ \ \ \ std::vector<VkSemaphore>\ computeFinishedSemaphores;}
+\DoxyCodeLine{00204\ \ \ \ \ std::vector<VkFence>\ envInFlightFences;}
+\DoxyCodeLine{00205\ \ \ \ \ std::vector<VkSemaphore>\ envFinishedSemaphores;}
+\DoxyCodeLine{00206\ \ \ \ \ std::vector<VkFence>\ algoInFlightFences;}
+\DoxyCodeLine{00207\ \ \ \ \ std::vector<VkSemaphore>\ algoFinishedSemaphores;}
+\DoxyCodeLine{00208\ \ \ \ \ std::vector<VkFence>\ inFlightFences;}
+\DoxyCodeLine{00209\ \ \ \ \ uint32\_t\ currentFrame\ =\ 0;}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00211\ \ \ \ \ VkDescriptorSetLayout\ descriptorSetLayout;}
+\DoxyCodeLine{00212\ \ \ \ \ VkDescriptorSetLayout\ computeDescriptorSetLayout;}
+\DoxyCodeLine{00213\ \ \ \ \ VkDescriptorSetLayout\ algoDescriptorSetLayout;}
+\DoxyCodeLine{00214\ \ \ \ \ VkDescriptorSetLayout\ envDescriptorSetLayout;}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \ \ \ \ VkPipelineLayout\ renderPipelineLayout;}
+\DoxyCodeLine{00217\ \ \ \ \ VkPipelineLayout\ algoPipelineLayout;}
+\DoxyCodeLine{00218\ \ \ \ \ VkPipelineLayout\ computePipelineLayout;}
+\DoxyCodeLine{00219\ \ \ \ \ VkPipelineLayout\ envPipelineLayout;}
+\DoxyCodeLine{00220\ \ \ \ \ VkPipeline\ computePipeline;}
+\DoxyCodeLine{00221\ \ \ \ \ VkPipeline\ renderPipeline;}
+\DoxyCodeLine{00222\ \ \ \ \ VkPipeline\ algoPipeline;}
+\DoxyCodeLine{00223\ \ \ \ \ VkPipeline\ envPipeline;}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \ \ \ \ VkBuffer\ vertexBuffer;}
+\DoxyCodeLine{00226\ \ \ \ \ VkDeviceMemory\ vertexBufferMemory;}
+\DoxyCodeLine{00227\ \ \ \ \ VkBuffer\ indexBuffer;}
+\DoxyCodeLine{00228\ \ \ \ \ VkDeviceMemory\ indexBufferMemory;}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00230\ \ \ \ \ std::vector<VkBuffer>\ camUniformBuffers;}
+\DoxyCodeLine{00231\ \ \ \ \ std::vector<VkDeviceMemory>\ camUniformBuffersMemory;}
+\DoxyCodeLine{00232\ \ \ \ \ std::vector<void*>\ camUniformBuffersMapped;}
+\DoxyCodeLine{00233\ \ \ \ \ std::vector<VkBuffer>\ algoUniformBuffers;}
+\DoxyCodeLine{00234\ \ \ \ \ std::vector<VkDeviceMemory>\ algoUniformBuffersMemory;}
+\DoxyCodeLine{00235\ \ \ \ \ std::vector<void*>\ algoUniformBuffersMapped;}
+\DoxyCodeLine{00236\ \ \ \ \ std::vector<VkBuffer>\ envUniformBuffers;}
+\DoxyCodeLine{00237\ \ \ \ \ std::vector<VkDeviceMemory>\ envUniformBuffersMemory;}
+\DoxyCodeLine{00238\ \ \ \ \ std::vector<void*>\ envUniformBuffersMapped;}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \ \ \ \ VkDescriptorPool\ computeDescriptorPool;}
+\DoxyCodeLine{00241\ \ \ \ \ std::vector<VkDescriptorSet>\ computeDescriptorSets;}
+\DoxyCodeLine{00242\ \ \ \ \ VkDescriptorPool\ envDescriptorPool;}
+\DoxyCodeLine{00243\ \ \ \ \ std::vector<VkDescriptorSet>\ envDescriptorSets;}
+\DoxyCodeLine{00244\ \ \ \ \ VkDescriptorPool\ algoDescriptorPool;}
+\DoxyCodeLine{00245\ \ \ \ \ std::vector<VkDescriptorSet>\ algoDescriptorSets;}
+\DoxyCodeLine{00246\ \ \ \ \ VkDescriptorPool\ descriptorPool;}
+\DoxyCodeLine{00247\ \ \ \ \ VkDescriptorPool\ imguiDescriptorPool;}
+\DoxyCodeLine{00248\ \ \ \ \ std::vector<VkDescriptorSet>\ descriptorSets;}
+\DoxyCodeLine{00249\ \ \ \ \ std::vector<VkDescriptorSet>\ imguiDescriptorSets;}
+\DoxyCodeLine{00250\ }
+\DoxyCodeLine{00251\ \ \ \ \ \textcolor{keywordtype}{bool}\ framebufferResized\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00253\ \ \ \ \ std::vector<std::string>\ bufferNames\{\ \textcolor{stringliteral}{"{}vpb"{}},\ \textcolor{stringliteral}{"{}vdb"{}},\ \textcolor{stringliteral}{"{}lb"{}},\ \textcolor{stringliteral}{"{}ldb"{}},\ \textcolor{stringliteral}{"{}cb"{}},\ \textcolor{stringliteral}{"{}mb"{}}\};}
+\DoxyCodeLine{00254\ \ \ \ \ std::vector<VkImage>\ firstBuffers;}
+\DoxyCodeLine{00255\ \ \ \ \ std::vector<VkImage>\ secondBuffers;}
+\DoxyCodeLine{00256\ \ \ \ \ std::vector<VkDeviceMemory>\ firstBufferMemories;}
+\DoxyCodeLine{00257\ \ \ \ \ std::vector<VkDeviceMemory>\ secondBufferMemories;}
+\DoxyCodeLine{00258\ \ \ \ \ std::vector<VkImageView>\ firstBufferViews;}
+\DoxyCodeLine{00259\ \ \ \ \ std::vector<VkImageView>\ secondBufferViews;}
+\DoxyCodeLine{00260\ \ \ \ \ VkSampler\ bufferSampler;}
+\DoxyCodeLine{00261\ \ \ \ \ VkImage\ cubeImage;}
+\DoxyCodeLine{00262\ \ \ \ \ VkDeviceMemory\ cubeMemory;}
+\DoxyCodeLine{00263\ \ \ \ \ VkImageView\ cubeView;}
+\DoxyCodeLine{00264\ \ \ \ \ VkSampler\ cubeSampler;}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \ \ \ \ std::vector<Vertex>\ cube\_vertices\ =\ \{}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ positions\ \ \ \ \ \ \ \ //\ texture\ Coords}}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \{\ \{-\/1.0f,\ -\/1.0f,\ 1.0f\},\ \{1.0f,\ 1.0f\}\ \},}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \{\ \{1.0f,\ -\/1.0f,\ 1.0f\ \},\ \{1.0f,\ 1.0f\}\ \},}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \{\ \{1.0f,\ 1.0f,\ 1.0f\ \},\ \{1.0f,\ 0.0f\}\ \},}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \{\ \{-\/1.0f,\ 1.0f,\ 1.0f\ \},\ \{0.0f,\ 1.0f\}\ \},}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \{\ \{-\/1.0f,\ -\/1.0f,\ -\/1.0f\ \},\ \{0.0f,\ 0.0f\}\ \},}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \{\ \{1.0f,\ -\/1.0f,\ -\/1.0f\ \},\ \{1.0f,\ 0.0f\}\ \},}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \{\ \{1.0f,\ 1.0f,\ -\/1.0f\ \},\ \{0.0f,\ 1.0f\}\ \},}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \{\ \{-\/1.0f,\ 1.0f,\ -\/1.0f\ \},\ \{0.0f,\ 0.0f\}\ \}}
+\DoxyCodeLine{00277\ \ \ \ \ \};}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ }
+\DoxyCodeLine{00280\ \ \ \ \ std::vector<uint32\_t>\ cube\_indices\ =\ \{}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ 0,\ 1,\ 2,}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ 2,\ 3,\ 0,}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ 1,\ 5,\ 6,}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ 6,\ 2,\ 1,}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ 7,\ 6,\ 5,}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ 5,\ 4,\ 7,}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ 4,\ 0,\ 3,}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ 3,\ 7,\ 4,}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ 4,\ 5,\ 1,}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ 1,\ 0,\ 4,}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ 3,\ 2,\ 6,}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ 6,\ 7,\ 3}
+\DoxyCodeLine{00293\ \ \ \ \ \};}
+\DoxyCodeLine{00294\ }
+\DoxyCodeLine{00295\ \ \ \ \ std::vector<Vertex>\ quad\_vertices\ =\ \{}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ positions\ \ \ \ \ \ \ \ //\ texture\ Coords}}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \{\ \{-\/1.0f,\ \ 1.0f,\ 0.0f\},\ \{0.0f,1.0f\}\ \},}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \{\ \{-\/1.0f,\ -\/1.0f,\ 0.0f\},\ \{0.0f,0.0f\}\ \},}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \{\ \{1.0f,\ \ 1.0f,\ 0.0f\},\ \{1.0f,1.0f\}\ \},}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \{\ \{1.0f,\ -\/1.0f,\ 0.0f\},\ \{1.0f,0.0f\}\ \}}
+\DoxyCodeLine{00301\ \ \ \ \ \};}
+\DoxyCodeLine{00302\ }
+\DoxyCodeLine{00303\ \ \ \ \ std::vector<uint32\_t>\ quad\_indices\ =\ \{}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ 0,\ 1,\ 2,}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ 1,\ 3,\ 2}
+\DoxyCodeLine{00306\ \ \ \ \ \};}
+\DoxyCodeLine{00307\ \ \ \ \ }
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00309\ \ \ \ \ \textcolor{keyword}{static}\ VKAPI\_ATTR\ VkBool32\ VKAPI\_CALL\ debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT\ messageSeverity,\ VkDebugUtilsMessageTypeFlagsEXT\ messageType,\ \textcolor{keyword}{const}\ VkDebugUtilsMessengerCallbackDataEXT*\ pCallbackData,\ \textcolor{keywordtype}{void}*\ pUserData);}
+\DoxyCodeLine{00310\ }
+\DoxyCodeLine{00311\ \ \ \ \ \textcolor{keywordtype}{void}\ setFramebufferResized();}
+\DoxyCodeLine{00312\ }
+\DoxyCodeLine{00313\ \ \ \ \ \textcolor{keywordtype}{void}\ cleanupSwapChain();}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00315\ \ \ \ \ \textcolor{keywordtype}{void}\ recreateSwapChain();}
+\DoxyCodeLine{00316\ }
+\DoxyCodeLine{00317\ \ \ \ \ \textcolor{keywordtype}{void}\ createInstance();}
+\DoxyCodeLine{00318\ }
+\DoxyCodeLine{00319\ \ \ \ \ \textcolor{keywordtype}{void}\ populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT\&\ createInfo);}
+\DoxyCodeLine{00320\ }
+\DoxyCodeLine{00321\ \ \ \ \ \textcolor{keywordtype}{void}\ setupDebugMessenger();}
+\DoxyCodeLine{00322\ }
+\DoxyCodeLine{00323\ \ \ \ \ VkCommandBuffer\ beginSingleTimeCommands();}
+\DoxyCodeLine{00324\ }
+\DoxyCodeLine{00325\ \ \ \ \ \textcolor{keywordtype}{void}\ endSingleTimeCommands(VkCommandBuffer\ commandBuffer);}
+\DoxyCodeLine{00326\ }
+\DoxyCodeLine{00327\ \ \ \ \ \textcolor{keywordtype}{void}\ createSurface();}
+\DoxyCodeLine{00328\ }
+\DoxyCodeLine{00329\ \ \ \ \ \textcolor{keywordtype}{void}\ pickPhysicalDevice();}
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00331\ \ \ \ \ \textcolor{keywordtype}{void}\ createLogicalDevice();}
+\DoxyCodeLine{00332\ }
+\DoxyCodeLine{00333\ \ \ \ \ \textcolor{keywordtype}{void}\ createEnvDescriptorPool();}
+\DoxyCodeLine{00334\ }
+\DoxyCodeLine{00335\ \ \ \ \ \textcolor{keywordtype}{void}\ createEnvDescriptorSets();}
+\DoxyCodeLine{00336\ }
+\DoxyCodeLine{00337\ \ \ \ \ \textcolor{keywordtype}{void}\ copyBufferToImage(VkBuffer\ buffer,\ VkImage\ image,\ uint32\_t\ width,\ uint32\_t\ height,\ uint32\_t\ depth);}
+\DoxyCodeLine{00338\ }
+\DoxyCodeLine{00339\ \ \ \ \ \textcolor{keywordtype}{void}\ createComputeCommandBuffers();}
+\DoxyCodeLine{00340\ }
+\DoxyCodeLine{00341\ \ \ \ \ \textcolor{keywordtype}{void}\ createSwapChain();}
+\DoxyCodeLine{00342\ }
+\DoxyCodeLine{00343\ \ \ \ \ \textcolor{keywordtype}{void}\ transitionImageForWrite(VkCommandBuffer\ commandBuffer,\ VkImage\ image,\ VkImageLayout\ newLayout);}
+\DoxyCodeLine{00344\ }
+\DoxyCodeLine{00345\ \ \ \ \ \textcolor{keywordtype}{void}\ transitionImageForSampling(VkCommandBuffer\ commandBuffer,\ VkImage\ image,\ VkImageLayout\ newLayout);}
+\DoxyCodeLine{00346\ }
+\DoxyCodeLine{00347\ \ \ \ \ \textcolor{keywordtype}{void}\ createImageViews();}
+\DoxyCodeLine{00348\ }
+\DoxyCodeLine{00349\ \ \ \ \ \textcolor{keywordtype}{void}\ createEnvDescriptorSetLayout();}
+\DoxyCodeLine{00350\ }
+\DoxyCodeLine{00351\ \ \ \ \ \textcolor{keywordtype}{void}\ createEnvironmentPipeline();}
+\DoxyCodeLine{00352\ }
+\DoxyCodeLine{00353\ \ \ \ \ \textcolor{keywordtype}{void}\ createRenderPass();}
+\DoxyCodeLine{00354\ }
+\DoxyCodeLine{00355\ \ \ \ \ \textcolor{keywordtype}{void}\ createFramebuffers();}
+\DoxyCodeLine{00356\ }
+\DoxyCodeLine{00357\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoDescriptorSetLayout();}
+\DoxyCodeLine{00358\ }
+\DoxyCodeLine{00359\ \ \ \ \ \textcolor{keywordtype}{void}\ createDescriptorSetLayout();}
+\DoxyCodeLine{00360\ }
+\DoxyCodeLine{00361\ \ \ \ \ \textcolor{keywordtype}{void}\ createStorageImages(uint32\_t\ width,\ uint32\_t\ height,\ VkFormat\ format);}
+\DoxyCodeLine{00362\ }
+\DoxyCodeLine{00363\ \ \ \ \ \textcolor{keywordtype}{void}\ createCommandPool();}
+\DoxyCodeLine{00364\ }
+\DoxyCodeLine{00365\ \ \ \ \ \textcolor{keywordtype}{void}\ createDepthResources();}
+\DoxyCodeLine{00366\ }
+\DoxyCodeLine{00367\ \ \ \ \ \textcolor{keywordtype}{void}\ recordAlgoCommandBuffer(VkCommandBuffer\ commandBuffer,\ \textcolor{keywordtype}{int}\ numPlanes,\ glm::vec3\ middleOfPlaneVS,\ \textcolor{keywordtype}{float}\ planeDistance);}
+\DoxyCodeLine{00368\ }
+\DoxyCodeLine{00369\ \ \ \ \ \textcolor{keywordtype}{void}\ transitionImageLayout(VkImage\ image,\ VkFormat\ format,\ VkImageLayout\ oldLayout,\ VkImageLayout\ newLayout);}
+\DoxyCodeLine{00370\ }
+\DoxyCodeLine{00371\ \ \ \ \ \textcolor{keywordtype}{void}\ recordComputeCommandBuffer(VkCommandBuffer\ commandBuffer);}
+\DoxyCodeLine{00372\ }
+\DoxyCodeLine{00373\ \ \ \ \ uint32\_t\ findMemoryType(uint32\_t\ typeFilter,\ VkMemoryPropertyFlags\ properties);}
+\DoxyCodeLine{00374\ }
+\DoxyCodeLine{00375\ \ \ \ \ \textcolor{keywordtype}{void}\ createImage(uint32\_t\ width,\ uint32\_t\ height,\ VkFormat\ format,\ VkImageTiling\ tiling,\ VkImageUsageFlags\ usage,\ VkMemoryPropertyFlags\ properties,\ VkImage\&\ image,\ VkDeviceMemory\&\ imageMemory);}
+\DoxyCodeLine{00376\ }
+\DoxyCodeLine{00377\ \ \ \ \ VkImageView\ createImageView(VkImage\ image,\ VkFormat\ format,\ VkImageAspectFlags\ aspectFlags);}
+\DoxyCodeLine{00378\ }
+\DoxyCodeLine{00379\ \ \ \ \ VkFormat\ findSupportedFormat(\textcolor{keyword}{const}\ std::vector<VkFormat>\&\ candidates,\ VkImageTiling\ tiling,\ VkFormatFeatureFlags\ features);}
+\DoxyCodeLine{00380\ }
+\DoxyCodeLine{00381\ \ \ \ \ VkFormat\ findDepthFormat();}
+\DoxyCodeLine{00382\ }
+\DoxyCodeLine{00383\ \ \ \ \ \textcolor{keywordtype}{bool}\ hasStencilComponent(VkFormat\ format);}
+\DoxyCodeLine{00384\ }
+\DoxyCodeLine{00385\ \ \ \ \ \textcolor{keywordtype}{void}\ createCommandBuffers();}
+\DoxyCodeLine{00386\ }
+\DoxyCodeLine{00387\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoCommandBuffers();}
+\DoxyCodeLine{00388\ }
+\DoxyCodeLine{00389\ \ \ \ \ \textcolor{keywordtype}{void}\ recordCommandBuffer(VkCommandBuffer\ commandBuffer,\ uint32\_t\ imageIndex,\ \textcolor{keywordtype}{int}\ numPlanes,\ glm::vec3\ middleOfPlaneVS,\ \textcolor{keywordtype}{float}\ planeDistance,\ PreIntegrationTable\ integrationTable);}
+\DoxyCodeLine{00390\ }
+\DoxyCodeLine{00391\ \ \ \ \ \textcolor{keywordtype}{void}\ createSyncObjects();}
+\DoxyCodeLine{00392\ }
+\DoxyCodeLine{00393\ \ \ \ \ \textcolor{keywordtype}{void}\ recordEnvCommandBuffer(VkCommandBuffer\ commandBuffer);}
+\DoxyCodeLine{00394\ }
+\DoxyCodeLine{00395\ \ \ \ \ VkSurfaceFormatKHR\ chooseSwapSurfaceFormat(\textcolor{keyword}{const}\ std::vector<VkSurfaceFormatKHR>\&\ availableFormats);}
+\DoxyCodeLine{00396\ }
+\DoxyCodeLine{00397\ \ \ \ \ VkExtent2D\ chooseSwapExtent(\textcolor{keyword}{const}\ VkSurfaceCapabilitiesKHR\&\ capabilities);}
+\DoxyCodeLine{00398\ }
+\DoxyCodeLine{00399\ \ \ \ \ SwapChainSupportDetails\ querySwapChainSupport(VkPhysicalDevice\ device);}
+\DoxyCodeLine{00400\ }
+\DoxyCodeLine{00401\ \ \ \ \ \textcolor{keywordtype}{bool}\ isDeviceSuitable(VkPhysicalDevice\ device);}
+\DoxyCodeLine{00402\ }
+\DoxyCodeLine{00403\ \ \ \ \ \textcolor{keywordtype}{bool}\ checkDeviceExtensionSupport(VkPhysicalDevice\ device);}
+\DoxyCodeLine{00404\ }
+\DoxyCodeLine{00405\ \ \ \ \ QueueFamilyIndices\ findQueueFamilies(VkPhysicalDevice\ device);}
+\DoxyCodeLine{00406\ }
+\DoxyCodeLine{00407\ \ \ \ \ std::vector<const\ char*>\ getRequiredExtensions();}
+\DoxyCodeLine{00408\ }
+\DoxyCodeLine{00409\ \ \ \ \ \textcolor{keywordtype}{bool}\ checkValidationLayerSupport();}
+\DoxyCodeLine{00410\ }
+\DoxyCodeLine{00411\ \ \ \ \ VkResult\ CreateDebugUtilsMessengerEXT(VkInstance\ instance,\ \textcolor{keyword}{const}\ VkDebugUtilsMessengerCreateInfoEXT*\ pCreateInfo,\ \textcolor{keyword}{const}\ VkAllocationCallbacks*\ pAllocator,\ VkDebugUtilsMessengerEXT*\ pDebugMessenger);}
+\DoxyCodeLine{00412\ }
+\DoxyCodeLine{00413\ \ \ \ \ \textcolor{keywordtype}{void}\ DestroyDebugUtilsMessengerEXT(VkInstance\ instance,\ VkDebugUtilsMessengerEXT\ debugMessenger,\ \textcolor{keyword}{const}\ VkAllocationCallbacks*\ pAllocator);}
+\DoxyCodeLine{00414\ }
+\DoxyCodeLine{00415\ \ \ \ \ VkPresentModeKHR\ chooseSwapPresentMode(\textcolor{keyword}{const}\ std::vector<VkPresentModeKHR>\&\ availablePresentModes);}
+\DoxyCodeLine{00416\ }
+\DoxyCodeLine{00417\ \ \ \ \ \textcolor{keywordtype}{void}\ createRenderPipeline();}
+\DoxyCodeLine{00418\ }
+\DoxyCodeLine{00419\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoPipeline();}
+\DoxyCodeLine{00420\ }
+\DoxyCodeLine{00421\ \ \ \ \ \textcolor{keywordtype}{void}\ createImageCube();}
+\DoxyCodeLine{00422\ }
+\DoxyCodeLine{00423\ \ \ \ \ \textcolor{keywordtype}{void}\ createComputePipeline();}
+\DoxyCodeLine{00424\ }
+\DoxyCodeLine{00425\ \ \ \ \ \textcolor{keywordtype}{void}\ createComputeDescriptorSetLayout();}
+\DoxyCodeLine{00426\ }
+\DoxyCodeLine{00427\ \ \ \ \ std::vector<char>\ readFile(\textcolor{keyword}{const}\ std::string\&\ filename);}
+\DoxyCodeLine{00428\ }
+\DoxyCodeLine{00429\ \ \ \ \ VkShaderModule\ createShaderModule(\textcolor{keyword}{const}\ std::vector<char>\&\ code);}
+\DoxyCodeLine{00430\ }
+\DoxyCodeLine{00431\ \ \ \ \ \textcolor{keywordtype}{void}\ createVertexBuffer(std::vector<Vertex>\ vertices);}
+\DoxyCodeLine{00432\ }
+\DoxyCodeLine{00433\ \ \ \ \ \textcolor{keywordtype}{void}\ createIndexBuffer(std::vector<uint32\_t>\ indices);}
+\DoxyCodeLine{00434\ }
+\DoxyCodeLine{00435\ \ \ \ \ \textcolor{keywordtype}{void}\ createCubeVertexBuffer(std::vector<Vertex>\ vertices);}
+\DoxyCodeLine{00436\ }
+\DoxyCodeLine{00437\ \ \ \ \ \textcolor{keywordtype}{void}\ createCubeIndexBuffer(std::vector<uint32\_t>\ indices);}
+\DoxyCodeLine{00438\ }
+\DoxyCodeLine{00439\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoFramebuffers();}
+\DoxyCodeLine{00440\ }
+\DoxyCodeLine{00441\ \ \ \ \ \textcolor{keywordtype}{void}\ createUniformBuffers();}
+\DoxyCodeLine{00442\ }
+\DoxyCodeLine{00443\ \ \ \ \ \textcolor{keywordtype}{void}\ createCubeUniformBuffers();}
+\DoxyCodeLine{00444\ }
+\DoxyCodeLine{00445\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoDescriptorPool();}
+\DoxyCodeLine{00446\ }
+\DoxyCodeLine{00447\ \ \ \ \ \textcolor{keywordtype}{void}\ createComputeDescriptorPool();}
+\DoxyCodeLine{00448\ }
+\DoxyCodeLine{00449\ \ \ \ \ \textcolor{keywordtype}{void}\ createDescriptorPool();}
+\DoxyCodeLine{00450\ }
+\DoxyCodeLine{00451\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoRenderPass();}
+\DoxyCodeLine{00452\ }
+\DoxyCodeLine{00453\ \ \ \ \ \textcolor{keywordtype}{void}\ createComputeDescriptorSets(Texture\ texture);}
+\DoxyCodeLine{00454\ }
+\DoxyCodeLine{00455\ \ \ \ \ \textcolor{keywordtype}{void}\ createAlgoDescriptorSets(Texture\ texture,\ PreIntegrationTable\ integrationTable);}
+\DoxyCodeLine{00456\ }
+\DoxyCodeLine{00457\ \ \ \ \ \textcolor{keywordtype}{void}\ createDescriptorSets(Texture\ texture);}
+\DoxyCodeLine{00458\ }
+\DoxyCodeLine{00459\ \ \ \ \ \textcolor{keywordtype}{void}\ createBuffer(VkDeviceSize\ size,\ VkBufferUsageFlags\ usage,\ VkMemoryPropertyFlags\ properties,\ VkBuffer\&\ buffer,\ VkDeviceMemory\&\ bufferMemory);}
+\DoxyCodeLine{00460\ }
+\DoxyCodeLine{00461\ \ \ \ \ \textcolor{keywordtype}{void}\ copyBuffer(VkBuffer\ srcBuffer,\ VkBuffer\ dstBuffer,\ VkDeviceSize\ size);}
+\DoxyCodeLine{00462\ }
+\DoxyCodeLine{00463\ \ \ \ \ \textcolor{keywordtype}{void}\ createUIDescriptorPool();}
+\DoxyCodeLine{00464\ \};}
+
+\end{DoxyCode}

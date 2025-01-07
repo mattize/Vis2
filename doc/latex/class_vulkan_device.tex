@@ -1,0 +1,117 @@
+\doxysection{Vulkan\+Device Class Reference}
+\hypertarget{class_vulkan_device}{}\label{class_vulkan_device}\index{VulkanDevice@{VulkanDevice}}
+
+
+{\ttfamily \#include $<$Vulkan\+Device.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_vulkan_device_aa96ea77a6479faacce164f870dbf5c52}{Vulkan\+Device}} ()
+\item 
+\mbox{\hyperlink{class_vulkan_device_a6ed74deed5046244decd047b4f5d0b3d}{Vulkan\+Device}} (Vk\+Device device, Vk\+Physical\+Device physical\+Device, Vk\+Command\+Pool command\+Pool, Vk\+Queue graphics\+Queue)
+\item 
+void \mbox{\hyperlink{class_vulkan_device_a1a587ac5ec68b6520c99749a4a63d817}{create\+Buffer}} (Vk\+Device\+Size size, Vk\+Buffer\+Usage\+Flags usage, Vk\+Memory\+Property\+Flags properties, Vk\+Buffer \&buffer, Vk\+Device\+Memory \&buffer\+Memory)
+\item 
+Vk\+Command\+Buffer \mbox{\hyperlink{class_vulkan_device_a881a55d7a97f948fd6d50ea84e4d0c64}{begin\+Single\+Time\+Commands}} ()
+\item 
+void \mbox{\hyperlink{class_vulkan_device_a478a70dedda7c711eeac32ad92710c1e}{end\+Single\+Time\+Commands}} (Vk\+Command\+Buffer command\+Buffer)
+\item 
+void \mbox{\hyperlink{class_vulkan_device_a80816a94623916810c66285e234982a8}{copy\+Buffer}} (Vk\+Buffer src\+Buffer, Vk\+Buffer dst\+Buffer, Vk\+Device\+Size size)
+\item 
+uint32\+\_\+t \mbox{\hyperlink{class_vulkan_device_aa8f77d8acf3bef8a7cd400f0bd1b9055}{find\+Memory\+Type}} (uint32\+\_\+t type\+Filter, Vk\+Memory\+Property\+Flags properties)
+\item 
+void \mbox{\hyperlink{class_vulkan_device_a81a2e936623d6400ba5fc4d09b719746}{copy\+Buffer\+To\+Image}} (Vk\+Buffer buffer, Vk\+Image image, uint32\+\_\+t width, uint32\+\_\+t height, uint32\+\_\+t depth)
+\item 
+Vk\+Device \& \mbox{\hyperlink{class_vulkan_device_add20c2619afe204e19f22f0a3d89dfcc}{get\+Vk\+Device}} ()
+\item 
+Vk\+Physical\+Device \& \mbox{\hyperlink{class_vulkan_device_a469373888595f664c914b6e2546e0798}{get\+Vk\+Physical\+Device}} ()
+\item 
+Vk\+Descriptor\+Set\+Layout \& \mbox{\hyperlink{class_vulkan_device_aa6d3fef6c057be4d837674eec9f7610d}{get\+Vk\+Descriptor\+Set\+Layout}} ()
+\item 
+void \mbox{\hyperlink{class_vulkan_device_ad05995143a3ca57a0106f8aa93b2d15e}{set\+Descriptor\+Set\+Layout}} (Vk\+Descriptor\+Set\+Layout descriptor\+Set\+Layout)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_vulkan_device_aa96ea77a6479faacce164f870dbf5c52}\index{VulkanDevice@{VulkanDevice}!VulkanDevice@{VulkanDevice}}
+\index{VulkanDevice@{VulkanDevice}!VulkanDevice@{VulkanDevice}}
+\doxysubsubsection{\texorpdfstring{VulkanDevice()}{VulkanDevice()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_vulkan_device_aa96ea77a6479faacce164f870dbf5c52} 
+Vulkan\+Device\+::\+Vulkan\+Device (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{class_vulkan_device_a6ed74deed5046244decd047b4f5d0b3d}\index{VulkanDevice@{VulkanDevice}!VulkanDevice@{VulkanDevice}}
+\index{VulkanDevice@{VulkanDevice}!VulkanDevice@{VulkanDevice}}
+\doxysubsubsection{\texorpdfstring{VulkanDevice()}{VulkanDevice()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_vulkan_device_a6ed74deed5046244decd047b4f5d0b3d} 
+Vulkan\+Device\+::\+Vulkan\+Device (\begin{DoxyParamCaption}\item[{Vk\+Device}]{device}{, }\item[{Vk\+Physical\+Device}]{physical\+Device}{, }\item[{Vk\+Command\+Pool}]{command\+Pool}{, }\item[{Vk\+Queue}]{graphics\+Queue}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_vulkan_device_a881a55d7a97f948fd6d50ea84e4d0c64}\index{VulkanDevice@{VulkanDevice}!beginSingleTimeCommands@{beginSingleTimeCommands}}
+\index{beginSingleTimeCommands@{beginSingleTimeCommands}!VulkanDevice@{VulkanDevice}}
+\doxysubsubsection{\texorpdfstring{beginSingleTimeCommands()}{beginSingleTimeCommands()}}
+{\footnotesize\ttfamily \label{class_vulkan_device_a881a55d7a97f948fd6d50ea84e4d0c64} 
+Vk\+Command\+Buffer Vulkan\+Device\+::begin\+Single\+Time\+Commands (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_device_a80816a94623916810c66285e234982a8}\index{VulkanDevice@{VulkanDevice}!copyBuffer@{copyBuffer}}
+\index{copyBuffer@{copyBuffer}!VulkanDevice@{VulkanDevice}}
+\doxysubsubsection{\texorpdfstring{copyBuffer()}{copyBuffer()}}
+{\footnotesize\ttfamily \label{class_vulkan_device_a80816a94623916810c66285e234982a8} 
+void Vulkan\+Device\+::copy\+Buffer (\begin{DoxyParamCaption}\item[{Vk\+Buffer}]{src\+Buffer}{, }\item[{Vk\+Buffer}]{dst\+Buffer}{, }\item[{Vk\+Device\+Size}]{size}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_device_a81a2e936623d6400ba5fc4d09b719746}\index{VulkanDevice@{VulkanDevice}!copyBufferToImage@{copyBufferToImage}}
+\index{copyBufferToImage@{copyBufferToImage}!VulkanDevice@{VulkanDevice}}
+\doxysubsubsection{\texorpdfstring{copyBufferToImage()}{copyBufferToImage()}}
+{\footnotesize\ttfamily \label{class_vulkan_device_a81a2e936623d6400ba5fc4d09b719746} 
+void Vulkan\+Device\+::copy\+Buffer\+To\+Image (\begin{DoxyParamCaption}\item[{Vk\+Buffer}]{buffer}{, }\item[{Vk\+Image}]{image}{, }\item[{uint32\+\_\+t}]{width}{, }\item[{uint32\+\_\+t}]{height}{, }\item[{uint32\+\_\+t}]{depth}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_device_a1a587ac5ec68b6520c99749a4a63d817}\index{VulkanDevice@{VulkanDevice}!createBuffer@{createBuffer}}
+\index{createBuffer@{createBuffer}!VulkanDevice@{VulkanDevice}}
+\doxysubsubsection{\texorpdfstring{createBuffer()}{createBuffer()}}
+{\footnotesize\ttfamily \label{class_vulkan_device_a1a587ac5ec68b6520c99749a4a63d817} 
+void Vulkan\+Device\+::create\+Buffer (\begin{DoxyParamCaption}\item[{Vk\+Device\+Size}]{size}{, }\item[{Vk\+Buffer\+Usage\+Flags}]{usage}{, }\item[{Vk\+Memory\+Property\+Flags}]{properties}{, }\item[{Vk\+Buffer \&}]{buffer}{, }\item[{Vk\+Device\+Memory \&}]{buffer\+Memory}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_device_a478a70dedda7c711eeac32ad92710c1e}\index{VulkanDevice@{VulkanDevice}!endSingleTimeCommands@{endSingleTimeCommands}}
+\index{endSingleTimeCommands@{endSingleTimeCommands}!VulkanDevice@{VulkanDevice}}
+\doxysubsubsection{\texorpdfstring{endSingleTimeCommands()}{endSingleTimeCommands()}}
+{\footnotesize\ttfamily \label{class_vulkan_device_a478a70dedda7c711eeac32ad92710c1e} 
+void Vulkan\+Device\+::end\+Single\+Time\+Commands (\begin{DoxyParamCaption}\item[{Vk\+Command\+Buffer}]{command\+Buffer}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_device_aa8f77d8acf3bef8a7cd400f0bd1b9055}\index{VulkanDevice@{VulkanDevice}!findMemoryType@{findMemoryType}}
+\index{findMemoryType@{findMemoryType}!VulkanDevice@{VulkanDevice}}
+\doxysubsubsection{\texorpdfstring{findMemoryType()}{findMemoryType()}}
+{\footnotesize\ttfamily \label{class_vulkan_device_aa8f77d8acf3bef8a7cd400f0bd1b9055} 
+uint32\+\_\+t Vulkan\+Device\+::find\+Memory\+Type (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{type\+Filter}{, }\item[{Vk\+Memory\+Property\+Flags}]{properties}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_device_aa6d3fef6c057be4d837674eec9f7610d}\index{VulkanDevice@{VulkanDevice}!getVkDescriptorSetLayout@{getVkDescriptorSetLayout}}
+\index{getVkDescriptorSetLayout@{getVkDescriptorSetLayout}!VulkanDevice@{VulkanDevice}}
+\doxysubsubsection{\texorpdfstring{getVkDescriptorSetLayout()}{getVkDescriptorSetLayout()}}
+{\footnotesize\ttfamily \label{class_vulkan_device_aa6d3fef6c057be4d837674eec9f7610d} 
+Vk\+Descriptor\+Set\+Layout \& Vulkan\+Device\+::get\+Vk\+Descriptor\+Set\+Layout (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_device_add20c2619afe204e19f22f0a3d89dfcc}\index{VulkanDevice@{VulkanDevice}!getVkDevice@{getVkDevice}}
+\index{getVkDevice@{getVkDevice}!VulkanDevice@{VulkanDevice}}
+\doxysubsubsection{\texorpdfstring{getVkDevice()}{getVkDevice()}}
+{\footnotesize\ttfamily \label{class_vulkan_device_add20c2619afe204e19f22f0a3d89dfcc} 
+Vk\+Device \& Vulkan\+Device\+::get\+Vk\+Device (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_device_a469373888595f664c914b6e2546e0798}\index{VulkanDevice@{VulkanDevice}!getVkPhysicalDevice@{getVkPhysicalDevice}}
+\index{getVkPhysicalDevice@{getVkPhysicalDevice}!VulkanDevice@{VulkanDevice}}
+\doxysubsubsection{\texorpdfstring{getVkPhysicalDevice()}{getVkPhysicalDevice()}}
+{\footnotesize\ttfamily \label{class_vulkan_device_a469373888595f664c914b6e2546e0798} 
+Vk\+Physical\+Device \& Vulkan\+Device\+::get\+Vk\+Physical\+Device (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_vulkan_device_ad05995143a3ca57a0106f8aa93b2d15e}\index{VulkanDevice@{VulkanDevice}!setDescriptorSetLayout@{setDescriptorSetLayout}}
+\index{setDescriptorSetLayout@{setDescriptorSetLayout}!VulkanDevice@{VulkanDevice}}
+\doxysubsubsection{\texorpdfstring{setDescriptorSetLayout()}{setDescriptorSetLayout()}}
+{\footnotesize\ttfamily \label{class_vulkan_device_ad05995143a3ca57a0106f8aa93b2d15e} 
+void Vulkan\+Device\+::set\+Descriptor\+Set\+Layout (\begin{DoxyParamCaption}\item[{Vk\+Descriptor\+Set\+Layout}]{descriptor\+Set\+Layout}{}\end{DoxyParamCaption})}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_vulkan_device_8h}{Vulkan\+Device.\+h}}\item 
+\mbox{\hyperlink{_vulkan_device_8cpp}{Vulkan\+Device.\+cpp}}\end{DoxyCompactItemize}

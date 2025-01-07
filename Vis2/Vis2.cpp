@@ -80,9 +80,11 @@ void Vis2::renderLoop() {
 		m_vulkanHandler.updateMVP(dt, m_camera);
 		m_vulkanHandler.updateAlgo(inverseCameraView, cameraView, planeDistance, middleOfPlaneVS, sphereRadius, planeSides, glm::ivec2(volume_width, volume_height),
 			glm::vec3(0.25, 0.5, 0.75), glm::vec4(1.0, 1.34, 1.45, 1.8), voxelDepth, (float)volume_width, (float)volume_height, m_light);
+		//m_vulkanHandler.updateCube(inverseCameraView, middleOfPlaneVS, planeSides.x, planeSides.y, planeSides, fl0, fl1, fl2, fl3, fl4, fl5, 2.0f);
 
 		m_vulkanHandler.dispatchCompute(512, 512, 2);
 		m_vulkanHandler.runAlgo(numPlanes, middleOfPlaneVS, planeDistance);
+		//m_vulkanHandler.dispatchEnvCompute(512, 512, 1);
 		m_vulkanHandler.drawFrame(numPlanes, middleOfPlaneVS, planeDistance, m_integrationTable);	
 
 		dt = t;
@@ -99,7 +101,7 @@ void Vis2::loadAssets() {
 	volume_width = 512;
 	volume_height = 512;
 
-	m_volume.load3DTexture(".\\assets\\data\\reptile\\jpgs\\", 1, 510, ".jpg");
+	m_volume.load3DTexture(".\\assets\\data\\head\\jpgs\\", 1, 463, ".jpg");
 
 	//m_vulkanHandler.createCube();
 	m_vulkanHandler.createQuad(m_volume, m_integrationTable);

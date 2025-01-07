@@ -1,17 +1,17 @@
 #include "PreIntegrationTable.h"
 
 float PreIntegrationTable::volume_positions[4][4] = {
-    {0.0f, 0.5f, 0.8f, 1.0f},
+    {0.0f, 0.3f, 0.8f, 0.9f},
     {0.0f, 0.2f, 0.6f, 1.0f},
     {0.0f, 0.25f, 0.75f, 1.0f},
     {0.0f, 0.25f, 0.75f, 1.0f}
 };
 
 int PreIntegrationTable::volume_values[4][4] = {
-    {0, 35, 100, 255},
-    {0, 100, 35, 0},
-    {0, 128, 0, 128},
-    {0, 12, 40, 128}
+    {0, 35, 100, 0},
+    {0, 100, 35, 128},
+    {0, 128, 0, 0},
+    {0, 12, 40, 0}
 };
 
 float PreIntegrationTable::medium_positions[4][4] = {
@@ -337,7 +337,7 @@ void PreIntegrationTable::resetTransportFunctions() {
             volume_values[i][0] = 255;
             volume_values[i][1] = 128;
             volume_values[i][2] = 0; 
-            volume_values[i][3] = 128;
+            volume_values[i][3] = 0;
         }
     }
 
