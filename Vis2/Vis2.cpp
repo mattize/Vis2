@@ -99,7 +99,7 @@ void Vis2::loadAssets() {
 	volume_width = 512;
 	volume_height = 512;
 
-	m_volume.load3DTexture(".\\assets\\data\\head\\jpgs\\", 1, 463, ".jpg");
+	m_volume.load3DTexture(".\\assets\\data\\reptile\\jpgs\\", 1, 510, ".jpg");
 
 	//m_vulkanHandler.createCube();
 	m_vulkanHandler.createQuad(m_volume, m_integrationTable);
