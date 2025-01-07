@@ -1,6 +1,17 @@
 #version 450
 
+vec3 sampleOffset[20] = vec3[]
+(
+   vec3( 1,  1,  1), vec3( 1, -1,  1), vec3(-1, -1,  1), vec3(-1,  1,  1), 
+   vec3( 1,  1, -1), vec3( 1, -1, -1), vec3(-1, -1, -1), vec3(-1,  1, -1),
+   vec3( 1,  1,  0), vec3( 1, -1,  0), vec3(-1, -1,  0), vec3(-1,  1,  0),
+   vec3( 1,  0,  1), vec3(-1,  0,  1), vec3( 1,  0, -1), vec3(-1,  0, -1),
+   vec3( 0,  1,  1), vec3( 0, -1,  1), vec3( 0, -1, -1), vec3( 0,  1, -1)
+);
+
 layout(location = 0) in vec2 texCoords;
+layout(location = 1) in vec3 position_model;
+layout(location = 2) in vec3 FragPos;
 
 layout(binding = 1) uniform sampler2D vpb;
 layout(binding = 2) uniform sampler2D vdb;
